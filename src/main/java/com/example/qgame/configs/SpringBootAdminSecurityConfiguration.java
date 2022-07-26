@@ -21,7 +21,7 @@ public class SpringBootAdminSecurityConfiguration extends WebSecurityConfigurerA
     @Override
     public void configure(AuthenticationManagerBuilder auth) throws Exception {
         auth.inMemoryAuthentication()
-                .withUser("admin").password("1234").roles("ADMIN");
+                .withUser("admin").password("1234").roles("ADMIN"); //
     }
 
     @Override
