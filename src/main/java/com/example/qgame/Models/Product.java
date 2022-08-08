@@ -2,12 +2,18 @@ package com.example.qgame.Models;
 
 import com.example.qgame.helpers.converters.IJsonConverter;
 import com.example.qgame.helpers.entityembadable.FilesList;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonView;
+import lombok.Data;
+import lombok.Setter;
+import lombok.ToString;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import javax.persistence.*;
 
 @Entity
 @Table(name = "products")
+@Data
 public class Product {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -15,6 +21,7 @@ public class Product {
 
     private String title;
 
+    @JsonIgnore
     @ManyToOne(fetch = FetchType.LAZY)
     private Category category;
 

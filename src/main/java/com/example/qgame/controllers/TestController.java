@@ -4,6 +4,7 @@ import com.example.qgame.helpers.database.seeders.ISeeder;
 import com.example.qgame.helpers.database.seeders.SeederExecuter;
 import com.example.qgame.helpers.database.seeders.impls.CategorySeeder;
 import com.example.qgame.helpers.database.seeders.impls.OptionSeeder;
+import com.example.qgame.helpers.database.seeders.impls.ProductSeeder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -32,7 +33,11 @@ public class TestController {
     @GetMapping("/seed")
     public void seed() {
 
-        List<ISeeder> seeders = Arrays.asList(new CategorySeeder(), new OptionSeeder());
+        List<ISeeder> seeders = Arrays.asList(
+                new CategorySeeder(),
+                new OptionSeeder(),
+                new ProductSeeder()
+        );
 
 
         new SeederExecuter(seeders).execute();

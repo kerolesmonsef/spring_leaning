@@ -1,6 +1,9 @@
 package com.example.qgame.Models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.ToString;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.GenericGenerator;
 import org.springframework.data.annotation.CreatedDate;
@@ -16,6 +19,7 @@ import java.util.UUID;
 @Table(name = "categories")
 @Data
 @EntityListeners(AuditingEntityListener.class) // current stimestapm
+@EqualsAndHashCode
 public class Category {
     @Id
     @GeneratedValue(strategy = GenerationType.TABLE, generator = "hibernate_sequences")
@@ -33,6 +37,7 @@ public class Category {
     @LastModifiedDate
     private Date updated_at;
 
+//    @JsonIgnore
     @OneToMany(mappedBy = "category")
     private List<Product> products;
 }

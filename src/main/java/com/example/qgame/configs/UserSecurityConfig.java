@@ -19,6 +19,7 @@ public class UserSecurityConfig extends WebSecurityConfigurerAdapter {
             "/test/**",
             "/seed",
             "/images/**",
+            "/"
 
     };
 
