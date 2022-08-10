@@ -3,6 +3,7 @@ package com.example.qgame.Models;
 import com.example.qgame.helpers.converters.IJsonConverter;
 import com.example.qgame.helpers.entityembadable.FilesList;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.fasterxml.jackson.annotation.JsonView;
 import lombok.Data;
 import lombok.Setter;
@@ -21,7 +22,6 @@ public class Product {
 
     private String title;
 
-    @JsonIgnore
     @ManyToOne(fetch = FetchType.LAZY)
     private Category category;
 
@@ -30,6 +30,10 @@ public class Product {
 
     @Column(unique = true)
     private String slug;
+
+    private float buyPrice;
+
+    private float price;
 
     private int quantity;
 
@@ -44,5 +48,9 @@ public class Product {
         String base_path = ServletUriComponentsBuilder.fromCurrentContextPath().build().toUriString();
         this.images.setPrefix(base_path + "/images/products/");
         return this.images;
+    }
+
+    public float priceAfterDiscount() {
+        return price - (discount_percentage / 100) * price;
     }
 }

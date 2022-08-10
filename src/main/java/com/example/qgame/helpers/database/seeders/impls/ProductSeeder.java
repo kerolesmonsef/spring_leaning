@@ -26,6 +26,7 @@ public class ProductSeeder extends ISeeder<Product> {
         Faker faker = this.faker();
 
         for (int i = 0; i < 200; i++) {
+            long buy_price = faker.number().numberBetween(10, 999);
             Product product = new Product();
             product.setTitle(faker.name().title());
             product.setDescription(faker.lorem().paragraph(20));
@@ -34,6 +35,8 @@ public class ProductSeeder extends ISeeder<Product> {
             product.setSlug(faker.internet().slug() + "-" + random.nextInt(99999));
             product.setImages(new FilesList().add(random.nextInt(MAX_IMAGE) + ".jpg").add(random.nextInt(MAX_IMAGE) + ".jpg"));
             product.setQuantity(random.nextInt(50));
+            product.setBuyPrice(buy_price);
+            product.setPrice(faker.number().numberBetween(buy_price, (long) (buy_price + buy_price * .1)));
 
             products.add(product);
         }

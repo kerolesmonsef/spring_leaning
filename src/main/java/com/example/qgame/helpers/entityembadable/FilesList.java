@@ -1,5 +1,6 @@
 package com.example.qgame.helpers.entityembadable;
 
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -16,7 +17,16 @@ public class FilesList {
         this.prefixUrl = prefixUrl;
     }
 
+    public String getFileAt(int index) {
+        if (index >= 0 && index < files.size()) {
+            return prefixUrl + files.get(index);
+        }
+        return null;
+    }
+
+
     public List<String> getFiles() {
         return files.stream().map((file) -> this.prefixUrl + file).toList();
     }
+
 }

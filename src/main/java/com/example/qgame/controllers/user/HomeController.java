@@ -22,11 +22,10 @@ public class HomeController {
 
     @ResponseBody
     @GetMapping("/")
-    public List<Product> index(Model model) {
+    public ModelAndView index(Model model) {
 
 
-//        model.addAttribute()
-        return productRepository.getLast10(PageRequest.of(1, 10));
-//        return new ModelAndView("index");
+        model.addAttribute("products",productRepository.getLast10(PageRequest.of(1, 10)));
+        return new ModelAndView("index");
     }
 }

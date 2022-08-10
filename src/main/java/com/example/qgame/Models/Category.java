@@ -1,5 +1,6 @@
 package com.example.qgame.Models;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -37,7 +38,6 @@ public class Category {
     @LastModifiedDate
     private Date updated_at;
 
-//    @JsonIgnore
     @OneToMany(mappedBy = "category")
     private List<Product> products;
 }

@@ -1,15 +1,15 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
-<div th:fragment="product" class="product-box">
+<div th:fragment="product(${product})" class="product-box">
     <div class="product-imgbox">
         <div class="product-front">
             <a href="product-page(left-sidebar).html">
-                <img src="/images/layout-5/product/1.jpg" class="img-fluid  " alt="product">
+                <img style="height: 328px" th:src="${product.getImages().getFileAt(0)}" class="img-fluid  " alt="product">
             </a>
         </div>
         <div class="product-back">
             <a href="product-page(left-sidebar).html">
-                <img src="/images/layout-5/product/7.jpg" class="img-fluid  " alt="product">
+                <img style="height: 328px" th:src="${product.getImages().getFileAt(1)}" class="img-fluid  " alt="product">
             </a>
         </div>
         <div class="product-icon icon-inline">
@@ -41,18 +41,16 @@
                     <i class="fa fa-star"></i>
                 </div>
                 <a href="product-page(left-sidebar).html">
-                    <h6 class="price-title">
-                        Vacuum Cleaner
-                    </h6>
+                    <h6 class="price-title" th:text="${T(com.example.qgame.helpers.Helper).limit(product.title,10)}"></h6>
                 </a>
             </div>
             <div class="detail-right">
                 <div class="check-price">
-                    $ 81.21
+                    $ <span th:text="${product.price}"></span>
                 </div>
                 <div class="price">
                     <div class="price">
-                        $ 75.05
+                        $ <span th:text="${product.priceAfterDiscount()}"></span>
                     </div>
                 </div>
             </div>
