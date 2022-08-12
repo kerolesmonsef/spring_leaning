@@ -19,8 +19,13 @@ public class UserSecurityConfig extends WebSecurityConfigurerAdapter {
             "/test/**",
             "/seed",
             "/images/**",
-            "/"
-
+            "/blogs/**",
+            "/blog/**",
+            "/products/**",
+            "/product/**",
+            "/category/**",
+            "/categories/**",
+            "/**"
     };
 
     @Override
@@ -35,7 +40,9 @@ public class UserSecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
 //        super.configure(http);
 
-        http.authorizeRequests()
+        http
+                .csrf().disable()
+                .authorizeRequests()
                 .antMatchers(PUBLIC_MATCHERS).permitAll()
                 .anyRequest().authenticated()
                 .and()

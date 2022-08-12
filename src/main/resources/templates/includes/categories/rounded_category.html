@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<div th:fragment="category" th:with="category = ${category}">
+    <div class="category-contain">
+        <div class="img-wrapper">
+            <a th:href="${category.getUrl()}">
+                <img th:src="${category.getImageUrl()}" alt="category  " class="img-fluid">
+            </a>
+        </div>
+        <a th:href="${category.getUrl()}" class="btn-rounded">
+            shoes
+        </a>
+    </div>
+</div>
+</html>

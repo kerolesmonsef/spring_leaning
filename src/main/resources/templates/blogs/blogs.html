@@ -1,0 +1,55 @@
+<!doctype html>
+<html
+        xmlns:th="http://www.w3.org/1999/xhtml"
+        xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+        layout:decorate="~{layouts/master.html}"
+>
+
+<body>
+<div layout:fragment="content">
+
+    <!-- breadcrumb start -->
+    <div class="breadcrumb-main ">
+        <div class="container">
+            <div class="row">
+                <div class="col">
+                    <div class="breadcrumb-contain">
+                        <div>
+                            <h2>blog</h2>
+                            <ul>
+                                <li><a href="/">home</a></li>
+                                <li><i class="fa fa-angle-double-right"></i></li>
+                                <li><a href="/blogs">blog</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- breadcrumb End -->
+
+    <!-- section start -->
+    <section class="section-big-py-space blog-page ratio2_3">
+        <div class="custom-container">
+            <div class="row">
+                <!--Blog sidebar start-->
+                <div class="col-xl-3 col-lg-4 col-md-5">
+
+                </div>
+                <!--Blog sidebar start-->
+                <!--Blog List start-->
+                <div class="col-xl-9 col-lg-8 col-md-7 order-sec">
+                    <th:block th:each="blog : ${blogs}">
+                        <div th:replace="blogs/includes/small_blog :: blog(blog = ${blog})"></div>
+                    </th:block>
+                </div>
+                <!--Blog List start-->
+            </div>
+        </div>
+    </section>
+    <!-- Section ends -->
+
+</div>
+</body>
+</html>

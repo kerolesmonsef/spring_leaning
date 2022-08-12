@@ -3,12 +3,12 @@
 <div th:fragment="product(${product})" class="product-box">
     <div class="product-imgbox">
         <div class="product-front">
-            <a href="product-page(left-sidebar).html">
+            <a th:href="${product.getUrl()}">
                 <img style="height: 328px" th:src="${product.getImages().getFileAt(0)}" class="img-fluid  " alt="product">
             </a>
         </div>
         <div class="product-back">
-            <a href="product-page(left-sidebar).html">
+            <a th:href="${product.getUrl()}">
                 <img style="height: 328px" th:src="${product.getImages().getFileAt(1)}" class="img-fluid  " alt="product">
             </a>
         </div>
@@ -40,7 +40,7 @@
                     <i class="fa fa-star"></i>
                     <i class="fa fa-star"></i>
                 </div>
-                <a href="product-page(left-sidebar).html">
+                <a th:href="${product.getUrl()}">
                     <h6 class="price-title" th:text="${product.getSmallTitle()}"></h6>
                 </a>
             </div>

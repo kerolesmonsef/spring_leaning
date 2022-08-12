@@ -2,7 +2,7 @@
 <html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
 <div th:fragment="product(${product})" class="media-banner-box">
     <div class="media">
-        <a href="product-page(left-sidebar).html">
+        <a th:href="${product.getUrl()}">
             <img th:src="${product.getImages().getFileAt(1)}" style="width: 84px;height: 108px" class="img-fluid "
                  alt="banner">
         </a>
@@ -17,7 +17,7 @@
                             <li><i class="fa fa-star"></i></li>
                             <li><i class="fa fa-star-o"></i></li>
                         </ul>
-                        <a href="product-page(left-sidebar).html">
+                        <a th:href="${product.getUrl()}">
                             <p th:text="${product.getSmallTitle()}">product title</p>
                         </a>
                         <h6>

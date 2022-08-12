@@ -1,5 +1,6 @@
 package com.example.qgame.Models;
 
+import com.example.qgame.helpers.Helper;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
@@ -10,11 +11,11 @@ import org.hibernate.annotations.GenericGenerator;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import javax.persistence.*;
 import java.util.Date;
 import java.util.List;
-import java.util.UUID;
 
 @Entity
 @Table(name = "categories")
@@ -40,4 +41,12 @@ public class Category {
 
     @OneToMany(mappedBy = "category")
     private List<Product> products;
+
+    public String getImageUrl() {
+        return Helper.base_url() + "/images/categories/" + this.image;
+    }
+
+    public String getUrl() {
+        return Helper.base_url() + "/category/" + Helper.slug(this.name) + "/" + this.id;
+    }
 }

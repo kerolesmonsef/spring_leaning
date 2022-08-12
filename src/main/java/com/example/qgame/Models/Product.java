@@ -9,9 +9,12 @@ import com.fasterxml.jackson.annotation.JsonView;
 import lombok.Data;
 import lombok.Setter;
 import lombok.ToString;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import javax.persistence.*;
+import java.util.Date;
 
 @Entity
 @Table(name = "products")
@@ -39,6 +42,12 @@ public class Product {
 
     private int quantity;
 
+    @CreatedDate
+    private Date created_at;
+
+    @LastModifiedDate
+    private Date updated_at;
+
     @Column(columnDefinition = "DECIMAL(4,2)")
     private float discount_percentage;
 
@@ -65,4 +74,7 @@ public class Product {
         return Helper.limit(this.title, 10);
     }
 
+    public String getUrl() {
+        return Helper.base_url() + "/product/" + Helper.slug(this.title) + "/" + this.id;
+    }
 }

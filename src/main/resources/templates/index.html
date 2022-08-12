@@ -110,6 +110,92 @@
     </div>
 
     <section th:replace="includes/products/batch_product_slider/products_batch_slider :: batch_slider(batch_products=${batch_products})"></section>
+
+    <!--deal banner start-->
+    <section class="deal-banner  deal-banner-inverse">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12 col-lg-8">
+                    <div class="deal-banner-containe">
+                        <h2>
+                            save up to  30% to 40% off
+                        </h2>
+                        <h1>
+                            omg! just look at the great deals!
+                        </h1> </div>
+                </div>
+                <div class="col-md-12 col-lg-4 ">
+                    <div class="deal-banner-containe">
+                        <div class="deal-btn"> <a th:href="@{/shop}" class="btn-white">
+                            Shop Now
+                        </a> </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!--deal banner end-->
+
+    <!--rounded category start-->
+    <section class="rounded-category rounded-category-inverse">
+        <div class="container">
+            <div class="row">
+                <div class="col">
+                    <div class="slide-6 no-arrow">
+                        <div th:each="category : ${some_categories}">
+                            <div th:replace="includes/categories/rounded_category :: category(category = ${category})"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!--rounded category end-->
+
+
+    <!--blog start-->
+    <section class="blog ">
+        <div class="custom-container">
+            <div class="row">
+                <div class="col-12">
+                    <div class="title3">
+                        <h4>recent blog post <a th:href="@{/blogs}">Read Now</a></h4>
+                    </div>
+                </div>
+                <div class="col-12 pr-0">
+                    <div class="blog-slide-4 no-arrow">
+                        <th:block th:each="blog : ${recent_blogs}">
+                            <div th:replace="includes/blogs/home_blog :: blog(blog = ${blog})"></div>
+                        </th:block>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!--blog end-->
+
+    <!--deal banner start-->
+    <section class="deal-banner  deal-banner-inverse">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12 col-lg-8">
+                    <div class="deal-banner-containe">
+                        <h1>
+                            Check All Blogs
+                        </h1> </div>
+                </div>
+                <div class="col-md-12 col-lg-4 ">
+                    <div class="deal-banner-containe">
+                        <div class="deal-btn"> <a th:href="@{/blogs}" class="btn-white">
+                            Read Now !
+                        </a> </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!--deal banner end-->
+
 </div>
 </body>
 </html>
