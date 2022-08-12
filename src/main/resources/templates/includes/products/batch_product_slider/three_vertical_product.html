@@ -1,0 +1,10 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<div th:fragment="batch_products" th:with="batch_products = ${batch_products}">
+    <div class="media-banner media-banner-1 border-0">
+        <div th:each="product,iter : ${batch_products}">
+            <div th:replace="includes/products/batch_product_slider/single_product_slider :: product(${product})"></div>
+        </div>
+    </div>
+</div>
+</html>

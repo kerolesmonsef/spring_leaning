@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<div th:fragment="product(${product})" class="media-banner-box">
+    <div class="media">
+        <a href="product-page(left-sidebar).html">
+            <img th:src="${product.getImages().getFileAt(1)}" style="width: 84px;height: 108px" class="img-fluid "
+                 alt="banner">
+        </a>
+        <div class="media-body">
+            <div class="media-contant">
+                <div>
+                    <div class="product-detail">
+                        <ul class="rating">
+                            <li><i class="fa fa-star"></i></li>
+                            <li><i class="fa fa-star"></i></li>
+                            <li><i class="fa fa-star"></i></li>
+                            <li><i class="fa fa-star"></i></li>
+                            <li><i class="fa fa-star-o"></i></li>
+                        </ul>
+                        <a href="product-page(left-sidebar).html">
+                            <p th:text="${product.getSmallTitle()}">product title</p>
+                        </a>
+                        <h6>
+                            <spand th:text="'$' + ${product.priceAfterDiscount(true)}"></spand>
+                            <span th:text="'$' + ${product.price}"></span>
+                        </h6>
+                    </div>
+                    <div class="cart-info">
+                        <button data-bs-toggle="modal" data-bs-target="#addtocart"
+                                class="tooltip-top" data-tippy-content="Add to cart"><i
+                                data-feather="shopping-cart"></i></button>
+                        <a href="javascript:void(0)" class="add-to-wish tooltip-top"
+                           data-tippy-content="Add to Wishlist"><i data-feather="heart"
+                                                                   class="add-to-wish"></i></a>
+                        <a href="javascript:void(0)" data-bs-toggle="modal"
+                           data-bs-target="#quick-view" class="tooltip-top"
+                           data-tippy-content="Quick View"><i
+                                data-feather="eye"></i></a>
+                        <a href="compare.html" class="tooltip-top"
+                           data-tippy-content="Compare"><i
+                                data-feather="refresh-cw"></i></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</html>

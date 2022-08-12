@@ -10,5 +10,8 @@ import java.util.List;
 public interface ProductRepository extends JpaRepository<Product, Long> {
 
     @Query("SELECT p from Product p ORDER BY id DESC ")
-    List<Product> getLast10(Pageable pageable);
+    List<Product> getLastN(Pageable pageable);
+
+    @Query(value = "SELECT p from Product p ORDER BY RAND()")
+    List<Product> getRandomN(Pageable pageable);
 }

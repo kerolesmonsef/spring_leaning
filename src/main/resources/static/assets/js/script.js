@@ -812,7 +812,7 @@
           infinite: true
         }
       },
-      
+
     ]
   });
   $('.services-slide6').slick({
@@ -855,7 +855,7 @@
           infinite: true
         }
       },
-      
+
     ]
   });
   $('.testimonial-slide3').slick({
@@ -978,7 +978,7 @@
                 slidesToScroll: 1
             }
         },
-       
+
     ]
 });
 
@@ -994,7 +994,7 @@
 $('.testimonial-bottom-slide').slick({
   slidesToShow: 3,
   slidesToScroll: 1,
-  asNavFor: '.testimonial-top-slide', 
+  asNavFor: '.testimonial-top-slide',
   focusOnSelect: true,
   centerPadding: '50px',
 });
@@ -1129,7 +1129,7 @@ $('.brand-slide3').slick({
       },
     ]
   });
-  
+
 
 $('.hotdeal-slide3').slick({
     dots: false,
@@ -1185,7 +1185,7 @@ $('.pro-bottom-slide').slick({
   slidesToShow: 4,
   slidesToScroll: 1,
   asNavFor: '.pro-top-slide',
-  dots: false,  
+  dots: false,
   focusOnSelect: true
 });
 
@@ -1197,7 +1197,7 @@ $('.feature-slide').slick({
     slidesToShow: 10,
     slidesToScroll: 2,
     responsive: [
-      
+
       {
         breakpoint: 1470,
         settings: {
@@ -1221,8 +1221,8 @@ $('.feature-slide').slick({
           slidesToScroll: 2
         }
       },
-      
-      
+
+
       {
         breakpoint: 576,
         settings: {
@@ -1236,7 +1236,7 @@ $('.feature-slide').slick({
           slidesToShow: 5,
           slidesToScroll: 2
         }
-      } ,  
+      } ,
       ]
   });
 
@@ -1277,7 +1277,7 @@ $('.feature-slide').slick({
   // $('.category-toggle').on('click', function(e) {
   //     $(this).siblings().toggleClass("hide");
   // });
- 
+
   $('.mobilecat-toggle').on('click', function(e) {
     $('.collapse-category').toggleClass('open')
       });
@@ -1294,7 +1294,7 @@ $('.feature-slide').slick({
     $('.search-overlay').show();
   });
 
-  
+
   $('.mobile-search').on('click', function (){
     $('.searchbar-input').addClass('open');
   });
@@ -1303,12 +1303,12 @@ $('.feature-slide').slick({
     $('.searchbar-input').removeClass('open');
   });
 
-  
+
 
 
   // sticky header //
   // $(window).scroll(function() {
-  // if ($(this).scrollTop() > 400){  
+  // if ($(this).scrollTop() > 400){
   //     // $('header').addClass("sticky");
   //     $('.product-top-sticky').addClass("sticky");
   //   }
@@ -1346,10 +1346,10 @@ $('.feature-slide').slick({
         jQuery(this).next().slideDown('normal');
       }
     });
-    
+
     jQuery('.sub-collapse').hide();
     jQuery('.collapse-mega').hide();
-  } 
+  }
   $('span.sub-arrow').on('click',function(){
     $('.categoryone .collapse-mega .mega-box ul').removeClass('open');
     $(this).parent().next().toggleClass('open');
@@ -1561,12 +1561,12 @@ $('.feature-slide').slick({
    $('.show-offer').on('click', function(e) {
     $(".offer-sider").slideToggle();
     $(".more-offer").fadeToggle();
-    $(".less-offer").fadeToggle();   
+    $(".less-offer").fadeToggle();
   });
 
 
 
-   $('.size-box ul li').on('click', function(e) {   
+   $('.size-box ul li').on('click', function(e) {
     $(".size-box ul li").removeClass("active");
     $('#selectSize').removeClass('cartMove');
     $(this).addClass("active");
@@ -1666,21 +1666,22 @@ $('.feature-slide').slick({
   // var qtyHolders = document.querySelectorAll(".qty-holder");
   var qtyDecs = document.querySelectorAll(".qty-minus");
   var qtyIncs = document.querySelectorAll(".qty-plus");
-  qtyDecs.forEach((qtyDec) => {
-    qtyDec.addEventListener("click",function(e){
-      if(e.target.nextElementSibling.value > 0){
-        e.target.nextElementSibling.value--;
-      } else {
-        // delete the item, etc
-      }
-    })
-  })
-  qtyIncs.forEach((qtyDec) => {
-    qtyDec.addEventListener("click",function(e){
-      e.target.previousElementSibling.value++;
-    })
-  })
 
+    qtyDecs.forEach(function (qtyDec) {
+        qtyDec.addEventListener("click",function(e){
+            if(e.target.nextElementSibling.value > 0){
+                e.target.nextElementSibling.value--;
+            } else {
+                // delete the item, etc
+            }
+        })
+    });
+
+    qtyIncs.forEach(function (qtyInc) {
+        qtyInc.addEventListener("click",function(e){
+            e.target.previousElementSibling.value++;
+        })
+    });
 
 
   /*=====================
@@ -1727,7 +1728,7 @@ $('.feature-slide').slick({
 
 
 
-  
+
 
   /*=====================
   12. Filter js
@@ -2139,53 +2140,11 @@ $('.feature-slide').slick({
   $(".tabs li a").on('click', function () {
     event.preventDefault();
     $('.tab_product_slider').slick('unslick');
-    $('.media-slide-5').slick('unslick');
     $(this).parent().parent().find("li").removeClass("current");
     $(this).parent().addClass("current");
     var currunt_href = $(this).attr("href");
     $('#' + currunt_href).show();
     $(this).parent().parent().parent().find(".tab-content").not('#' + currunt_href).css("display", "none");
-     $('.media-slide-5').slick({
-    dots: false,
-    infinite: true,
-    speed: 300,
-    slidesToShow: 5,
-    centerPadding: '15px',
-    responsive: [
-      {
-        breakpoint: 1470,
-        settings: {
-          slidesToShow: 4,
-          slidesToScroll: 4,
-          infinite: true
-        }
-      },
-      {
-        breakpoint: 992,
-        settings: {
-          slidesToShow: 3,
-          slidesToScroll: 3,
-          infinite: true
-        }
-      },
-      {
-        breakpoint: 820,
-        settings: {
-          slidesToShow: 2,
-          slidesToScroll: 2,
-          infinite: true
-        }
-      },
-      {
-        breakpoint: 576,
-        settings: {
-          slidesToShow: 1,
-          slidesToScroll: 1,
-          infinite: true
-        }
-      }
-    ]
-  });
   });
 
 
@@ -2193,11 +2152,13 @@ $('.feature-slide').slick({
 
 
  $('.media-slide-5').slick({
-    dots: false,
+    dots: true,
     infinite: true,
     speed: 300,
     slidesToShow: 5,
     centerPadding: '15px',
+     autoplay:true,
+     autoplaySpeed:1000,
     responsive: [
       {
         breakpoint: 1470,
@@ -2340,13 +2301,16 @@ $('.feature-slide').slick({
       }
     ]
   });
+
   $(".product-slide-6").slick({
     arrows: true,
     dots: false,
-    infinite: false,
+    infinite: true,
     speed: 300,
     slidesToShow: 6,
     slidesToScroll: 1,
+      autoplay:true,
+      autoplaySpeed:1000,
     responsive: [
       {
         breakpoint: 1700,
@@ -2842,12 +2806,12 @@ $('.tap-top').on('click', function() {
     /*================================
      22. counter js
     ===================================*/
-    
+
     $('.counter-count').each(function () {
       $(this).prop('Counter',0).animate({
           Counter: $(this).text()
       }, {
-        
+
         //chnage count up speed here
           duration: 4000 ,
           easing: 'swing',

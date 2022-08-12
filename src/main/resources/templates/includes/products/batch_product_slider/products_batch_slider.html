@@ -1,0 +1,18 @@
+<!DOCTYPE html >
+<html lang="en"
+      xmlns:th="http://www.w3.org/1999/xhtml"
+>
+<section th:fragment="batch_slider" th:with="batch_products = ${batch_products}" class="ratio_square section-big-mt-space">
+    <div class="custom-container">
+        <div class="tab-content-cls">
+            <div id="tab-7" class="tab-content active default ">
+                <div class="media-slide-5 product-m no-arrow">
+                    <div th:each="batch,iter : ${batch_products}">
+                        <div th:replace="includes/products/batch_product_slider/three_vertical_product :: batch_products(batch_products = ${batch})"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+</html>

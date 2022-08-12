@@ -1,6 +1,7 @@
 package com.example.qgame.controllers.user;
 
 import com.example.qgame.Models.Product;
+import com.example.qgame.helpers.Helper;
 import com.example.qgame.repositories.ProductRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
@@ -20,12 +21,16 @@ public class HomeController {
     private ProductRepository productRepository;
 
 
-    @ResponseBody
     @GetMapping("/")
-    public ModelAndView index(Model model) {
+    public Object index(Model model) {
+        List<Product> slider_products = productRepository.getRandomN(PageRequest.of(1, 10));
+        List<Product> thirty_product = productRepository.getLastN(PageRequest.of(1, 30));
+        List<List<Product>> batch_products = Helper.getBatches(thirty_product, 3);
 
+        System.out.println(batch_products.size());
 
-        model.addAttribute("products",productRepository.getLast10(PageRequest.of(1, 10)));
-        return new ModelAndView("index");
+        return new ModelAndView("index")
+                .addObject("slider_products", slider_products)
+                .addObject("batch_products", batch_products);
     }
 }

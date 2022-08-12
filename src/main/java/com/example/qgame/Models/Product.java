@@ -1,5 +1,6 @@
 package com.example.qgame.Models;
 
+import com.example.qgame.helpers.Helper;
 import com.example.qgame.helpers.converters.IJsonConverter;
 import com.example.qgame.helpers.entityembadable.FilesList;
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -22,6 +23,7 @@ public class Product {
 
     private String title;
 
+    @ToString.Exclude
     @ManyToOne(fetch = FetchType.LAZY)
     private Category category;
 
@@ -51,6 +53,16 @@ public class Product {
     }
 
     public float priceAfterDiscount() {
-        return price - (discount_percentage / 100) * price;
+        return this.priceAfterDiscount(false);
     }
+
+    public float priceAfterDiscount(Boolean round) {
+        float priceAfter = price - (discount_percentage / 100) * price;
+        return round ? Math.round(price - (discount_percentage / 100) * price) : priceAfter;
+    }
+
+    public String getSmallTitle() {
+        return Helper.limit(this.title, 10);
+    }
+
 }
