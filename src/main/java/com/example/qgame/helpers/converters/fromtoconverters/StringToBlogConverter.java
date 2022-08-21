@@ -15,6 +15,7 @@ public class StringToBlogConverter implements Converter<String, Blog> {
 
     @Override
     public Blog convert(String source) {
-        return blogRepository.findById(Long.valueOf(source)).orElse(null);
+        System.out.println(source);
+        return blogRepository.findById(Long.valueOf(source)).orElseThrow();
     }
 }

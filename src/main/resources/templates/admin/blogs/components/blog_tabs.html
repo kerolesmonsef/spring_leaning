@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<ul th:fragment="tab" th:with="active = ${active} ?: null" class="nav nav-pills">
+    <li  class="nav-item">
+        <a class="nav-link" th:classappend="${active} == 'all' ? 'active'"
+           th:href="@{/admin/blogs}">
+            <i class="far fa-ticket-alt"></i> All Blogs
+        </a>
+    </li>
+    <li class="nav-item">
+        <a  class="nav-link" th:classappend="${active} == 'create' ? 'active'"
+           th:href="@{/admin/blogs/create}">
+            <i class="far fa-ticket-alt"></i> <i class="far fa-plus"></i> Create New Blog
+        </a>
+    </li>
+</ul>
+</html>

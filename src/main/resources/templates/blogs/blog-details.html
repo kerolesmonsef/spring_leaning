@@ -47,24 +47,43 @@
                 </div>
             </div>
 
+
+            <div class="row section-big-pb-space">
+                <div class="col-sm-12 ">
+                    <div class="creative-card">
+                        <ul class="comment-section">
+                            <li th:each="comment : ${comments}" style="display: block">
+                                <div class="media"><img src="/images/avtar/3.jpg" alt="Generic placeholder image">
+                                    <div class="media-body">
+                                        <h6>
+                                            <b th:text="${comment.name}"></b>
+                                            <span th:text="${comment.createdAt}">( 12 Jannuary 2018 at 1:30AM )</span>
+                                        </h6>
+                                        <p th:text="${comment.comment}"></p>
+                                    </div>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <p th:text="${#fields.errors('blog_comment.name')} ? ''"></p>
             <div class=" row blog-contact">
                 <div class="col-sm-12  ">
                     <div class="creative-card">
                         <h2>Leave Your Comment</h2>
-                        <form class="theme-form" action="/blog_comment/" method="post">
+
+                        <form class="thdeme-form" th:action="@{/blogs/{id}/comment(id=${blog.id})}" method="post"
+                              th:object="${blog_comment}">
+                            <div th:replace="includes/input :: input(grid=12,name='name',value=*{name})"></div>
+
+                            <div th:replace="includes/input :: input(grid=12,name='email',value=*{email})"></div>
+
+                            <div th:replace="includes/input :: input(grid=12,name='comment',value=*{comment})"></div>
+
                             <div class="row g-3">
-                                <div class="col-md-12">
-                                    <label for="name">Name</label>
-                                    <input type="text" class="form-control" id="name" placeholder="Enter Your name" required="">
-                                </div>
-                                <div class="col-md-12">
-                                    <label for="email">Email</label>
-                                    <input type="text" class="form-control" id="email" placeholder="Email" required="">
-                                </div>
-                                <div class="col-md-12">
-                                    <label for="exampleFormControlTextarea1">Comment</label>
-                                    <textarea class="form-control" placeholder="Write Your Comment" id="exampleFormControlTextarea1" rows="6"></textarea>
-                                </div>
+
                                 <div class="col-md-12">
                                     <button class="btn btn-normal" type="submit">Post Comment</button>
                                 </div>

@@ -1,0 +1,43 @@
+.form-group-dark-border {
+    border: 1px solid;
+}
+
+.border-dark-blue {
+    border-color: #bfc6cd !important;
+}
+
+.border-warning-2 {
+    border: 2px solid #ffc107 !important;
+}
+
+.form-group-danger-border {
+    border: 1px solid #dc3545;
+}
+
+.form-group-input-border > label {
+    position: absolute;
+    top: -13px;
+    left: 20px;
+    background-color: white;
+    padding: 0 10px;
+    font-size: 13px;
+    color: rgba(0, 0, 0, 0.54);
+}
+
+.form-group-input-border {
+    border-radius: 5px;
+    padding: 5px 0;
+    position: relative;
+}
+
+.form-group-input-border.focused {
+    border: 2px solid #28a745 !important
+}
+
+
+.form-control:focus {
+    border-color: inherit;
+    -webkit-box-shadow: none;
+    box-shadow: none;
+}
+

@@ -1,0 +1,42 @@
+<!doctype html>
+<html
+        xmlns:th="http://www.w3.org/1999/xhtml"
+        xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+        layout:decorate="~{admin/layouts/master.html}"
+>
+
+<body>
+<div layout:fragment="content">
+    <h1>all blogs</h1>
+    <div class="card">
+        <div class="card-header">
+            <th:block th:replace="admin/blogs/components/blog_tabs :: tab(active = 'all')"></th:block>
+        </div>
+        <div class="card-body">
+            <table class="table table-striped table-hover table-responsive-sm">
+                <thead>
+                <tr>
+                    <td><i class="far fa-hashtag"></i> id</td>
+                    <td><i class="fas fa-pen"></i> name</td>
+                    <td><i class="fad fa-envelope-open"></i> email</td>
+                    <td><i class="fad fa-clock"></i>created By</td>
+                    <td><i class="fad fa-clock"></i>created At</td>
+                    <td><i class="fad fa-exclamation-triangle"></i> @lang("action")</td>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="blog : ${blogs}">
+                    <td th:text="${blog.id}"></td>
+                    <td th:text="${blog.title}"></td>
+                    <td th:text="${blog.image}"></td>
+                    <td th:text="${blog.createdBy}"></td>
+                    <td th:text="${blog.createdAt}"></td>
+                    <td></td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+</body>
+</html>

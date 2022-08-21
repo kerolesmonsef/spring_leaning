@@ -1,19 +1,23 @@
 package com.example.qgame.Models;
 
 import lombok.Data;
+import lombok.experimental.Accessors;
 import org.springframework.data.annotation.CreatedDate;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.util.Date;
 
 @Entity
 @Table(name = "blog_comments")
 @Data
+@Accessors(chain = true)
 public class BlogComment {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @NotNull
     private String email;
 
     private String name;
@@ -24,5 +28,6 @@ public class BlogComment {
     private Blog blog;
 
     @CreatedDate
-    private Date createdAt;
+    private Date createdAt = new Date();
+
 }

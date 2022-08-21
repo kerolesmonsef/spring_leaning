@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html
+        xmlns:th="http://www.w3.org/1999/xhtml"
+>
+<!-- Main Sidebar Container -->
+<aside th:fragment="sidebar" class="main-sidebar sidebar-dark-primary elevation-4">
+    <!-- Brand Logo -->
+    <span class="brand-link">
+        <a href="#" class="text-decoration-none text-white">
+
+        <span class="brand-text font-weight-light">Ecommerce</span>
+        </a>
+
+    </span>
+
+    <!-- Sidebar -->
+    <div class="sidebar">
+
+        <!-- SidebarSearch Form -->
+        <div class="form-inline">
+            <div class="input-group" data-widget="sidebar-search">
+                <input class="form-control form-control-sidebar" type="search" placeholder="Search"
+                       aria-label="Search">
+                <div class="input-group-append">
+                    <button class="btn btn-sidebar">
+                        <i class="fas fa-search fa-fw"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Sidebar Menu -->
+        <nav class="mt-2">
+            <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu"
+                data-accordion="false">
+
+                <li class="nav-item">
+                    <a href="" class="nav-link">
+                        <i class="nav-icon fas fa-home-alt"></i>
+                        <p>Dashboard</p>
+                    </a>
+                </li>
+
+
+            </ul>
+        </nav>
+        <!-- /.sidebar-menu -->
+    </div>
+    <!-- /.sidebar -->
+</aside>
+
+<script type="text/javascript">
+    $(function () {
+        const currentUrl = "{{ request()->fullUrl() }}";
+        const a = $('aside.main-sidebar')
+            .find(`a[href="${currentUrl}"]`).addClass('active') // return a
+            .parents('ul').show() // return ul
+            .siblings("a").addClass('active') // return a near ul
+            .parent('li').addClass('menu-open');
+    });
+</script>
+</html>
