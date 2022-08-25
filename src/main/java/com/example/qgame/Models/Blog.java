@@ -2,6 +2,7 @@ package com.example.qgame.Models;
 
 import com.example.qgame.helpers.Helper;
 import lombok.Data;
+import lombok.experimental.Accessors;
 import org.springframework.data.annotation.CreatedDate;
 
 import javax.persistence.*;
@@ -11,6 +12,7 @@ import java.util.Objects;
 @Entity
 @Table(name = "blogs")
 @Data
+@Accessors(chain = true)
 public class Blog {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

@@ -21,17 +21,23 @@
                     <td><i class="fad fa-envelope-open"></i> email</td>
                     <td><i class="fad fa-clock"></i>created By</td>
                     <td><i class="fad fa-clock"></i>created At</td>
-                    <td><i class="fad fa-exclamation-triangle"></i> @lang("action")</td>
+                    <td><i class="fad fa-exclamation-triangle"></i> Action</td>
                 </tr>
                 </thead>
                 <tbody>
                 <tr th:each="blog : ${blogs}">
                     <td th:text="${blog.id}"></td>
                     <td th:text="${blog.title}"></td>
-                    <td th:text="${blog.image}"></td>
+                    <td>
+                        <img th:src="${blog.getImageUrl()}" style="width: 50px;height: 50px;">
+                    </td>
                     <td th:text="${blog.createdBy}"></td>
                     <td th:text="${blog.createdAt}"></td>
-                    <td></td>
+                    <td>
+                        <a class="btn btn-sm btn-info" th:href="@{/admin/blogs/edit/{blog_id}(blog_id=${blog.id})}">
+                            <i class="far fa-edit"></i>
+                        </a>
+                    </td>
                 </tr>
                 </tbody>
             </table>

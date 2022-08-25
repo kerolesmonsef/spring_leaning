@@ -1,0 +1,26 @@
+<!doctype html>
+<html
+        xmlns:th="http://www.w3.org/1999/xhtml"
+        xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+        layout:decorate="~{admin/layouts/master.html}"
+>
+
+<body th:with="action = ${blog.id} ? '/admin/blogs/' + ${blog.id} : '/admin/blogs' , method = ${blog.id} ? 'PUT' + ${blog.id} : 'POST'">
+<div layout:fragment="content">
+    <h1>all blogs</h1>
+    <div class="card">
+        <div class="card-header">
+            <th:block th:replace="admin/blogs/components/blog_tabs :: tab(active = 'create')"></th:block>
+        </div>
+        <div class="card-body">
+            <h1 th:text="${action}"></h1>
+            <form th:action="${action}" th:object="${blogRequest}" method="post">
+                <input type="hidden" name="_method" th:value="${method}">
+
+                <div th:replace="includes/input :: input(grid=6,name='title',value=*{title})"></div>
+            </form>
+        </div>
+    </div>
+</div>
+</body>
+</html>
