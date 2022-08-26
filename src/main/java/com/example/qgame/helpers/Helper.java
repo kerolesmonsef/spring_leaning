@@ -1,5 +1,7 @@
 package com.example.qgame.helpers;
 
+import org.springframework.validation.BindingResult;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.text.Normalizer;
@@ -50,5 +52,13 @@ public class Helper {
             result.append(words[i]).append(" ");
         }
         return result.toString();
+    }
+
+
+    public static void addRequestFlashAttributes(String requestName, Object requestObject, RedirectAttributes attributes, BindingResult binding) {
+        attributes
+                .addFlashAttribute("org.springframework.validation.BindingResult." + requestName, binding)
+                .addFlashAttribute("blogRequest", requestObject);
+
     }
 }

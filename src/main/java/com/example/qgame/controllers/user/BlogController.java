@@ -64,7 +64,6 @@ public class BlogController {
         String backUrl = servletRequest.getHeader("Referer");
 
         if (binding.hasErrors()) {
-            System.out.println(binding.getAllErrors());
             attributes
                     .addFlashAttribute("org.springframework.validation.BindingResult.blog_comment", binding)
                     .addFlashAttribute("blog_comment", blogCommentRequest);

@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.w3.org/1999/xhtml"
+>
+
+<th:block th:fragment="alert">
+    <script th:inline="javascript" th:if="${alertSuccess}">
+        /*<![CDATA[*/
+
+        Swal.fire(
+            {
+                icon: 'success',
+                title: /*[[${alertSuccess}]]*/ "",
+                showConfirmButton: true,
+                timer: 1500
+            }
+        );
+
+        /*]]>*/
+
+    </script>
+    <script th:inline="javascript" th:if="${alertError}">
+        /*<![CDATA[*/
+
+        Swal.fire(
+            {
+                icon: 'error',
+                title: /*[[${alertError}]]*/ "",
+                showConfirmButton: true,
+                timer: 1500
+            }
+        );
+
+        /*]]>*/
+    </script>
+</th:block>
+</html>

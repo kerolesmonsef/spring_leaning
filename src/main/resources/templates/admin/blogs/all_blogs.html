@@ -34,7 +34,7 @@
                     <td th:text="${blog.createdBy}"></td>
                     <td th:text="${blog.createdAt}"></td>
                     <td>
-                        <a class="btn btn-sm btn-info" th:href="@{/admin/blogs/edit/{blog_id}(blog_id=${blog.id})}">
+                        <a class="btn btn-sm btn-info" th:href="@{/admin/blogs/{blog_id}/edit(blog_id=${blog.id})}">
                             <i class="far fa-edit"></i>
                         </a>
                     </td>

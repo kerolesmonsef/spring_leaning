@@ -5,7 +5,7 @@
         layout:decorate="~{admin/layouts/master.html}"
 >
 
-<body th:with="action = ${blog.id} ? '/admin/blogs/' + ${blog.id} : '/admin/blogs' , method = ${blog.id} ? 'PUT' + ${blog.id} : 'POST'">
+<body th:with="action = ${blog.id} ? '/admin/blogs/' + ${blog.id} : '/admin/blogs' , method = ${blog.id} ? 'put' : 'post'">
 <div layout:fragment="content">
     <h1>all blogs</h1>
     <div class="card">
@@ -15,7 +15,7 @@
         <div class="card-body">
             <h1 th:text="${action}"></h1>
             <form th:action="${action}" th:object="${blogRequest}" method="post">
-                <input type="hidden" name="_method" th:value="${method}">
+                <input type="hidden" name="_method" value="put" />
 
                 <div th:replace="includes/input :: input(grid=6,name='title',value=*{title})"></div>
             </form>
