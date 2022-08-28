@@ -1,6 +1,7 @@
 package com.example.qgame.controllers.admin;
 
 import com.example.qgame.Models.Blog;
+import com.example.qgame.helpers.services.AssetFileUploader;
 import com.example.qgame.repositories.BlogRepository;
 import com.example.qgame.requests.admin.AdminCreateUpdateBlogRequest;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +16,8 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
+
+import java.io.IOException;
 
 import static com.example.qgame.helpers.Helper.appendFlashAttribute;
 import static com.example.qgame.helpers.Helper.appendFlashObjectIfNotExist;
@@ -69,8 +72,10 @@ public class AdminBlogController {
 
 
     @PutMapping("/{blog}")
-    public ModelAndView update(@PathVariable("blog") Blog blog, @Valid AdminCreateUpdateBlogRequest blogRequest, BindingResult binding, RedirectAttributes attributes, Model model,@RequestParam("image") MultipartFile file) {
-        System.out.println(file);
+    public ModelAndView update(@PathVariable("blog") Blog blog, @Valid AdminCreateUpdateBlogRequest blogRequest, BindingResult binding, RedirectAttributes attributes, Model model, @RequestParam("image") MultipartFile file) throws IOException {
+
+        new AssetFileUploader().setFile(file).upload();
+
         String backUrl = servletRequest.getHeader("Referer");
         ModelAndView modelAndView = new ModelAndView("redirect:" + backUrl);
 
