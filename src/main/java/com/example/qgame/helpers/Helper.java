@@ -1,5 +1,9 @@
 package com.example.qgame.helpers;
 
+import com.example.qgame.QGameApplication;
+import com.example.qgame.requests.admin.AdminCreateUpdateBlogRequest;
+import org.springframework.context.ApplicationContext;
+import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
@@ -55,10 +59,17 @@ public class Helper {
     }
 
 
-    public static void addRequestFlashAttributes(String requestName, Object requestObject, RedirectAttributes attributes, BindingResult binding) {
+    public static void appendFlashAttribute(String requestName, Object requestObject, RedirectAttributes attributes, BindingResult binding) {
         attributes
                 .addFlashAttribute("org.springframework.validation.BindingResult." + requestName, binding)
                 .addFlashAttribute("blogRequest", requestObject);
 
+    }
+
+    public static void appendFlashObjectIfNotExist(String requestName, Class<?> clazz, Model model) {
+
+        if (!model.containsAttribute(requestName)) {
+            model.addAttribute(requestName, QGameApplication.getContext().getBean(clazz));
+        }
     }
 }

@@ -21,7 +21,6 @@ public class QGameApplication implements CommandLineRunner {
     }
 
     public static void main(String[] args) {
-        JavaMailSenderImpl mailSender = new JavaMailSenderImpl();
 
         QGameApplication.context = SpringApplication.run(QGameApplication.class, args);
     }

@@ -1,9 +1,7 @@
 package com.example.qgame.controllers.admin;
 
 import com.example.qgame.Models.Blog;
-import com.example.qgame.helpers.annotations.AdminController;
 import com.example.qgame.repositories.BlogRepository;
-import com.example.qgame.requests.BlogCommentRequest;
 import com.example.qgame.requests.admin.AdminCreateUpdateBlogRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
@@ -11,13 +9,15 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
-import static com.example.qgame.helpers.Helper.addRequestFlashAttributes;
+import static com.example.qgame.helpers.Helper.appendFlashAttribute;
+import static com.example.qgame.helpers.Helper.appendFlashObjectIfNotExist;
 
 @Controller
 @RequestMapping("/admin/blogs")
@@ -56,12 +56,7 @@ public class AdminBlogController {
 
         ModelAndView modelAndView = new ModelAndView("/admin/blogs/add_edit_blog");
 
-        if (!model.containsAttribute("blogRequest")) {
-            modelAndView.addObject("blogRequest", new AdminCreateUpdateBlogRequest());
-            System.out.println("not exists");
-        } else {
-            System.out.println("exists");
-        }
+        appendFlashObjectIfNotExist("blogRequest", AdminCreateUpdateBlogRequest.class, model);
 
         return modelAndView
                 .addObject("blog", blog);
@@ -74,13 +69,14 @@ public class AdminBlogController {
 
 
     @PutMapping("/{blog}")
-    public ModelAndView update(@PathVariable("blog") Blog blog, @Valid AdminCreateUpdateBlogRequest blogRequest, BindingResult binding, RedirectAttributes attributes, Model model) {
+    public ModelAndView update(@PathVariable("blog") Blog blog, @Valid AdminCreateUpdateBlogRequest blogRequest, BindingResult binding, RedirectAttributes attributes, Model model,@RequestParam("image") MultipartFile file) {
+        System.out.println(file);
         String backUrl = servletRequest.getHeader("Referer");
         ModelAndView modelAndView = new ModelAndView("redirect:" + backUrl);
 
 
         if (binding.hasErrors()) {
-            addRequestFlashAttributes("blogRequest", blogRequest, attributes, binding);
+            appendFlashAttribute("blogRequest", blogRequest, attributes, binding);
 
             return modelAndView;
         }

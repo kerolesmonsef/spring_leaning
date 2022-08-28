@@ -2,10 +2,12 @@ package com.example.qgame.requests.admin;
 
 import com.example.qgame.Models.Blog;
 import lombok.Data;
+import org.springframework.stereotype.Component;
 
 import javax.validation.constraints.NotEmpty;
 
 @Data
+@Component
 public class AdminCreateUpdateBlogRequest {
 
     @NotEmpty(message = "title must not be empty")
