@@ -1,7 +1,7 @@
 package com.example.qgame.controllers.admin;
 
 import com.example.qgame.Models.Blog;
-import com.example.qgame.helpers.services.AssetFileUploader;
+import com.example.qgame.helpers.services.files.AssetFileUploader;
 import com.example.qgame.repositories.BlogRepository;
 import com.example.qgame.requests.admin.AdminCreateUpdateBlogRequest;
 import org.springframework.beans.factory.annotation.Autowired;
