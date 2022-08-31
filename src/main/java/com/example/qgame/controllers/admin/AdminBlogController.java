@@ -4,6 +4,7 @@ import com.example.qgame.Models.Blog;
 import com.example.qgame.helpers.services.files.AssetFileUploader;
 import com.example.qgame.repositories.BlogRepository;
 import com.example.qgame.requests.admin.AdminCreateUpdateBlogRequest;
+import com.example.qgame.validations.FileValidator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Controller;
@@ -74,11 +75,11 @@ public class AdminBlogController {
     @PutMapping("/{blog}")
     public ModelAndView update(@PathVariable("blog") Blog blog, @Valid AdminCreateUpdateBlogRequest blogRequest, BindingResult binding, RedirectAttributes attributes, Model model, @RequestParam("image") MultipartFile file) throws IOException {
 
-        new AssetFileUploader().setFile(file).upload();
-
         String backUrl = servletRequest.getHeader("Referer");
+
         ModelAndView modelAndView = new ModelAndView("redirect:" + backUrl);
 
+//        new FileValidator().validate(blogRequest, binding); // s
 
         if (binding.hasErrors()) {
             appendFlashAttribute("blogRequest", blogRequest, attributes, binding);
