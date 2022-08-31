@@ -4,6 +4,7 @@ import com.example.qgame.Models.Blog;
 import com.example.qgame.repositories.BlogRepository;
 import com.example.qgame.requests.admin.AdminCreateUpdateBlogRequest;
 import com.example.qgame.services.BlogService;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -71,9 +72,11 @@ public class AdminBlogController {
 
 
     @PutMapping("/{blog}")
-    public ModelAndView update(@PathVariable("blog") Blog blog, @Valid AdminCreateUpdateBlogRequest blogRequest, BindingResult binding, RedirectAttributes attributes, Model model) throws IOException {
+
+    public ModelAndView update(@PathVariable("blog") Blog blog, @Valid AdminCreateUpdateBlogRequest blogRequest, BindingResult binding, RedirectAttributes attributes, Model model, @RequestParam("image") MultipartFile file) throws IOException {
 
         String backUrl = servletRequest.getHeader("Referer");
+
         ModelAndView modelAndView = new ModelAndView("redirect:" + backUrl);
 
         if (binding.hasErrors()) {
