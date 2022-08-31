@@ -22,13 +22,13 @@ public class AssetFileUploader {
 
     public FileInfo upload() throws IOException {
 
-        Path root = Path.of(FileHelper.ASSET_PATH + filePath);
+        Path root = fullPath();
 
         if (file.isEmpty()) {
             return new FileInfo();
         }
 
-        String fileName = getFileName(file);
+        String fileName = newFileName(file);
 
         if (!Files.exists(root)) {
             Files.createDirectories(root);
@@ -39,11 +39,30 @@ public class AssetFileUploader {
         return new FileInfo().setName(fileName);
     }
 
-    private String getFileName(MultipartFile file) {
+
+    public void remove(String fileName) {
+
+        try {
+            Files.delete(fullPath(fileName));
+        } catch (IOException e) {
+
+        }
+    }
+
+
+    private Path fullPath() {
+        return Path.of(FileHelper.ASSET_PATH + filePath);
+    }
+
+    private Path fullPath(String fileName) {
+        return Path.of(FileHelper.ASSET_PATH + filePath + fileName);
+    }
+
+    private String newFileName(MultipartFile file) {
 
         if (randomName) {
-            String filename = file.getOriginalFilename();
-            String fileExtension = filename.substring(filename.lastIndexOf(".") + 1);
+            String fileName = file.getOriginalFilename();
+            String fileExtension = fileName.substring(fileName.lastIndexOf(".") + 1);
             return StringHelper.random(10) + "." + fileExtension;
         }
 

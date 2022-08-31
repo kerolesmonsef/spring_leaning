@@ -2,9 +2,13 @@ package com.example.qgame.requests.admin;
 
 import com.example.qgame.Models.Blog;
 import lombok.Data;
+import lombok.NonNull;
 import org.springframework.stereotype.Component;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 
 @Data
 @Component
@@ -18,6 +22,9 @@ public class AdminCreateUpdateBlogRequest {
 
     @NotEmpty
     public String createdBy;
+
+    @NotNull
+    private MultipartFile image;
 
     public Blog toBlog() {
         return new Blog()

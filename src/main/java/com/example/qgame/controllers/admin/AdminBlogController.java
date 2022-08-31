@@ -1,11 +1,10 @@
 package com.example.qgame.controllers.admin;
 
 import com.example.qgame.Models.Blog;
-import com.example.qgame.helpers.services.files.AssetFileUploader;
 import com.example.qgame.repositories.BlogRepository;
 import com.example.qgame.requests.admin.AdminCreateUpdateBlogRequest;
+import com.example.qgame.services.BlogService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -30,7 +29,7 @@ public class AdminBlogController {
     private BlogRepository blogRepository;
 
     @Autowired
-    private ApplicationContext context;
+    private BlogService blogService;
 
     @Autowired
     private HttpServletRequest servletRequest;
@@ -66,27 +65,27 @@ public class AdminBlogController {
     }
 
     @PostMapping()
-    public String store() {
+    public String store(@Valid AdminCreateUpdateBlogRequest blogRequest, BindingResult binding) {
         return "/";
     }
 
 
     @PutMapping("/{blog}")
-    public ModelAndView update(@PathVariable("blog") Blog blog, @Valid AdminCreateUpdateBlogRequest blogRequest, BindingResult binding, RedirectAttributes attributes, Model model, @RequestParam("image") MultipartFile file) throws IOException {
-
-        new AssetFileUploader().setFile(file).upload();
+    public ModelAndView update(@PathVariable("blog") Blog blog, @Valid AdminCreateUpdateBlogRequest blogRequest, BindingResult binding, RedirectAttributes attributes, Model model) throws IOException {
 
         String backUrl = servletRequest.getHeader("Referer");
         ModelAndView modelAndView = new ModelAndView("redirect:" + backUrl);
 
-
         if (binding.hasErrors()) {
+
             appendFlashAttribute("blogRequest", blogRequest, attributes, binding);
 
             return modelAndView;
         }
 
-        model.addAttribute("alertSuccess", "Blog Added Successfully");
+        blogService.update(blogRequest, blog);
+
+        attributes.addFlashAttribute("alertSuccess", "Blog Added Successfully");
 
         return modelAndView;
     }

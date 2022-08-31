@@ -21,11 +21,11 @@
             <form th:action="${action}" th:object="${blogRequest}" method="post" class="row" enctype="multipart/form-data">
                 <input type="hidden" name="_method" value="put"/>
 
-                <div th:replace="includes/input :: input(grid=6,name='title',value=*{title})"></div>
+                <div th:replace="includes/input :: input(grid=6,name='title',value=*{title} ?: ${blog.title})"></div>
 
-                <div th:replace="includes/input :: input(grid=6,name='content',value=*{content})"></div>
+                <div th:replace="includes/input :: input(grid=6,name='content',value=*{content} ?: ${blog.content})"></div>
 
-                <div th:replace="includes/input :: input(grid=6,name='createdBy',label='Created By',value=*{createdBy})"></div>
+                <div th:replace="includes/input :: input(grid=6,name='createdBy',label='Created By',value=*{createdBy} ?: ${blog.createdBy})"></div>
 
                 <div th:replace="includes/input :: input(grid=6,name='image',type='file')"></div>
 
