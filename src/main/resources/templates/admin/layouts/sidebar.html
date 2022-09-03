@@ -41,22 +41,32 @@
                     </a>
                 </li>
 
-
+                <li class="nav-item">
+                    <a th:href="@{/admin/blogs}" class="nav-link">
+                        <i class="nav-icon fas fa-ticket"></i>
+                        <p>Blogs</p>
+                    </a>
+                </li>
             </ul>
         </nav>
         <!-- /.sidebar-menu -->
     </div>
     <!-- /.sidebar -->
+
+    <script th:inline="javascript">
+        document.addEventListener("DOMContentLoaded", function () {
+
+            const currentUrl = /*[[${#httpServletRequest.requestURI}]]*/  "{{ request()->fullUrl() }}";
+            console.log(currentUrl);
+            const a = $('aside.main-sidebar')
+                .find(`a[href="${currentUrl}"]`).addClass('active') // return a
+                .parents('ul').show() // return ul
+                .siblings("a").addClass('active') // return a near ul
+                .parent('li').addClass('menu-open');
+
+        });
+    </script>
 </aside>
 
-<script type="text/javascript">
-    $(function () {
-        const currentUrl = "{{ request()->fullUrl() }}";
-        const a = $('aside.main-sidebar')
-            .find(`a[href="${currentUrl}"]`).addClass('active') // return a
-            .parents('ul').show() // return ul
-            .siblings("a").addClass('active') // return a near ul
-            .parent('li').addClass('menu-open');
-    });
-</script>
+
 </html>

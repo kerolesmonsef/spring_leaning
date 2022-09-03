@@ -37,6 +37,12 @@
                         <a class="btn btn-sm btn-info" th:href="@{/admin/blogs/{blog_id}/edit(blog_id=${blog.id})}">
                             <i class="far fa-edit"></i>
                         </a>
+                        <form class="d-inline" method="post" th:action="@{/admin/blogs/{blog}(blog=${blog.id})}">
+                            <input type="hidden" name="_method" value="delete">
+                            <button class="btn btn-danger">
+                                <i class="fas fa-trash"></i>
+                            </button>
+                        </form>
                     </td>
                 </tr>
                 </tbody>

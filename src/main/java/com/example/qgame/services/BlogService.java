@@ -57,4 +57,10 @@ public class BlogService {
 
         return blog;
     }
+
+    public void delete(Blog blog) {
+        blogRepository.delete(blog);
+
+        new AssetFileUploader().setFilePath("/images/blog/").remove(blog.getImage());
+    }
 }

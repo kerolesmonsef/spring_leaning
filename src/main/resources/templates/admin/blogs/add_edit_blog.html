@@ -10,16 +10,15 @@
     <title th:text="${title}"></title>
 </head>
 
-<body th:with="action = ${blog.id} ? '/admin/blogs/' + ${blog.id} : '/admin/blogs' , method = ${blog.id} ? 'put' : 'post'">
+<body th:with="action = ${blog.id} ? '/admin/blogs/' + ${blog.id} : '/admin/blogs/' , method = ${blog.id} ? 'put' : 'post'">
 <div layout:fragment="content">
-    <h1 th:text="${title}"></h1>
     <div class="card">
         <div class="card-header">
             <th:block th:replace="admin/blogs/components/blog_tabs :: tab(active = 'create')"></th:block>
         </div>
         <div class="card-body">
             <form th:action="${action}" th:object="${blogRequest}" method="post" class="row" enctype="multipart/form-data">
-                <input type="hidden" name="_method" value="put"/>
+                <input type="hidden" name="_method" th:value="${method}"/>
 
                 <div th:replace="includes/input :: input(grid=6,name='title',value=*{title} ?: ${blog.title})"></div>
 
@@ -27,9 +26,11 @@
 
                 <div th:replace="includes/input :: input(grid=6,name='createdBy',label='Created By',value=*{createdBy} ?: ${blog.createdBy})"></div>
 
-                <div th:replace="includes/input :: input(grid=6,name='image',type='file')"></div>
+                <div th:replace="includes/input :: input(grid=6,name='image',type='file',errorName='fileRequired')"></div>
 
                 <div class="col-md-12"></div>
+
+
 
                 <div class="col-md-3">
                     <button class="btn btn-sm btn-success" type="submit">

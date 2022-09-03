@@ -21,6 +21,7 @@ import java.io.IOException;
 
 import static com.example.qgame.helpers.Helper.appendFlashAttribute;
 import static com.example.qgame.helpers.Helper.appendFlashObjectIfNotExist;
+import static com.example.qgame.helpers.Helper.redirectBack;
 
 @Controller
 @RequestMapping("/admin/blogs")
@@ -65,19 +66,28 @@ public class AdminBlogController {
                 .addObject("blog", blog);
     }
 
-    @PostMapping()
-    public String store(@Valid AdminCreateUpdateBlogRequest blogRequest, BindingResult binding) {
-        return "/";
+    @PostMapping("/")
+    public ModelAndView store(@Valid AdminCreateUpdateBlogRequest blogRequest, BindingResult binding, RedirectAttributes attributes) {
+        ModelAndView modelAndView = redirectBack(servletRequest);
+        if (binding.hasErrors()) {
+
+            appendFlashAttribute("blogRequest", blogRequest, attributes, binding);
+
+            return modelAndView;
+        }
+
+        blogService.save(blogRequest);
+
+        attributes.addFlashAttribute("alertSuccess", "Blog Added Successfully");
+
+        return modelAndView;
     }
 
 
     @PutMapping("/{blog}")
-
     public ModelAndView update(@PathVariable("blog") Blog blog, @Valid AdminCreateUpdateBlogRequest blogRequest, BindingResult binding, RedirectAttributes attributes, Model model, @RequestParam("image") MultipartFile file) throws IOException {
 
-        String backUrl = servletRequest.getHeader("Referer");
-
-        ModelAndView modelAndView = new ModelAndView("redirect:" + backUrl);
+        ModelAndView modelAndView = redirectBack(servletRequest);
 
         if (binding.hasErrors()) {
 
@@ -88,9 +98,19 @@ public class AdminBlogController {
 
         blogService.update(blogRequest, blog);
 
-        attributes.addFlashAttribute("alertSuccess", "Blog Added Successfully");
+        attributes.addFlashAttribute("alertSuccess", "Blog Updated Successfully");
 
         return modelAndView;
+    }
+
+    @DeleteMapping("/{blog}")
+    public ModelAndView destroy(@PathVariable Blog blog, RedirectAttributes attributes) {
+
+        attributes.addFlashAttribute("alertSuccess", "Blog Deleted Successfully");
+
+        blogService.delete(blog);
+
+        return redirectBack(servletRequest);
     }
 
 }
