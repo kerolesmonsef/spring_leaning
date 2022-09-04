@@ -1,6 +1,7 @@
 package com.example.qgame.controllers.admin;
 
 import com.example.qgame.Models.Blog;
+import com.example.qgame.controllers.IController;
 import com.example.qgame.repositories.BlogRepository;
 import com.example.qgame.requests.admin.AdminCreateUpdateBlogRequest;
 import com.example.qgame.services.BlogService;
@@ -20,12 +21,12 @@ import javax.validation.Valid;
 import java.io.IOException;
 
 import static com.example.qgame.helpers.Helper.appendFlashAttribute;
-import static com.example.qgame.helpers.Helper.appendFlashObjectIfNotExist;
+import static com.example.qgame.helpers.Helper.appendToModelIfNotExist;
 import static com.example.qgame.helpers.Helper.redirectBack;
 
 @Controller
 @RequestMapping("/admin/blogs")
-public class AdminBlogController {
+public class AdminBlogController extends IController {
 
     @Autowired
     private BlogRepository blogRepository;
@@ -33,8 +34,6 @@ public class AdminBlogController {
     @Autowired
     private BlogService blogService;
 
-    @Autowired
-    private HttpServletRequest servletRequest;
 
     @GetMapping()
     public ModelAndView index() {
@@ -59,7 +58,7 @@ public class AdminBlogController {
     public ModelAndView edit(@PathVariable("blog") Blog blog, Model model) {
 
 
-        appendFlashObjectIfNotExist("blogRequest", AdminCreateUpdateBlogRequest.class, model);
+        appendToModelIfNotExist("blogRequest", AdminCreateUpdateBlogRequest.class, model);
 
         return new ModelAndView("/admin/blogs/add_edit_blog")
                 .addObject("blog", blog);
@@ -67,39 +66,36 @@ public class AdminBlogController {
 
     @PostMapping("/")
     public ModelAndView store(@Valid AdminCreateUpdateBlogRequest blogRequest, BindingResult binding, RedirectAttributes attributes) {
-        ModelAndView modelAndView = redirectBack(servletRequest);
         if (binding.hasErrors()) {
 
             appendFlashAttribute("blogRequest", blogRequest, attributes, binding);
 
-            return modelAndView;
+            return back();
         }
 
         blogService.save(blogRequest);
 
         attributes.addFlashAttribute("alertSuccess", "Blog Added Successfully");
 
-        return modelAndView;
+        return back();
     }
 
 
     @PutMapping("/{blog}")
     public ModelAndView update(@PathVariable("blog") Blog blog, @Valid AdminCreateUpdateBlogRequest blogRequest, BindingResult binding, RedirectAttributes attributes, Model model, @RequestParam("image") MultipartFile file) throws IOException {
 
-        ModelAndView modelAndView = redirectBack(servletRequest);
-
         if (binding.hasErrors()) {
 
             appendFlashAttribute("blogRequest", blogRequest, attributes, binding);
 
-            return modelAndView;
+            return back();
         }
 
         blogService.update(blogRequest, blog);
 
         attributes.addFlashAttribute("alertSuccess", "Blog Updated Successfully");
 
-        return modelAndView;
+        return back();
     }
 
     @DeleteMapping("/{blog}")

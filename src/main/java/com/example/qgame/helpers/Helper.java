@@ -64,11 +64,11 @@ public class Helper {
     public static void appendFlashAttribute(String requestName, Object requestObject, RedirectAttributes attributes, BindingResult binding) {
         attributes
                 .addFlashAttribute("org.springframework.validation.BindingResult." + requestName, binding)
-                .addFlashAttribute("blogRequest", requestObject);
+                .addFlashAttribute(requestName, requestObject);
 
     }
 
-    public static void appendFlashObjectIfNotExist(String requestName, Class<?> clazz, Model model) {
+    public static void appendToModelIfNotExist(String requestName, Class<?> clazz, Model model) {
 
         if (!model.containsAttribute(requestName)) {
             model.addAttribute(requestName, QGameApplication.getContext().getBean(clazz));

@@ -31,9 +31,9 @@ public class BlogService {
             }
         }
 
-        blog.setContent(request.getContent());
-        blog.setCreatedBy(request.getCreatedBy());
-        blog.setTitle(request.getTitle());
+        blog.setContent(request.getContent())
+                .setCreatedBy(request.getCreatedBy())
+                .setTitle(request.getTitle());
 
 
         blogRepository.save(blog);

@@ -20,19 +20,19 @@
             <form th:action="${action}" th:object="${categoryRequest}" method="post" class="row" enctype="multipart/form-data">
                 <input type="hidden" name="_method" th:value="${method}"/>
 
-                <div th:replace="includes/input :: input(grid=6,name='title',value=*{name} ?: ${category.name})"></div>
+                <div th:replace="includes/input :: input(grid=6,name='name',value=*{name} ?: ${category.name})"></div>
 
-<!--                <div th:replace="includes/input :: input(grid=6,name='description',value=*{description} ?: ${category.description})"></div>-->
+                <div th:replace="includes/input :: input(grid=6,name='description',value=*{description} ?: ${category.description})"></div>
 
-<!--                <div th:replace="includes/input :: input(grid=6,name='image',type='file',errorName='fileRequired')"></div>-->
+                <div th:replace="includes/input :: input(grid=6,name='image',type='file',errorName='fileRequired')"></div>
 
 <!--                <div class="col-md-12"></div>-->
 
-<!--                <div class="col-md-3">-->
-<!--                    <button class="btn btn-sm btn-success" type="submit">-->
-<!--                        Submit <i class="far fa-check"></i>-->
-<!--                    </button>-->
-<!--                </div>-->
+                <div class="col-md-3">
+                    <button class="btn btn-sm btn-success" type="submit">
+                        Submit <i class="far fa-check"></i>
+                    </button>
+                </div>
             </form>
         </div>
     </div>

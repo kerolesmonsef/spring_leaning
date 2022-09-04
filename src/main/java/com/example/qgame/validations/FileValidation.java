@@ -19,7 +19,7 @@ public @interface FileValidation {
 
     boolean required() default false;
 
-    boolean requiredOnCreateOnly() default true;
+    boolean requiredOnCreateOnly() default false;
 
     String[] types() default {};
 }

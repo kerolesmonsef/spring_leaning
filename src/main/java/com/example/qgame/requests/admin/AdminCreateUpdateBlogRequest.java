@@ -18,8 +18,6 @@ import javax.validation.constraints.NotNull;
 @Component
 public class AdminCreateUpdateBlogRequest {
 
-
-
     @NotEmpty(message = "title must not be empty")
     private String title;
 

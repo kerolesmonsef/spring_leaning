@@ -1,24 +1,32 @@
 package com.example.qgame.controllers.admin;
 
+import com.example.qgame.Models.Blog;
 import com.example.qgame.Models.Category;
+import com.example.qgame.controllers.IController;
 import com.example.qgame.repositories.CategoryRepository;
 import com.example.qgame.requests.admin.AdminCreateUpdateCategoryRequest;
+import com.example.qgame.services.CategoryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import static com.example.qgame.helpers.Helper.appendFlashObjectIfNotExist;
+import javax.validation.Valid;
+
+import static com.example.qgame.helpers.Helper.*;
 
 @Controller
 @RequestMapping("/admin/categories")
-public class AdminCategoryController {
+public class AdminCategoryController extends IController {
 
     @Autowired
     private CategoryRepository categoryRepository;
+
+    @Autowired
+    private CategoryService categoryService;
 
     @GetMapping
     public ModelAndView index() {
@@ -29,12 +37,58 @@ public class AdminCategoryController {
         return view;
     }
 
+    @GetMapping("/create")
+    public ModelAndView create(Model model) {
+
+        return this.edit(new Category(), model);
+    }
+
     @GetMapping("/{category}/edit")
     public ModelAndView edit(@PathVariable Category category, Model model) {
 
-        appendFlashObjectIfNotExist("categoryRequest", AdminCreateUpdateCategoryRequest.class, model);
+        appendToModelIfNotExist("categoryRequest", AdminCreateUpdateCategoryRequest.class, model);
 
         return new ModelAndView("/admin/categories/add_edit_category.html")
                 .addObject("category", category);
+    }
+
+    @PutMapping("/{category}")
+    public ModelAndView update(@PathVariable Category category, @Valid AdminCreateUpdateCategoryRequest request, BindingResult bindings, RedirectAttributes attributes) {
+
+        if (bindings.hasErrors()) {
+            System.out.println(bindings.getAllErrors());
+            appendFlashAttribute("categoryRequest", request, attributes, bindings);
+            return back();
+        }
+
+        categoryService.update(request, category);
+
+        attributes.addFlashAttribute("alertSuccess", "Blog Updated Successfully");
+
+        return back();
+    }
+
+    @PostMapping("/")
+    public ModelAndView store(@Valid AdminCreateUpdateCategoryRequest request, BindingResult bindings, RedirectAttributes attributes) {
+
+        if (bindings.hasErrors()) {
+            appendFlashAttribute("categoryRequest", request, attributes, bindings);
+            return back();
+        }
+
+        categoryService.create(request);
+
+        attributes.addFlashAttribute("alertSuccess", "Category Added Successfully");
+
+        return back();
+    }
+
+
+    @DeleteMapping("/{category}")
+    public ModelAndView destroy(@PathVariable Category category) {
+
+        categoryService.delete(category);
+
+        return back();
     }
 }
