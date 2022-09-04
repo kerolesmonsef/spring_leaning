@@ -2,7 +2,7 @@
 <html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
 
 <th:block th:fragment="input"
-          th:with="name = ${name} ?: 'default' , label = ${label} ?: ${name}, value = ${value} ?: null, grid = ${grid} ?: '6' , i = ${i} ?: 'fa fa-user' , type = ${type} ?: 'text'"
+          th:with="name = ${name} ?: 'default' , label = ${label} ?: ${name}, value = ${value} ?: null, grid = ${grid} ?: '6' , i = ${i} ?: 'fa fa-user' , type = ${type} ?: 'text' , errorName = ${errorName} ?: ${name}"
 >
     <div th:class="${'col-md-'} + ${grid}">
         <div class="form-group form-group-input-border border border-dark-blue" style="">
@@ -11,7 +11,7 @@
                 <i th:class="${i}"></i>
             </label>
             <th:block th:each="err : ${#fields.detailedErrors()}"  >
-                <label th:if="${err.getFieldName()} == ${name}" th:text="${err.getMessage()}" class="text-danger text-sm mb-1"></label>
+                <label th:if="${err.getFieldName()} == ${name} or ${err.getFieldName()} == ${errorName}" th:text="${err.getMessage()}" class="text-danger text-sm mb-1"></label>
             </th:block>
 
             <input th:type="${type}" th:name="${name}" class="form-control border-0 " th:value="${value}">

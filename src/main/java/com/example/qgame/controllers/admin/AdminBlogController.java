@@ -1,12 +1,11 @@
 package com.example.qgame.controllers.admin;
 
 import com.example.qgame.Models.Blog;
-import com.example.qgame.helpers.services.files.AssetFileUploader;
 import com.example.qgame.repositories.BlogRepository;
 import com.example.qgame.requests.admin.AdminCreateUpdateBlogRequest;
-import com.example.qgame.validations.FileValidator;
+import com.example.qgame.services.BlogService;
+
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -22,6 +21,7 @@ import java.io.IOException;
 
 import static com.example.qgame.helpers.Helper.appendFlashAttribute;
 import static com.example.qgame.helpers.Helper.appendFlashObjectIfNotExist;
+import static com.example.qgame.helpers.Helper.redirectBack;
 
 @Controller
 @RequestMapping("/admin/blogs")
@@ -31,7 +31,7 @@ public class AdminBlogController {
     private BlogRepository blogRepository;
 
     @Autowired
-    private ApplicationContext context;
+    private BlogService blogService;
 
     @Autowired
     private HttpServletRequest servletRequest;
@@ -58,38 +58,58 @@ public class AdminBlogController {
     @GetMapping("/{blog}/edit")
     public ModelAndView edit(@PathVariable("blog") Blog blog, Model model) {
 
-        ModelAndView modelAndView = new ModelAndView("/admin/blogs/add_edit_blog");
 
         appendFlashObjectIfNotExist("blogRequest", AdminCreateUpdateBlogRequest.class, model);
 
-        return modelAndView
+        return new ModelAndView("/admin/blogs/add_edit_blog")
                 .addObject("blog", blog);
     }
 
-    @PostMapping()
-    public String store() {
-        return "/";
+    @PostMapping("/")
+    public ModelAndView store(@Valid AdminCreateUpdateBlogRequest blogRequest, BindingResult binding, RedirectAttributes attributes) {
+        ModelAndView modelAndView = redirectBack(servletRequest);
+        if (binding.hasErrors()) {
+
+            appendFlashAttribute("blogRequest", blogRequest, attributes, binding);
+
+            return modelAndView;
+        }
+
+        blogService.save(blogRequest);
+
+        attributes.addFlashAttribute("alertSuccess", "Blog Added Successfully");
+
+        return modelAndView;
     }
 
 
     @PutMapping("/{blog}")
     public ModelAndView update(@PathVariable("blog") Blog blog, @Valid AdminCreateUpdateBlogRequest blogRequest, BindingResult binding, RedirectAttributes attributes, Model model, @RequestParam("image") MultipartFile file) throws IOException {
 
-        String backUrl = servletRequest.getHeader("Referer");
-
-        ModelAndView modelAndView = new ModelAndView("redirect:" + backUrl);
-
-//        new FileValidator().validate(blogRequest, binding); // s
+        ModelAndView modelAndView = redirectBack(servletRequest);
 
         if (binding.hasErrors()) {
+
             appendFlashAttribute("blogRequest", blogRequest, attributes, binding);
 
             return modelAndView;
         }
 
-        model.addAttribute("alertSuccess", "Blog Added Successfully");
+        blogService.update(blogRequest, blog);
+
+        attributes.addFlashAttribute("alertSuccess", "Blog Updated Successfully");
 
         return modelAndView;
+    }
+
+    @DeleteMapping("/{blog}")
+    public ModelAndView destroy(@PathVariable Blog blog, RedirectAttributes attributes) {
+
+        attributes.addFlashAttribute("alertSuccess", "Blog Deleted Successfully");
+
+        blogService.delete(blog);
+
+        return redirectBack(servletRequest);
     }
 
 }

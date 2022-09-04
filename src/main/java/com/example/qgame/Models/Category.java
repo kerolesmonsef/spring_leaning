@@ -20,7 +20,7 @@ import java.util.List;
 @Entity
 @Table(name = "categories")
 @Data
-@EntityListeners(AuditingEntityListener.class) // current stimestapm
+@EntityListeners(AuditingEntityListener.class) // current timestamp
 @EqualsAndHashCode
 public class Category {
     @Id

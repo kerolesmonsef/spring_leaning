@@ -5,9 +5,11 @@ import com.example.qgame.requests.admin.AdminCreateUpdateBlogRequest;
 import org.springframework.context.ApplicationContext;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import javax.servlet.http.HttpServletRequest;
 import java.text.Normalizer;
 import java.util.Arrays;
 import java.util.List;
@@ -71,5 +73,11 @@ public class Helper {
         if (!model.containsAttribute(requestName)) {
             model.addAttribute(requestName, QGameApplication.getContext().getBean(clazz));
         }
+    }
+
+    public static ModelAndView redirectBack(HttpServletRequest request){
+        String backUrl = request.getHeader("Referer");
+
+        return new ModelAndView("redirect:" + backUrl);
     }
 }
