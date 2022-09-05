@@ -16,7 +16,10 @@ public class WhereLike extends IFilter {
     }
 
     @Override
-    public void filter() {
-        this.criteriaQuery.where(cb.like(path, keyword));
+    protected void filter() {
+        this.criteriaQuery.where(cb.or(
+                cb.like(path, keyword),
+                cb.like(path, keyword)
+        ));
     }
 }

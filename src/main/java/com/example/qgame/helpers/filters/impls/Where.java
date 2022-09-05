@@ -17,7 +17,7 @@ public class Where extends IFilter {
     }
 
     @Override
-    public void filter() {
-
+    protected void filter() {
+        this.criteriaQuery.where(cb.equal(column,value));
     }
 }

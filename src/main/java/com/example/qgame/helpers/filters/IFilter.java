@@ -1,15 +1,18 @@
 package com.example.qgame.helpers.filters;
 
 import lombok.Setter;
+import lombok.experimental.Accessors;
 
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 
 public abstract class IFilter {
     @Setter
-    protected CriteriaQuery criteriaQuery;
+    @Accessors(chain = true)
+    protected CriteriaQuery<Object> criteriaQuery;
 
     @Setter
+    @Accessors(chain = true)
     protected CriteriaBuilder cb;
 
     protected boolean askCheck;
@@ -19,6 +22,11 @@ public abstract class IFilter {
     }
 
 
+    public final void execute(){
+        if (askCheck){
+            this.filter();
+        }
+    }
 
-    public abstract void filter();
+    protected abstract void filter();
 }

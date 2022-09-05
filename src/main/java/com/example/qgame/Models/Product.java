@@ -26,6 +26,7 @@ public class Product {
 
     private String title;
 
+    @JsonIgnore
     @ToString.Exclude
     @ManyToOne(fetch = FetchType.LAZY)
     private Category category;
