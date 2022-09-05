@@ -3,6 +3,8 @@ package com.example.qgame.helpers.filters.impls;
 import com.example.qgame.helpers.filters.IFilter;
 
 import javax.persistence.criteria.Path;
+import javax.persistence.criteria.Predicate;
+import javax.persistence.criteria.Root;
 
 public class WhereLike extends IFilter {
 
@@ -15,11 +17,9 @@ public class WhereLike extends IFilter {
         this.keyword = keyword;
     }
 
+
     @Override
-    protected void filter() {
-        this.criteriaQuery.where(cb.or(
-                cb.like(path, keyword),
-                cb.like(path, keyword)
-        ));
+    protected Predicate getPredict() {
+        return cb.like(path, "%" + keyword + "%");
     }
 }

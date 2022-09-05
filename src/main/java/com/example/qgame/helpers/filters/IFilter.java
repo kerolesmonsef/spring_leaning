@@ -5,11 +5,9 @@ import lombok.experimental.Accessors;
 
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Predicate;
 
 public abstract class IFilter {
-    @Setter
-    @Accessors(chain = true)
-    protected CriteriaQuery<Object> criteriaQuery;
 
     @Setter
     @Accessors(chain = true)
@@ -24,9 +22,9 @@ public abstract class IFilter {
 
     public final void execute(){
         if (askCheck){
-            this.filter();
+            this.getPredict();
         }
     }
 
-    protected abstract void filter();
+    protected abstract Predicate getPredict();
 }

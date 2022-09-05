@@ -134,7 +134,7 @@
 						this.opts.rightToLeftSubMenus = true;
 					}
 
-					// init root (main menu)
+					// init r (main menu)
 					var eNS = '.smartmenus';
 					this.$root
 						.data('smartmenus', this)
@@ -154,7 +154,7 @@
 							'click': $.proxy(this.itemClick, this)
 						}, eNS), 'a');
 
-					// hide menus on tap or click outside the root UL
+					// hide menus on tap or click outside the r UL
 					eNS += this.rootId;
 					if (this.opts.hideOnClick) {
 						$(document).on(getEventsNS({
@@ -611,12 +611,12 @@
 					this.showTimeout = 0;
 				}
 				// hide all subs
-				// if it's a popup, this.visibleSubMenus[0] is the root UL
+				// if it's a popup, this.visibleSubMenus[0] is the r UL
 				var level = this.opts.isPopup ? 1 : 0;
 				for (var i = this.visibleSubMenus.length - 1; i >= level; i--) {
 					this.menuHide(this.visibleSubMenus[i]);
 				}
-				// hide root if it's popup
+				// hide r if it's popup
 				if (this.opts.isPopup) {
 					if (canAnimate) {
 						this.$root.stop(true, true);
@@ -1143,7 +1143,7 @@
 			});
 		}
 		return this.each(function() {
-			// [data-sm-options] attribute on the root UL
+			// [data-sm-options] attribute on the r UL
 			var dataOpts = $(this).data('sm-options') || null;
 			if (dataOpts) {
 				try {

@@ -6,6 +6,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.Query;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 import java.util.ArrayList;
 import java.util.List;
@@ -20,7 +21,7 @@ public class FilterBuilder {
         this.criteriaQuery = criteriaQuery;
     }
 
-    public FilterBuilder(CriteriaQuery<Object> criteriaQuery,EntityManager entityManager) {
+    public FilterBuilder(CriteriaQuery<Object> criteriaQuery, EntityManager entityManager) {
         this.criteriaQuery = criteriaQuery;
         this.entityManager = entityManager;
         this.cb = entityManager.getCriteriaBuilder();
@@ -34,21 +35,35 @@ public class FilterBuilder {
 
 
     public FilterBuilder addFilter(IFilter filter) {
-        filters.add(filter.setCriteriaQuery(criteriaQuery));
+        filters.add(filter.setCb(cb));
         return this;
     }
 
 
     public CriteriaQuery<Object> build() {
-        this.filters.forEach((filter) -> {
-            filter.setCb(cb).execute();
-        });
+//        this.filters.forEach((getPredict) -> {
+//            getPredict.setCb(cb).execute();
+//        });
 
-        return criteriaQuery;
+        if (filters.size() == 0) {
+            return criteriaQuery;
+        }
+
+
+        Predicate lastPredicate = filters.get(0).getPredict();
+
+        for (int i = 1; i < filters.size(); i++) {
+            lastPredicate = cb.and(
+                    lastPredicate,
+                    filters.get(i).getPredict()
+            );
+        }
+
+        return criteriaQuery.where(lastPredicate);
     }
 
-    public Query buildQuery(){
-       CriteriaQuery<Object> criteriaQuery =  this.build();
+    public Query buildQuery() {
+        CriteriaQuery<Object> criteriaQuery = this.build();
 
         return entityManager.createQuery(criteriaQuery);
     }

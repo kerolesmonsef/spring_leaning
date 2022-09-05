@@ -8,7 +8,9 @@ import com.example.qgame.helpers.database.seeders.impls.BlogSeeder;
 import com.example.qgame.helpers.database.seeders.impls.CategorySeeder;
 import com.example.qgame.helpers.database.seeders.impls.OptionSeeder;
 import com.example.qgame.helpers.database.seeders.impls.ProductSeeder;
+import com.example.qgame.helpers.enums.OperationType;
 import com.example.qgame.helpers.filters.FilterBuilder;
+import com.example.qgame.helpers.filters.impls.TestWhere;
 import com.example.qgame.helpers.filters.impls.Where;
 import com.example.qgame.helpers.filters.impls.WhereLike;
 import org.hibernate.Session;
@@ -48,17 +50,30 @@ public class TestController {
         HttpServletRequest request;
 
 
-
-        CriteriaQuery<Object> criteria = entityManager.getCriteriaBuilder().createQuery();
+        CriteriaQuery<Object> criteria = entityManager.getCriteriaBuilder().createQuery(Object.class);
+        CriteriaBuilder cb = entityManager.getCriteriaBuilder();
         Root<Product> p = criteria.from(Product.class);
         criteria.select(p);
+//                .where(
+//                cb.and(
+//                        cb.equal(p.get("price"),23),
+//                        cb.or(
+//                              cb.gt(p.get("price"),33),
+//                              cb.gt(p.get("price"),33)
+//                        )
+//                )
+//        );
 
 
         Query query = new FilterBuilder(criteria, entityManager)
                 .addFilter(new WhereLike(p.get("title"), "%entat%", true))
-//                .addFilter(new Where(p.get("title"), "entat", true))
+                .addFilter(new Where(p.get("price"), "23", true))
+                .addFilter(new Where(p.get("price"), OperationType.GREATER_THAN, "23", true))
+                .addFilter(new Where(p.get("price"), "23", true))
+                .addFilter(new Where(p.get("price"), "23", true))
+                .addFilter(new Where(p.get("price"), "23", true))
+                .addFilter(new TestWhere(true).setR(p))
                 .buildQuery();
-
 
 
         List<Product> items = query.getResultList();
