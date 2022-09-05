@@ -24,7 +24,7 @@ public class CategorySeeder extends ISeeder<Category> {
 //            category.setImage(random.nextInt(7) + ".png");
 //            category.setDescription(faker.lorem().paragraph(10));
 //
-//            categories.add(category);
+//            categories.addFilter(category);
 //        }
 //
 //        return categories;

@@ -377,8 +377,8 @@
 23. breadcrumb CSS start
 24. payment offer CSS start
 25.Inner pages CSS start
-26.add to cart CSS start
-27.add to account bar css start
+26.addFilter to cart CSS start
+27.addFilter to account bar css start
 28. Tab to top CSS start
 29. Modal CSS start
 30. Loader css start
@@ -13845,7 +13845,7 @@ ul.sosiyal {
   background: linear-gradient(135deg, #3635aa 49%, #3635aa 50%, #46d8d5 51%, #46d8d5 100%); }
 
 /*=====================
-  26.add to cart CSS start
+  26.addFilter to cart CSS start
 ==========================*/
 .add_to_cart {
   position: fixed;
@@ -14082,7 +14082,7 @@ ul.sosiyal {
       font-size: 16px; }
 
 /*=====================
-  27.add to account bar start
+  27.addFilter to account bar start
 ==========================*/
 .account-bar .theme-form {
   padding-left: 20px;

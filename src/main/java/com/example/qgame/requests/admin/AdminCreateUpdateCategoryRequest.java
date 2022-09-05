@@ -17,7 +17,7 @@ public class AdminCreateUpdateCategoryRequest {
     @NotEmpty(message = "name must not be empty")
     private String name;
 
-    @NotEmpty
+    @NotEmpty(message = "description must not be empty")
     private String description;
 
     @FileValidation(requiredOnCreateOnly = true)
