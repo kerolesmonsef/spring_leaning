@@ -62,6 +62,10 @@ public class Product {
         return this.images;
     }
 
+    public String firstImageUrl(){
+        return getImages().get(0);
+    }
+
     public float priceAfterDiscount() {
         return this.priceAfterDiscount(false);
     }

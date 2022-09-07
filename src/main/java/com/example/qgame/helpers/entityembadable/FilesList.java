@@ -17,7 +17,7 @@ public class FilesList {
         this.prefixUrl = prefixUrl;
     }
 
-    public String getFileAt(int index) {
+    public String get(int index) {
         if (index >= 0 && index < files.size()) {
             return prefixUrl + files.get(index);
         }
