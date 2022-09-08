@@ -27,7 +27,6 @@ public class AdminProductController {
         PageWrapper<Product> page= new PageWrapper<>(products,"/admin/products");
 
         return new ModelAndView("/admin/products/products.html")
-                .addObject("products", products)
                 .addObject("page",page);
     }
 }

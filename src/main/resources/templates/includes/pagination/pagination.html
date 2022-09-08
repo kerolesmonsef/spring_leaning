@@ -6,12 +6,14 @@
             <ul class="pagination">
 
                 <!--previous page-->
-                <li th:if="${page.isFirstPage()}" class="page-item disabled" aria-disabled="true" aria-label="@lang('pagination.previous')">
+                <li th:if="${page.isFirstPage()}" class="page-item disabled" aria-disabled="true"
+                    aria-label="@lang('pagination.previous')">
                     <span class="page-link" aria-hidden="true">&lsaquo;</span>
                 </li>
 
                 <li th:if="not ${page.isFirstPage()}" class="page-item">
-                    <a class="page-link" href="{{ $paginator->previousPageUrl() }}" rel="prev" aria-label="@lang('pagination.previous')">&lsaquo;</a>
+                    <a class="page-link" href="{{ $paginator->previousPageUrl() }}" rel="prev"
+                       aria-label="@lang('pagination.previous')">&lsaquo;</a>
                 </li>
 
                 <li class="page-item">
@@ -22,9 +24,14 @@
                 </li>
 
 
-                <li class="page-item"><a class="page-link" href="#">1</a></li>
-                <li class="page-item"><a class="page-link" href="#">2</a></li>
-                <li class="page-item"><a class="page-link" href="#">3</a></li>
+                <li th:each='item : ${page.items}' th:class="${item.current}? 'active' : ''">
+                    <span th:if='${item.current}' th:text='${item.number}'>1</span>
+                    <a th:if='${not item.current}'
+                       th:href='@{${page.url}(page.page=${item.number},page.size=${page.size})}'>
+                        <span th:text='${item.number}'>1</span>
+                    </a>
+                </li>
+
                 <li class="page-item">
                     <a class="page-link" href="#" aria-label="Next">
                         <span aria-hidden="true">&raquo;</span>
