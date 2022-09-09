@@ -20,7 +20,6 @@ public class AdminProductController {
     public ModelAndView index() {
         Page<Product> products = service.getPageable();
 
-        System.out.println(products.toList());
 
         return new ModelAndView("/admin/products/products.html")
                 .addObject("products", products);
