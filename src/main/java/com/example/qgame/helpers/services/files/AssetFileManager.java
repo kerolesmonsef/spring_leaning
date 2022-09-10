@@ -12,7 +12,7 @@ import java.nio.file.Path;
 
 @Data
 @Accessors(chain = true)
-public class AssetFileUploader {
+public class AssetFileManager {
 
     private String filePath = "";
 
@@ -20,7 +20,7 @@ public class AssetFileUploader {
 
     private boolean randomName = true;
 
-    public FileInfo upload() throws IOException {
+    public FileInfo upload() {
 
         Path root = fullPath();
 
@@ -30,11 +30,15 @@ public class AssetFileUploader {
 
         String fileName = newFileName(file);
 
-        if (!Files.exists(root)) {
-            Files.createDirectories(root);
-        }
+        try {
+            if (!Files.exists(root)) {
+                Files.createDirectories(root);
+            }
 
-        Files.copy(file.getInputStream(), root.resolve(fileName));
+            Files.copy(file.getInputStream(), root.resolve(fileName));
+        } catch (IOException e) {
+
+        }
 
         return new FileInfo().setName(fileName);
     }

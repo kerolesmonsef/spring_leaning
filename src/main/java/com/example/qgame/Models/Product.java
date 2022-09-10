@@ -58,13 +58,17 @@ public class Product {
     @LastModifiedDate
     private Date updated_at;
 
+    public FilesList getNativeImages() {
+        return this.images;
+    }
+
     public FilesList getImages() {
         String base_path = ServletUriComponentsBuilder.fromCurrentContextPath().build().toUriString();
         this.images.setPrefix(base_path + "/images/products/");
         return this.images;
     }
 
-    public String firstImageUrl(){
+    public String firstImageUrl() {
         return getImages().get(0);
     }
 

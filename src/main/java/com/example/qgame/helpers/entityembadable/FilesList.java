@@ -24,6 +24,9 @@ public class FilesList {
         return null;
     }
 
+    public List<String> getNativeFiles() {
+        return this.files;
+    }
 
     public List<String> getFiles() {
         return files.stream().map((file) -> this.prefixUrl + file).toList();

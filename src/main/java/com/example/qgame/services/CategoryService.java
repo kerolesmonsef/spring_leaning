@@ -1,7 +1,7 @@
 package com.example.qgame.services;
 
 import com.example.qgame.Models.Category;
-import com.example.qgame.helpers.services.files.AssetFileUploader;
+import com.example.qgame.helpers.services.files.AssetFileManager;
 import com.example.qgame.helpers.services.files.FileInfo;
 import com.example.qgame.repositories.CategoryRepository;
 import com.example.qgame.requests.admin.AdminCreateUpdateCategoryRequest;
@@ -20,14 +20,11 @@ public class CategoryService {
 
         MultipartFile image = request.getImage();
         if (image != null && !image.isEmpty()) {
-            try {
-                AssetFileUploader fileUploader = new AssetFileUploader().setFile(image).setFilePath("/images/categories/");
-                FileInfo fileInfo = fileUploader.upload();
-                fileUploader.remove(category.getImage());
-                category.setImage(fileInfo.getName());
-            } catch (IOException e) {
+            AssetFileManager fileUploader = new AssetFileManager().setFile(image).setFilePath("/images/categories/");
+            FileInfo fileInfo = fileUploader.upload();
+            fileUploader.remove(category.getImage());
+            category.setImage(fileInfo.getName());
 
-            }
         }
 
         category.
@@ -43,13 +40,10 @@ public class CategoryService {
     public Category create(AdminCreateUpdateCategoryRequest request) {
         Category category = request.toCategory();
 
-        try {
-            AssetFileUploader fileUploader = new AssetFileUploader().setFile(request.getImage()).setFilePath("/images/categories/");
-            FileInfo fileInfo = fileUploader.upload();
-            category.setImage(fileInfo.getName());
-        } catch (IOException e) {
+        AssetFileManager fileUploader = new AssetFileManager().setFile(request.getImage()).setFilePath("/images/categories/");
+        FileInfo fileInfo = fileUploader.upload();
+        category.setImage(fileInfo.getName());
 
-        }
 
         repository.save(category);
 
@@ -58,6 +52,6 @@ public class CategoryService {
 
     public void delete(Category category) {
         repository.delete(category);
-        new AssetFileUploader().setFilePath("/images/categories/").remove(category.getImage());
+        new AssetFileManager().setFilePath("/images/categories/").remove(category.getImage());
     }
 }

@@ -1,7 +1,7 @@
 package com.example.qgame.services;
 
 import com.example.qgame.Models.Blog;
-import com.example.qgame.helpers.services.files.AssetFileUploader;
+import com.example.qgame.helpers.services.files.AssetFileManager;
 import com.example.qgame.helpers.services.files.FileInfo;
 import com.example.qgame.repositories.BlogRepository;
 import com.example.qgame.requests.admin.AdminCreateUpdateBlogRequest;
@@ -21,14 +21,10 @@ public class BlogService {
 
         MultipartFile image = request.getImage();
         if (image != null && !image.isEmpty()) {
-            try {
-                AssetFileUploader fileUploader = new AssetFileUploader().setFile(image).setFilePath("/images/blog/");
-                FileInfo fileInfo = fileUploader.upload();
-                fileUploader.remove(blog.getImage());
-                blog.setImage(fileInfo.getName());
-            } catch (IOException e) {
-
-            }
+            AssetFileManager fileUploader = new AssetFileManager().setFile(image).setFilePath("/images/blog/");
+            FileInfo fileInfo = fileUploader.upload();
+            fileUploader.remove(blog.getImage());
+            blog.setImage(fileInfo.getName());
         }
 
         blog.setContent(request.getContent())
@@ -45,13 +41,9 @@ public class BlogService {
 
         Blog blog = blogRequest.toBlog();
 
-        try {
-            AssetFileUploader fileUploader = new AssetFileUploader().setFile(blogRequest.getImage()).setFilePath("/images/blog/");
-            FileInfo fileInfo = fileUploader.upload();
-            blog.setImage(fileInfo.getName());
-        } catch (IOException e) {
-
-        }
+        AssetFileManager fileUploader = new AssetFileManager().setFile(blogRequest.getImage()).setFilePath("/images/blog/");
+        FileInfo fileInfo = fileUploader.upload();
+        blog.setImage(fileInfo.getName());
 
         blogRepository.save(blog);
 
@@ -61,6 +53,6 @@ public class BlogService {
     public void delete(Blog blog) {
         blogRepository.delete(blog);
 
-        new AssetFileUploader().setFilePath("/images/blog/").remove(blog.getImage());
+        new AssetFileManager().setFilePath("/images/blog/").remove(blog.getImage());
     }
 }
