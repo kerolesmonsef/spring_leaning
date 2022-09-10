@@ -24,7 +24,7 @@
                 </tr>
                 </thead>
                 <tbody>
-                <tr th:each="product : ${products}">
+                <tr th:each="product : ${page.getContent()}">
                     <td th:text="${product.id}"></td>
                     <td th:text="${product.title}"></td>
                     <td>
@@ -32,10 +32,12 @@
                     </td>
                     <td th:text="${product.created_at}"></td>
                     <td>
-                        <a class="btn btn-sm btn-info" th:href="@{/admin/products/{product_id}/edit(product_id=${product.id})}">
+                        <a class="btn btn-sm btn-info"
+                           th:href="@{/admin/products/{product_id}/edit(product_id=${product.id})}">
                             <i class="far fa-edit"></i>
                         </a>
-                        <form class="d-inline" method="post" th:action="@{/admin/products/{product}(product=${product.id})}">
+                        <form class="d-inline" method="post"
+                              th:action="@{/admin/products/{product}(product=${product.id})}">
                             <input type="hidden" name="_method" value="delete">
                             <button class="btn btn-danger">
                                 <i class="fas fa-trash"></i>
@@ -44,7 +46,9 @@
                     </td>
                 </tr>
                 </tbody>
+
             </table>
+            <div th:replace="includes/pagination/pagination :: pagination(page=${page})"></div>
         </div>
     </div>
 </div>

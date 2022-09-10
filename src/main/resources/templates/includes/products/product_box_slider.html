@@ -4,12 +4,12 @@
     <div class="product-imgbox">
         <div class="product-front">
             <a th:href="${product.getUrl()}">
-                <img style="height: 328px" th:src="${product.getImages().getFileAt(0)}" class="img-fluid  " alt="product">
+                <img style="height: 328px" th:src="${product.getImages().get(0)}" class="img-fluid  " alt="product">
             </a>
         </div>
         <div class="product-back">
             <a th:href="${product.getUrl()}">
-                <img style="height: 328px" th:src="${product.getImages().getFileAt(1)}" class="img-fluid  " alt="product">
+                <img style="height: 328px" th:src="${product.getImages().get(1)}" class="img-fluid  " alt="product">
             </a>
         </div>
         <div class="product-icon icon-inline">

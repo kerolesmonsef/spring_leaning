@@ -64,7 +64,6 @@
         document.addEventListener("DOMContentLoaded", function () {
 
             const currentUrl = /*[[${#httpServletRequest.requestURI}]]*/  "{{ request()->fullUrl() }}";
-            console.log(currentUrl);
             const a = $('aside.main-sidebar')
                 .find(`a[href="${currentUrl}"]`).addClass('active') // return a
                 .parents('ul').show() // return ul

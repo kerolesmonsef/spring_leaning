@@ -9,6 +9,7 @@ import com.fasterxml.jackson.annotation.JsonView;
 import lombok.Data;
 import lombok.Setter;
 import lombok.ToString;
+import lombok.experimental.Accessors;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
@@ -19,6 +20,7 @@ import java.util.Date;
 @Entity
 @Table(name = "products")
 @Data
+@Accessors(chain = true)
 public class Product {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -43,18 +45,18 @@ public class Product {
 
     private int quantity;
 
-    @CreatedDate
-    private Date created_at;
-
-    @LastModifiedDate
-    private Date updated_at;
-
     @Column(columnDefinition = "DECIMAL(4,2)")
     private float discount_percentage;
 
     @Convert(converter = IJsonConverter.class)
     @Column(columnDefinition = "json")
     private FilesList images;
+
+    @CreatedDate
+    private Date created_at;
+
+    @LastModifiedDate
+    private Date updated_at;
 
     public FilesList getImages() {
         String base_path = ServletUriComponentsBuilder.fromCurrentContextPath().build().toUriString();

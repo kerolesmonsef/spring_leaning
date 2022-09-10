@@ -1,0 +1,140 @@
+<!doctype html>
+<html
+        xmlns:th="http://www.w3.org/1999/xhtml"
+        xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+        layout:decorate="~{admin/layouts/master.html}"
+        th:with="title = ${product.id} ? 'Edit product ' + ${product.id} : 'Create product'"
+>
+
+<head>
+    <title th:text="${title}"></title>
+</head>
+
+<body th:with="action = ${product.id} ? '/admin/products/' + ${product.id} : '/admin/products/' , method = ${product.id} ? 'put' : 'post'">
+<div layout:fragment="content">
+    <div class="card">
+        <div class="card-header">
+            <th:block th:replace="admin/products/components/product_tabs :: tab(active = 'create')"></th:block>
+        </div>
+        <div class="card-body">
+            <form th:action="${action}" th:object="${productRequest}" method="post" class="row"
+                  enctype="multipart/form-data">
+                <input type="hidden" name="_method" th:value="${method}"/>
+
+                <div th:replace="includes/input :: input(grid=6,name='title',value=*{title} ?: ${product.title})"></div>
+
+                <div th:replace="includes/input :: input(grid=6,name='buyPrice',value=*{buyPrice} ?: ${product.buyPrice} ,type='number')"></div>
+
+                <div th:replace="includes/input :: input(grid=6,name='price',value=*{price} ?: ${product.price} ,type='number')"></div>
+
+                <div th:replace="includes/input :: input(grid=6,multiple=true,name='images[]',label='Images',errorName='images',type='file')"></div>
+
+                <div layout:replace="~{includes/input(label='Description',errorName='description')}">
+                    <th:block layout:fragment="other">
+                        <textarea class="form-control border-0" name="description" rows="1"
+                                  th:value="*{description} ?: ${product.description}"></textarea>
+                    </th:block>
+                </div>
+
+                <div layout:replace="~{includes/input(label='Category',errorName='category')}">
+                    <th:block layout:fragment="other">
+                        <select name="category" class="border-0 form-control">
+                            <option th:text="${category_i.name}" th:each="category_i : ${categories}"
+                                    th:value="${category_i.id}"
+                                    th:selected="${category_i.id} == (*{category?.id} ?: ${product.category?.id})">
+
+                            </option>
+                        </select>
+                    </th:block>
+                </div>
+
+                <div th:replace="includes/input :: input(grid=6,name='quantity',value=*{quantity} ?: ${product.quantity} ,type='number')"></div>
+
+                <div th:replace="includes/input :: input(grid=6,name='discount_percentage',value=*{discount_percentage} ?: ${product.discount_percentage} ,type='number')"></div>
+
+                <div layout:replace="~{includes/input(label='Option Values',errorName='optionValues',grid='12')}">
+                    <th:block layout:fragment="other">
+                        <table class="table table-responsive-sm table-striped">
+                            <thead>
+                            <tr>
+                                <th class="col-md-4">Option</th>
+                                <th class="col-md-4">Value</th>
+                                <th>Action
+                                    <button type="button" class="btn btn-success add-new-option-button">
+                                      New Option  <i class="far fa-plus"></i>
+                                    </button>
+                                </th>
+                            </tr>
+                            </thead>
+                            <tbody class="value-options-tbody">
+
+
+                            </tbody>
+                        </table>
+                    </th:block>
+                </div>
+
+
+                <!--                <input type="hidden" value="test" name="optionValues[0].value">-->
+                <!--                <input type="hidden" value="test" name="optionValues[0].optionName">-->
+
+                <!--                <input type="hidden" value="meo" name="optionValues[].value">-->
+                <!--                <input type="hidden" value="meo" name="optionValues[].optionName">-->
+                <!--                <input type="hidden" value="test" name="optionValues[1]">&ndash;&gt;-->
+                <!--                <input type="hidden" value="testOptionName" name="optionValues[0][optionName]">&ndash;&gt;-->
+
+                <div class="col-md-12">
+                    <button class="btn btn-sm btn-success" type="submit">
+                        Submit <i class="far fa-check"></i>
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+</body>
+<div layout:fragment="scripts">
+    <script th:inline="javascript">
+
+
+        let options = /*[[${productRequest.optionValues}]]*/ [];
+        options = options ?? [];
+
+        const optionValueTr = ({optionName = '', value = ''} = {}) => {
+            return `
+                <tr>
+                    <td><input value="${optionName}" class="form-control optionName" placeholder="Color , Material , Size" name="optionValues[0].optionName"></td>
+                    <td><input value="${value}" class="form-control optionValue" placeholder="Red , Rubber , Large" name="optionValues[0].value"></td>
+                    <td><button class="btn btn-danger btn-sm remove-option-value" type="button"><i class="far fa-trash"></i></button></td>
+                </tr>
+            `;
+        };
+
+
+        $('.add-new-option-button').click(function () {
+            $('.value-options-tbody').append(optionValueTr());
+            rearrangeTrs();
+        });
+
+        $(document).on('click', '.remove-option-value', function () {
+            $(this).parents("tr").remove();
+            rearrangeTrs();
+        });
+
+
+        const rearrangeTrs = () => {
+            $('.value-options-tbody').children("tr").each(function (index, el) {
+                $(this).find('.optionName').attr("name", `optionValues[${index}].optionName`);
+                $(this).find('.optionValue').attr("name", `optionValues[${index}].value`);
+            })
+        };
+
+        options.forEach((object) => {
+            $('.value-options-tbody').append(optionValueTr(object));
+            rearrangeTrs();
+        });
+
+    </script>
+</div>
+
+</html>
