@@ -64,7 +64,6 @@ public class AdminProductController {
     }
 
     @PostMapping("/")
-    @ResponseBody
     public ModelAndView store(@Valid AdminProductRequest request, BindingResult result, RedirectAttributes attributes) {
 
         if (result.hasErrors()) {
@@ -80,5 +79,10 @@ public class AdminProductController {
 
         return redirectBack(servletRequest);
     }
+
+//    @PutMapping("/{product}")
+//    public ModelAndView update(@Valid AdminProductRequest request, BindingResult result, RedirectAttributes attributes) {
+//
+//    }
 
 }

@@ -14,6 +14,7 @@ import com.example.qgame.repositories.ProductRepository;
 import com.example.qgame.requests.admin.AdminProductRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
@@ -36,7 +37,7 @@ public class ProductService {
         return paginationMaker.makeFromJpaRepository(productRepository, "/admin/products");
     }
 
-
+    @Transactional
     public Product store(AdminProductRequest request) {
         Product product = request.toProduct();
 
@@ -78,19 +79,33 @@ public class ProductService {
     }
 
     public void syncOptionValue(Product product, AdminProductRequest request) {
-        List<OptionValueDTO> optionValues = request.getOptionValues();
+        List<OptionValueDTO> optionValueDTOS = request.getOptionValues();
 
-        if (optionValues != null) {
-            List<String> optionTitles = optionValues.stream().map(OptionValueDTO::getOptionName).toList();
+        if (optionValueDTOS != null) {
+            List<String> optionTitles = optionValueDTOS.stream().map(OptionValueDTO::getOptionName).toList();
             List<Option> options = optionService.findOrCreate(optionTitles);
-            optionValues.stream().forEach((o) -> {
+            optionValueDTOS.forEach((o) -> {
                 Option option = options.stream().filter((ol) -> ol.getTitle().equals(o.getOptionName())).toList().get(0);
                 o.setOption(option);
             });
         }
 
-        if (product != null) {
-            productOptionValueRepository.deleteByProduct(product);
+        // delete old product option values
+        if (product.getId() != null) {
+            productOptionValueRepository.deleteByProduct(product.getId());
         }
+
+        // insert new option values
+        if (optionValueDTOS != null){
+            List<ProductOptionValue> productOptionValues = optionValueDTOS.stream().map((optionValueDTO)->{
+                return new ProductOptionValue()
+                        .setOption(optionValueDTO.getOption())
+                        .setValue(optionValueDTO.getValue())
+                        .setProduct(product);
+            }).toList();
+
+            productOptionValueRepository.saveAll(productOptionValues);
+        }
+
     }
 }

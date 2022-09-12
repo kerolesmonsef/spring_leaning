@@ -63,6 +63,9 @@ public class Product {
     }
 
     public FilesList getImages() {
+        if (this.images == null) {
+            return new FilesList();
+        }
         String base_path = ServletUriComponentsBuilder.fromCurrentContextPath().build().toUriString();
         this.images.setPrefix(base_path + "/images/products/");
         return this.images;

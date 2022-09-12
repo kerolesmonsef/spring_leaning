@@ -56,6 +56,7 @@ public class AdminProductRequest {
 
     public Product toProduct(){
         return new Product()
+                .setTitle(title)
                 .setPrice(price)
                 .setBuyPrice(buyPrice)
                 .setQuantity(quantity)
