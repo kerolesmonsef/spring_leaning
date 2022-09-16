@@ -2,6 +2,7 @@ package com.example.qgame.helpers;
 
 import com.example.qgame.QGameApplication;
 import com.example.qgame.requests.admin.AdminCreateUpdateBlogRequest;
+import org.hibernate.query.criteria.internal.compile.CriteriaQueryTypeQueryAdapter;
 import org.springframework.context.ApplicationContext;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -9,6 +10,7 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import javax.persistence.Query;
 import javax.servlet.http.HttpServletRequest;
 import java.text.Normalizer;
 import java.util.Arrays;
@@ -75,9 +77,18 @@ public class Helper {
         }
     }
 
-    public static ModelAndView redirectBack(HttpServletRequest request){
+    public static ModelAndView redirectBack(HttpServletRequest request) {
         String backUrl = request.getHeader("Referer");
 
         return new ModelAndView("redirect:" + backUrl);
+    }
+
+    public static String getQueryString(Query query) {
+        try {
+            return ((CriteriaQueryTypeQueryAdapter) query).getQueryString();
+        } catch (Exception e) {
+
+        }
+        return null;
     }
 }

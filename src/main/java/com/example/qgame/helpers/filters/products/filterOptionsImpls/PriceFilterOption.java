@@ -1,34 +1,40 @@
 package com.example.qgame.helpers.filters.products.filterOptionsImpls;
 
 import com.example.qgame.helpers.filters.products.IFilterOption;
-import lombok.Getter;
-import lombok.Setter;
 import org.springframework.stereotype.Component;
-import org.springframework.stereotype.Service;
 
 import javax.persistence.criteria.Predicate;
-import java.util.List;
 import java.util.Map;
 
 @Component
-public class CategoryFilterOption extends IFilterOption {
-    private List<Long> categoriesIds;
+public class PriceFilterOption extends IFilterOption {
 
+    private Double from;
+    private Double to;
+
+    public PriceFilterOption(){
+
+    }
+
+    public PriceFilterOption(Double from,Double to){
+        this.from = from;
+        this.to = to;
+    }
 
     @Override
     public String getName() {
-        return "category";// + (categoriesIds.get(0));
+        return "price";
     }
 
     @Override
     public Predicate getPredicate() {
-        return root.get("category").get("id").in(this.categoriesIds);
+        return cb.between(root.get("price"), from, to);
     }
 
     @Override
     public IFilterOption init(Map<String, Object> property) {
-        this.categoriesIds = (List<Long>) property.get("categoriesIds");
-
+        this.from = Double.parseDouble(property.get("from").toString());
+        this.to = Double.parseDouble(property.get("to").toString());
         return this;
     }
 
@@ -36,7 +42,8 @@ public class CategoryFilterOption extends IFilterOption {
     public Map<String, Object> toResource() {
         return Map.ofEntries(
                 Map.entry("name", getName()),
-                Map.entry("categoriesIds", categoriesIds)
+                Map.entry("from", from),
+                Map.entry("to", to)
         );
     }
 }

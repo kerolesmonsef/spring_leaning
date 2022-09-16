@@ -41,8 +41,8 @@ public class FilterBuilder {
 
 
     public CriteriaQuery<Object> build() {
-//        this.filters.forEach((getPredict) -> {
-//            getPredict.setCb(cb).execute();
+//        this.filters.forEach((getPredicate) -> {
+//            getPredicate.setCb(cb).execute();
 //        });
 
         if (filters.size() == 0) {

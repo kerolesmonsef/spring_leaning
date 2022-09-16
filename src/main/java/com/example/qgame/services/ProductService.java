@@ -5,6 +5,7 @@ import com.example.qgame.Models.Product;
 import com.example.qgame.Models.ProductOptionValue;
 import com.example.qgame.helpers.dto.OptionValueDTO;
 import com.example.qgame.helpers.entityembadable.FilesList;
+import com.example.qgame.helpers.filters.products.*;
 import com.example.qgame.helpers.paginations.Pagination;
 import com.example.qgame.helpers.paginations.PaginationMaker;
 import com.example.qgame.helpers.services.files.AssetFileManager;
@@ -17,12 +18,22 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+import javax.servlet.http.HttpServletRequest;
 import java.util.List;
+import java.util.Map;
 
 @Service
 public class ProductService {
+    @PersistenceContext
+    private EntityManager entityManager;
+
     @Autowired
     private ProductRepository productRepository;
+
+    @Autowired
+    private HttpServletRequest servletRequest;
 
     @Autowired
     private ProductOptionValueRepository productOptionValueRepository;
@@ -32,6 +43,9 @@ public class ProductService {
 
     @Autowired
     PaginationMaker<Product> paginationMaker;
+
+    @Autowired
+    FilterQueryBuilder filterQueryBuilder;
 
     public Pagination<Product> getPageable() {
         return paginationMaker.makeFromJpaRepository(productRepository, "/admin/products");
@@ -96,8 +110,8 @@ public class ProductService {
         }
 
         // insert new option values
-        if (optionValueDTOS != null){
-            List<ProductOptionValue> productOptionValues = optionValueDTOS.stream().map((optionValueDTO)->{
+        if (optionValueDTOS != null) {
+            List<ProductOptionValue> productOptionValues = optionValueDTOS.stream().map((optionValueDTO) -> {
                 return new ProductOptionValue()
                         .setOption(optionValueDTO.getOption())
                         .setValue(optionValueDTO.getValue())
@@ -106,6 +120,18 @@ public class ProductService {
 
             productOptionValueRepository.saveAll(productOptionValues);
         }
+    }
 
+    @Transactional
+    public Object filter(List<Map<String, Object>> properties) {
+        FilterOptionCollection optionCollection = new FilterOptionCollection(properties);
+        FilterQueryBuilderResult productFilterResult = filterQueryBuilder.buildProductQuery(optionCollection);
+
+        FilterOptionFilter filterOptionFilter = new FilterOptionFilter(productFilterResult);
+
+        return filterOptionFilter.getOptions().stream().map(IFilterOption::toResource).toList();
+
+
+//        return entityManager.createQuery(productFilterResult.getCriteria()).getResultList();
     }
 }
