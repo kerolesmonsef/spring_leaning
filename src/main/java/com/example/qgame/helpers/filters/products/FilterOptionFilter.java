@@ -4,7 +4,9 @@ import com.example.qgame.Models.Category;
 import com.example.qgame.Models.Product;
 import com.example.qgame.QGameApplication;
 import com.example.qgame.helpers.filters.products.filterOptionsImpls.PriceFilterOption;
+import com.example.qgame.helpers.filters.products.results.CategoryIdResult;
 import com.example.qgame.helpers.filters.products.results.MinMaxResult;
+import com.example.qgame.repositories.CategoryRepository;
 import org.hibernate.query.Query;
 
 import javax.persistence.EntityManager;
@@ -31,30 +33,39 @@ public class FilterOptionFilter {
 
 
     public List<Map<String, Object>> getOptions() {
-        return Arrays.asList(getCategoriesId());
+        return Arrays.asList(
+                getCategoriesId()
+        );
     }
 
     //--------------------------------------------------------
     private Map<String, Object> getCategoriesId() {
 
-        CriteriaQuery<Category> categoryCriteriaQuery = cb.createQuery(Category.class);
-        Root<Category> cat = categoryCriteriaQuery.from(Category.class);
+        List<CategoryIdResult> categoriesIds;
 
-        Subquery<Integer> subquery = categoryCriteriaQuery.subquery(Integer.class);
-        Root product = subquery.from(Product.class);
-
-//        CriteriaQuery subquery = filterQueryBuilderResult.getCriteria();
-//        Root<Product> product = filterQueryBuilderResult.getProductRoot();
-
-        subquery.select(product.get("id")).where(cb.equal(product.get("title"),"shit"));
-
-        categoryCriteriaQuery.select(cat).where(cb.in(cat.get("id")).value(subquery));
-
-        TypedQuery<Category> q = em.createQuery(categoryCriteriaQuery);
-        List<Category> categories = q.getResultList();
-        System.out.println(categories);
+        if (filterQueryBuilderResult.getFilterOptionCollection().hasType("category")){
+           categoriesIds =  QGameApplication.getContext().getBean(CategoryRepository.class).getIdAndName();
+        }else{
+            categoriesIds = getCategoriesFilterIds();
+        }
 
 
-        return null;
+        return Map.ofEntries(
+                Map.entry("name", "category"),
+                Map.entry("categoriesIds", categoriesIds)
+        );
+    }
+
+    private List<CategoryIdResult> getCategoriesFilterIds(){
+        CriteriaQuery<Product> productCriteriaQuery = cb.createQuery(Product.class);
+        Root<Product> productRoot = productCriteriaQuery.from(Product.class);
+        productRoot.join("category");
+
+        productCriteriaQuery.select(productRoot.get("category"))
+                .where(filterQueryBuilderResult.getPredicate()).groupBy(productRoot.get("category_id"));
+
+        TypedQuery<Category> typedQuery = entityManager.createQuery(productCriteriaQuery).unwrap(Query.class);
+
+        return typedQuery.getResultList().stream().map(c -> new CategoryIdResult(c.getId(), c.getName())).toList();
     }
 }

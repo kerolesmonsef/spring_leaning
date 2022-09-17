@@ -32,7 +32,7 @@
                 <div layout:replace="~{includes/input(label='Description',errorName='description')}">
                     <th:block layout:fragment="other">
                         <textarea class="form-control border-0" name="description" rows="1"
-                                  th:value="*{description} ?: ${product.description}"></textarea>
+                                  th:text="*{description} ?: ${product.description}"></textarea>
                     </th:block>
                 </div>
 
@@ -74,14 +74,6 @@
                     </th:block>
                 </div>
 
-
-                <!--                <input type="hidden" value="test" name="optionValues[0].value">-->
-                <!--                <input type="hidden" value="test" name="optionValues[0].optionName">-->
-
-                <!--                <input type="hidden" value="meo" name="optionValues[].value">-->
-                <!--                <input type="hidden" value="meo" name="optionValues[].optionName">-->
-                <!--                <input type="hidden" value="test" name="optionValues[1]">&ndash;&gt;-->
-                <!--                <input type="hidden" value="testOptionName" name="optionValues[0][optionName]">&ndash;&gt;-->
 
                 <div class="col-md-12">
                     <button class="btn btn-sm btn-success" type="submit">

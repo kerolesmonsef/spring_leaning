@@ -13,12 +13,14 @@ public class FilterQueryBuilderResult<T> {
     private Predicate predicate;
     private CriteriaQuery criteria;
     private Root<T> productRoot;
+    private FilterOptionCollection filterOptionCollection;
 
-    FilterQueryBuilderResult(Query query, Predicate predicate, CriteriaQuery criteria,Root<T> productRoot){
+    FilterQueryBuilderResult(Query query, Predicate predicate, CriteriaQuery criteria,Root<T> productRoot,FilterOptionCollection FilterOptionCollection){
         this.query = query;
         this.predicate = predicate;
         this.criteria = criteria;
         this.productRoot = productRoot;
+        filterOptionCollection = FilterOptionCollection;
     }
 
 

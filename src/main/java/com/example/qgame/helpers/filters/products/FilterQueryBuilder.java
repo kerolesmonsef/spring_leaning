@@ -19,7 +19,7 @@ public class FilterQueryBuilder {
 
     public FilterQueryBuilderResult buildProductQuery(FilterOptionCollection optionCollection) {
 
-        CriteriaQuery<Object> criteria = entityManager.getCriteriaBuilder().createQuery(Object.class);
+        CriteriaQuery<Product> criteria = entityManager.getCriteriaBuilder().createQuery(Product.class);
         CriteriaBuilder cb = entityManager.getCriteriaBuilder();
         Root<Product> productRoot = criteria.from(Product.class);
         criteria.select(productRoot);
@@ -30,7 +30,7 @@ public class FilterQueryBuilder {
 
         Query query = entityManager.createQuery(criteria);
 
-        return new FilterQueryBuilderResult(query, predicate, criteria, productRoot);
+        return new FilterQueryBuilderResult(query, predicate, criteria, productRoot, optionCollection);
     }
 
 

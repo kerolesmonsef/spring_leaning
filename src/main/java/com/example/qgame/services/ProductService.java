@@ -13,6 +13,7 @@ import com.example.qgame.helpers.services.files.FileInfo;
 import com.example.qgame.repositories.ProductOptionValueRepository;
 import com.example.qgame.repositories.ProductRepository;
 import com.example.qgame.requests.admin.AdminProductRequest;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -61,10 +62,24 @@ public class ProductService {
         return productRepository.save(product);
     }
 
+    @Transactional
     public Product update(Product product, AdminProductRequest request) {
 
         syncImages(product, request.getImages());
         syncOptionValue(product, request);
+
+
+        product
+                .setDescription(request.getDescription())
+                .setTitle(request.getTitle())
+                .setQuantity(request.getQuantity())
+                .setCategory(request.getCategory())
+                .setSlug(request.getSlug())
+                .setBuyPrice(request.getBuyPrice())
+                .setPrice(request.getPrice())
+                .setDiscount_percentage(request.getDiscount_percentage());
+
+
 
         return productRepository.save(product);
     }

@@ -1,6 +1,7 @@
 package com.example.qgame.controllers.admin;
 
 import com.example.qgame.Models.Category;
+import com.example.qgame.QGameApplication;
 import com.example.qgame.helpers.Helper;
 import com.example.qgame.helpers.paginations.IPageWrapper;
 import com.example.qgame.helpers.paginations.Pagination;
@@ -58,6 +59,14 @@ public class AdminProductController {
 
         appendToModelIfNotExist("productRequest", AdminProductRequest.class, model);
 
+
+        if (!model.containsAttribute("productRequest")) {
+            AdminProductRequest productRequest = new AdminProductRequest();
+//            productRequest.setOptionValues();
+
+            model.addAttribute("productRequest", productRequest);
+        }
+
         return new ModelAndView("/admin/products/add_edit_product")
                 .addObject("product", product)
                 .addObject("categories", categoryRepository.findAll());
@@ -80,9 +89,21 @@ public class AdminProductController {
         return redirectBack(servletRequest);
     }
 
-//    @PutMapping("/{product}")
-//    public ModelAndView update(@Valid AdminProductRequest request, BindingResult result, RedirectAttributes attributes) {
-//
-//    }
+    @PutMapping("/{product}")
+    public ModelAndView update(@PathVariable Product product, @Valid AdminProductRequest request, BindingResult result, RedirectAttributes attributes) {
+
+        if (result.hasErrors()) {
+
+            Helper.appendFlashAttribute("productRequest", request, attributes, result);
+
+            return redirectBack(servletRequest);
+        }
+
+        service.update(product, request);
+
+        attributes.addFlashAttribute("alertSuccess", "Product Updated Successfully");
+
+        return redirectBack(servletRequest);
+    }
 
 }

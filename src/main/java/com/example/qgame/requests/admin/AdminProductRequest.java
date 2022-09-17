@@ -31,20 +31,20 @@ public class AdminProductRequest {
     private Category category;
 
     @NotEmpty
-    private String description;
+    private String description = null;
 
     private String slug;
 
     @NotNull
     @Min(value = 1)
-    private float buyPrice;
+    private Float buyPrice;
 
     @Min(value = 1)
-    private float price;
+    private Float price;
 
     @Min(value = 0)
     @Max(value = 99)
-    private float discount_percentage;
+    private Float discount_percentage;
 
     @Min(value = 0)
     private int quantity;
