@@ -129,7 +129,7 @@ public class ProductService {
 
         FilterOptionFilter filterOptionFilter = new FilterOptionFilter(productFilterResult);
 
-        return filterOptionFilter.getOptions().stream().map(IFilterOption::toResource).toList();
+        return filterOptionFilter.getOptions();
 
 
 //        return entityManager.createQuery(productFilterResult.getCriteria()).getResultList();

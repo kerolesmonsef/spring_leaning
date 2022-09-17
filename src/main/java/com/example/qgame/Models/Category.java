@@ -27,7 +27,6 @@ import java.util.List;
 public class Category {
     @Id
     @GeneratedValue(strategy = GenerationType.TABLE, generator = "hibernate_sequences")
-//    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String name;
     private String image;
@@ -41,6 +40,7 @@ public class Category {
     @LastModifiedDate
     private Date updated_at;
 
+    @JsonIgnore
     @OneToMany(mappedBy = "category")
     private List<Product> products;
 

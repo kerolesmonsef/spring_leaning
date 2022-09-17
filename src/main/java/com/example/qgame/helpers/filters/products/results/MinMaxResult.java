@@ -4,10 +4,10 @@ import lombok.Getter;
 
 @Getter
 public class MinMaxResult {
-    private final Double min;
-    private final Double max;
+    private final Float min;
+    private final Float max;
 
-    public MinMaxResult(Double min, Double max){
+    public MinMaxResult(Float min, Float max){
         this.min = min;
         this.max = max;
     }

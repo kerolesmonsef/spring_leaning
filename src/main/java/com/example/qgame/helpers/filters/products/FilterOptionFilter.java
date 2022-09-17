@@ -1,57 +1,60 @@
 package com.example.qgame.helpers.filters.products;
 
+import com.example.qgame.Models.Category;
+import com.example.qgame.Models.Product;
 import com.example.qgame.QGameApplication;
 import com.example.qgame.helpers.filters.products.filterOptionsImpls.PriceFilterOption;
 import com.example.qgame.helpers.filters.products.results.MinMaxResult;
-import org.hibernate.Session;
-import org.hibernate.transform.AliasToBeanConstructorResultTransformer;
-import org.hibernate.transform.AliasToBeanResultTransformer;
-import org.hibernate.transform.AliasToEntityMapResultTransformer;
+import org.hibernate.query.Query;
 
 import javax.persistence.EntityManager;
-import javax.persistence.Query;
-import javax.persistence.criteria.CriteriaBuilder;
-import javax.persistence.criteria.CriteriaQuery;
-import javax.persistence.criteria.Root;
+import javax.persistence.TypedQuery;
+import javax.persistence.criteria.*;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
 public class FilterOptionFilter {
 
-    private FilterQueryBuilderResult filterQueryBuilderResult;
+    private FilterQueryBuilderResult<Product> filterQueryBuilderResult;
     private EntityManager entityManager;
+    private EntityManager em;
     private CriteriaBuilder cb;
     private Root<Object> productRoot;
 
     public FilterOptionFilter(FilterQueryBuilderResult filterQueryBuilderResult) {
         this.filterQueryBuilderResult = filterQueryBuilderResult;
-        this.entityManager = QGameApplication.getContext().getBean(EntityManager.class);
+        this.entityManager = em = QGameApplication.getContext().getBean(EntityManager.class);
         this.cb = entityManager.getCriteriaBuilder();
         this.productRoot = filterQueryBuilderResult.getProductRoot();
     }
 
 
-    public List<IFilterOption> getOptions() {
-        return Arrays.asList(getPriceFilterOption());
+    public List<Map<String, Object>> getOptions() {
+        return Arrays.asList(getCategoriesId());
     }
 
     //--------------------------------------------------------
-    private IFilterOption getPriceFilterOption() {
+    private Map<String, Object> getCategoriesId() {
 
-        CriteriaQuery<Object> criteria = filterQueryBuilderResult.getCriteria();
+        CriteriaQuery<Category> categoryCriteriaQuery = cb.createQuery(Category.class);
+        Root<Category> cat = categoryCriteriaQuery.from(Category.class);
 
-        criteria.select(
-                cb.construct(MinMaxResult.class,
-                        cb.<Double>min(productRoot.<Double>get("price")),
-                        cb.<Double>max(productRoot.<Double>get("price"))
-                )
-        );
+        Subquery<Integer> subquery = categoryCriteriaQuery.subquery(Integer.class);
+        Root product = subquery.from(Product.class);
 
-        Query query = entityManager.createQuery(criteria);
+//        CriteriaQuery subquery = filterQueryBuilderResult.getCriteria();
+//        Root<Product> product = filterQueryBuilderResult.getProductRoot();
 
-        MinMaxResult result = (MinMaxResult) query.getSingleResult();
+        subquery.select(product.get("id")).where(cb.equal(product.get("title"),"shit"));
 
-        return new PriceFilterOption((double) result.getMin(), (double) result.getMax());
+        categoryCriteriaQuery.select(cat).where(cb.in(cat.get("id")).value(subquery));
+
+        TypedQuery<Category> q = em.createQuery(categoryCriteriaQuery);
+        List<Category> categories = q.getResultList();
+        System.out.println(categories);
+
+
+        return null;
     }
 }
