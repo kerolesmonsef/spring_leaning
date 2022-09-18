@@ -1,4 +1,4 @@
-package com.example.qgame.helpers.filters.products.results;
+package com.example.qgame.helpers.dto;
 
 import lombok.Getter;
 

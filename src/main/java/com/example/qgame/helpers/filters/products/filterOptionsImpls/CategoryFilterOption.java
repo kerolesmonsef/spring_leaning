@@ -22,7 +22,7 @@ public class CategoryFilterOption extends IFilterOption {
 
     @Override
     public Predicate getPredicate() {
-        return root.get("category_id").in(this.categoriesIds);
+        return root.get("category").get("id").in(this.categoriesIds);
     }
 
     @Override

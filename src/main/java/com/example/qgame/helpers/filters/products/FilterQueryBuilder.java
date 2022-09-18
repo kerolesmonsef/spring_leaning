@@ -8,6 +8,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 import javax.persistence.criteria.*;
+import java.util.List;
 
 
 @Service
@@ -29,6 +30,8 @@ public class FilterQueryBuilder {
         criteria.where(predicate);
 
         Query query = entityManager.createQuery(criteria);
+
+//        List<Product> products = query.getResultList();
 
         return new FilterQueryBuilderResult(query, predicate, criteria, productRoot, optionCollection);
     }

@@ -58,8 +58,8 @@ public class Product {
     @LastModifiedDate
     private Date updated_at;
 
-    @Column(updatable = false,insertable = false)
-    private Long category_id;
+//    @Column(updatable = false,insertable = false)
+//    private Long category_id;
 
     public FilesList getNativeImages() {
         return this.images;

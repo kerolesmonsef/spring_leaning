@@ -1,18 +1,21 @@
 package com.example.qgame.helpers.filters.products;
 
 import com.example.qgame.Models.Category;
+import com.example.qgame.Models.Option;
 import com.example.qgame.Models.Product;
+import com.example.qgame.Models.ProductOptionValue;
 import com.example.qgame.QGameApplication;
-import com.example.qgame.helpers.filters.products.filterOptionsImpls.PriceFilterOption;
-import com.example.qgame.helpers.filters.products.results.CategoryIdResult;
-import com.example.qgame.helpers.filters.products.results.MinMaxResult;
+import com.example.qgame.helpers.dto.CategoryIdResult;
+import com.example.qgame.helpers.dto.OptionValueDTO;
 import com.example.qgame.repositories.CategoryRepository;
 import org.hibernate.query.Query;
 
 import javax.persistence.EntityManager;
+import javax.persistence.Tuple;
 import javax.persistence.TypedQuery;
 import javax.persistence.criteria.*;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
@@ -20,21 +23,19 @@ public class FilterOptionFilter {
 
     private FilterQueryBuilderResult<Product> filterQueryBuilderResult;
     private EntityManager entityManager;
-    private EntityManager em;
     private CriteriaBuilder cb;
-    private Root<Object> productRoot;
 
     public FilterOptionFilter(FilterQueryBuilderResult filterQueryBuilderResult) {
         this.filterQueryBuilderResult = filterQueryBuilderResult;
-        this.entityManager = em = QGameApplication.getContext().getBean(EntityManager.class);
+        this.entityManager = QGameApplication.getContext().getBean(EntityManager.class);
         this.cb = entityManager.getCriteriaBuilder();
-        this.productRoot = filterQueryBuilderResult.getProductRoot();
     }
 
 
     public List<Map<String, Object>> getOptions() {
-        return Arrays.asList(
-                getCategoriesId()
+        return Collections.singletonList(
+//                getCategoriesId()
+                getOptionValues()
         );
     }
 
@@ -43,9 +44,9 @@ public class FilterOptionFilter {
 
         List<CategoryIdResult> categoriesIds;
 
-        if (filterQueryBuilderResult.getFilterOptionCollection().hasType("category")){
-           categoriesIds =  QGameApplication.getContext().getBean(CategoryRepository.class).getIdAndName();
-        }else{
+        if (filterQueryBuilderResult.getFilterOptionCollection().hasType("category")) {
+            categoriesIds = QGameApplication.getContext().getBean(CategoryRepository.class).getIdAndName();
+        } else {
             categoriesIds = getCategoriesFilterIds();
         }
 
@@ -56,7 +57,31 @@ public class FilterOptionFilter {
         );
     }
 
-    private List<CategoryIdResult> getCategoriesFilterIds(){
+    private Map<String, Object> getOptionValues() {
+        CriteriaQuery<Tuple> productCriteriaQuery = cb.createQuery(Tuple.class);
+        Root<Product> pr = productCriteriaQuery.from(Product.class);
+        Root<ProductOptionValue> povr = productCriteriaQuery.from(ProductOptionValue.class);
+        Root<Option> or = productCriteriaQuery.from(Option.class);
+
+        productCriteriaQuery.multiselect(pr.get("id").alias("idd"), or.get("title").alias("title"), povr.get("value").alias("value"))
+                .where(
+                        cb.and(
+                                cb.and(filterQueryBuilderResult.getPredicate(), cb.equal(pr.get("id"), povr.get("product").get("id")))
+                                ,
+                                cb.equal(or.get("id"), povr.get("option").get("id"))
+                        )
+                );
+
+        TypedQuery<Tuple> typedQuery = entityManager.createQuery(productCriteriaQuery).unwrap(Query.class);
+
+        List<OptionValueDTO> products = typedQuery.getResultList().stream().map(t -> new OptionValueDTO(t.get("title").toString(), t.get("value").toString())).toList();
+
+        System.out.println(products);
+
+        return null;
+    }
+
+    private List<CategoryIdResult> getCategoriesFilterIds() {
         CriteriaQuery<Product> productCriteriaQuery = cb.createQuery(Product.class);
         Root<Product> productRoot = productCriteriaQuery.from(Product.class);
         productRoot.join("category");

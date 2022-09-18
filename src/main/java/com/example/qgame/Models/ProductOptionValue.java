@@ -2,6 +2,7 @@ package com.example.qgame.Models;
 
 import lombok.Data;
 import lombok.experimental.Accessors;
+import lombok.extern.java.Log;
 
 import javax.persistence.*;
 
@@ -20,4 +21,7 @@ public class ProductOptionValue {
     private Option option;
 
     private String value;
+
+//    @Column(updatable = false,insertable = false)
+//    private Long option_id;
 }
