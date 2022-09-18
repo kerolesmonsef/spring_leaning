@@ -7,17 +7,16 @@ import com.example.qgame.Models.ProductOptionValue;
 import com.example.qgame.QGameApplication;
 import com.example.qgame.helpers.dto.CategoryIdResult;
 import com.example.qgame.helpers.dto.OptionValueDTO;
+import com.example.qgame.helpers.dto.OptionValuesDto;
 import com.example.qgame.repositories.CategoryRepository;
+import org.apache.groovy.util.Maps;
 import org.hibernate.query.Query;
 
 import javax.persistence.EntityManager;
 import javax.persistence.Tuple;
 import javax.persistence.TypedQuery;
 import javax.persistence.criteria.*;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class FilterOptionFilter {
 
@@ -70,15 +69,27 @@ public class FilterOptionFilter {
                                 ,
                                 cb.equal(or.get("id"), povr.get("option").get("id"))
                         )
-                );
+                ); // group by here
 
         TypedQuery<Tuple> typedQuery = entityManager.createQuery(productCriteriaQuery).unwrap(Query.class);
 
-        List<OptionValueDTO> products = typedQuery.getResultList().stream().map(t -> new OptionValueDTO(t.get("title").toString(), t.get("value").toString())).toList();
+        List<OptionValueDTO> optionValueDTOS = typedQuery.getResultList().stream().map(t -> new OptionValueDTO(t.get("title").toString(), t.get("value").toString())).toList();
 
-        System.out.println(products);
+        Map<String, List<String>> optionListValues = new HashMap<>();
 
-        return null;
+        optionValueDTOS.forEach((ov) -> {
+
+            if (optionListValues.containsKey(ov.getOptionName())) {
+                optionListValues.put(ov.getOptionName(),Arrays.asList(ov.getValue())).add(ov.getValue());
+            } else {
+                optionListValues.put(ov.getOptionName(), Arrays.asList(ov.getValue()));
+            }
+        });
+
+        return Map.ofEntries(
+                Map.entry("name", "option"),
+                Map.entry("values", optionListValues)
+        );
     }
 
     private List<CategoryIdResult> getCategoriesFilterIds() {

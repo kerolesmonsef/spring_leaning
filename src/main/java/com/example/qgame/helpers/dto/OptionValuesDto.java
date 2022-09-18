@@ -9,5 +9,6 @@ import java.util.List;
 @AllArgsConstructor
 public class OptionValuesDto {
     private final String optionName;
+    private final Long optionId;
     private final List<String> values;
 }
