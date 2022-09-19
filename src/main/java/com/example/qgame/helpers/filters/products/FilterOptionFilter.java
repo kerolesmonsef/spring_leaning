@@ -32,11 +32,16 @@ public class FilterOptionFilter {
 
 
     public List<Map<String, Object>> getOptions() {
-        return Collections.singletonList(
-//                getCategoriesId()
-                getOptionValues()
-        );
 
+        List<Map<String, Object>> options = new ArrayList<>(){{
+            add(getCategoriesId());
+
+        }};
+
+
+        options.addAll(getOptionValues());
+
+        return options;
     }
 
     //--------------------------------------------------------
@@ -57,40 +62,43 @@ public class FilterOptionFilter {
         );
     }
 
-    private Map<String, Object> getOptionValues() {
+    private List<Map<String, Object>> getOptionValues() {
         CriteriaQuery<Tuple> productCriteriaQuery = cb.createQuery(Tuple.class);
-        Root<Product> pr = productCriteriaQuery.from(Product.class);
-        Root<ProductOptionValue> povr = productCriteriaQuery.from(ProductOptionValue.class);
-        Root<Option> or = productCriteriaQuery.from(Option.class);
+        Root<Product> p = productCriteriaQuery.from(Product.class);
+        Root<ProductOptionValue> pov = productCriteriaQuery.from(ProductOptionValue.class);
+        Root<Option> o = productCriteriaQuery.from(Option.class);
 
-        productCriteriaQuery.multiselect(pr.get("id").alias("idd"), or.get("title").alias("title"), povr.get("value").alias("value"))
+        productCriteriaQuery.multiselect(p.get("id").alias("idd"), o.get("title").alias("title"), pov.get("value").alias("value"))
                 .where(
                         cb.and(
-                                cb.and(filterQueryBuilderResult.getPredicate(), cb.equal(pr.get("id"), povr.get("product").get("id")))
+                                cb.and(filterQueryBuilderResult.getPredicate(), cb.equal(p.get("id"), pov.get("product").get("id")))
                                 ,
-                                cb.equal(or.get("id"), povr.get("option").get("id"))
+                                cb.equal(o.get("id"), pov.get("option").get("id"))
                         )
-                ); // group by here
+                ).groupBy(o.get("title"), pov.get("value"), p.get("id")); // group by here
 
         TypedQuery<Tuple> typedQuery = entityManager.createQuery(productCriteriaQuery).unwrap(Query.class);
 
         List<OptionValueDTO> optionValueDTOS = typedQuery.getResultList().stream().map(t -> new OptionValueDTO(t.get("title").toString(), t.get("value").toString())).toList();
 
-        Map<String, List<String>> optionListValues = new HashMap<>();
+        List<OptionValuesDto> optionListValues = new ArrayList<>();
 
         optionValueDTOS.forEach((ov) -> {
 
-            if (optionListValues.containsKey(ov.getOptionName())) {
-                optionListValues.put(ov.getOptionName(),Arrays.asList(ov.getValue())).add(ov.getValue());
+            OptionValuesDto existsOptionValuesDto = optionListValues.stream().filter(ovs -> ovs.getOptionName().equals(ov.getOptionName())).findFirst().orElse(null);
+
+            if (existsOptionValuesDto != null) {
+                existsOptionValuesDto.getValues().add(ov.getValue());
             } else {
-                optionListValues.put(ov.getOptionName(), Arrays.asList(ov.getValue()));
+                optionListValues.add(new OptionValuesDto(ov.getOptionName(), new ArrayList<String>(Collections.singletonList(ov.getValue()))));
             }
         });
 
-        return Map.ofEntries(
-                Map.entry("name", "option"),
-                Map.entry("values", optionListValues)
-        );
+
+        return optionListValues.stream().map(ovs -> Map.ofEntries(
+                Map.entry("name", ovs.getOptionName()),
+                Map.entry("values", ovs.getValues())
+        )).toList();
     }
 
     private List<CategoryIdResult> getCategoriesFilterIds() {
@@ -99,7 +107,7 @@ public class FilterOptionFilter {
         productRoot.join("category");
 
         productCriteriaQuery.select(productRoot.get("category"))
-                .where(filterQueryBuilderResult.getPredicate()).groupBy(productRoot.get("category_id"));
+                .where(filterQueryBuilderResult.getPredicate()).groupBy(productRoot.get("category").get("id"));
 
         TypedQuery<Category> typedQuery = entityManager.createQuery(productCriteriaQuery).unwrap(Query.class);
 
