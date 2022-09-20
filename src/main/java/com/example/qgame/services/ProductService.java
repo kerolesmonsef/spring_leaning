@@ -3,6 +3,7 @@ package com.example.qgame.services;
 import com.example.qgame.Models.Option;
 import com.example.qgame.Models.Product;
 import com.example.qgame.Models.ProductOptionValue;
+import com.example.qgame.helpers.Response;
 import com.example.qgame.helpers.dto.OptionValueDTO;
 import com.example.qgame.helpers.entityembadable.FilesList;
 import com.example.qgame.helpers.filters.products.*;
@@ -13,8 +14,8 @@ import com.example.qgame.helpers.services.files.FileInfo;
 import com.example.qgame.repositories.ProductOptionValueRepository;
 import com.example.qgame.repositories.ProductRepository;
 import com.example.qgame.requests.admin.AdminProductRequest;
-import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
@@ -138,13 +139,18 @@ public class ProductService {
     }
 
     @Transactional
-    public Object filter(List<Map<String, Object>> properties) {
+    public ResponseEntity<Map<String, Object>> filter(List<Map<String, Object>> properties) {
         FilterOptionCollection optionCollection = new FilterOptionCollection(properties);
         FilterQueryBuilderResult productFilterResult = filterQueryBuilder.buildProductQuery(optionCollection);
 
         FilterOptionFilter filterOptionFilter = new FilterOptionFilter(productFilterResult);
 
-        return filterOptionFilter.getOptions();
+//        Pagination<Product> productPagination = paginationMaker.makeFromQuery(productFilterResult.getCriteria());
+
+
+        return new Response()
+                .add("options",filterOptionFilter.getOptions())
+                .responseEntity();
 
 
 //        return entityManager.createQuery(productFilterResult.getCriteria()).getResultList();

@@ -1,5 +1,6 @@
 package com.example.qgame.helpers.paginations;
 
+import org.hibernate.query.Query;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -8,6 +9,9 @@ import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Component;
 
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+import javax.persistence.criteria.CriteriaQuery;
 import javax.servlet.http.HttpServletRequest;
 import java.util.Optional;
 
@@ -16,6 +20,10 @@ public class PaginationMaker<T> {
 
     @Autowired
     HttpServletRequest servletRequest;
+
+    @PersistenceContext
+    private EntityManager entityManager;
+
 
     public <ID> Pagination<T> makeFromJpaRepository(JpaRepository<T, ID> jpaRepository, String url) {
 
@@ -31,4 +39,17 @@ public class PaginationMaker<T> {
         return new Pagination<T>(page, url);
     }
 
+
+    public Pagination<T> makeFromQuery(CriteriaQuery<T> query) {
+        final int MAX_SIZE = 12;
+        String pageString = Optional.ofNullable(servletRequest.getParameter("page")).orElse("0");
+        int pageNumber = Integer.parseInt(pageString);
+
+
+        Query hQuery = entityManager.createQuery(query).unwrap(Query.class);
+        hQuery.setFirstResult(pageNumber * MAX_SIZE);
+        hQuery.setMaxResults(MAX_SIZE);
+
+        return null;
+    }
 }

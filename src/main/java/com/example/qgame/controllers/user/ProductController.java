@@ -23,8 +23,9 @@ public class ProductController {
     @Autowired
     private ProductService productService;
 
+    @GetMapping("/shop")
     public ModelAndView index() {
-        return new ModelAndView("/product/index.html");
+        return new ModelAndView("/products/products.html");
     }
 
     @ResponseBody
