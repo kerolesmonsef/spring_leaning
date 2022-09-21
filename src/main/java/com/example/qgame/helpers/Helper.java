@@ -25,7 +25,7 @@ public class Helper {
     private static final Pattern WHITESPACE = Pattern.compile("[\\s]");
 
     public static String limit(String text, int limit) {
-        if (text.length() > limit) {
+        if (text!= null && text.length() > limit) {
             return text.substring(0, limit) + " ...";
         }
         return text;
@@ -45,6 +45,7 @@ public class Helper {
 
 
     public static String slug(String input) {
+
         String nowhitespace = WHITESPACE.matcher(input).replaceAll("-");
         String normalized = Normalizer.normalize(nowhitespace, Normalizer.Form.NFD);
         String slug = NONLATIN.matcher(normalized).replaceAll("");

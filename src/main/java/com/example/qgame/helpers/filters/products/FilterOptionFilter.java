@@ -33,13 +33,12 @@ public class FilterOptionFilter {
 
     public List<Map<String, Object>> getOptions() {
 
-        List<Map<String, Object>> options = new ArrayList<>(){{
+        List<Map<String, Object>> options = new ArrayList<>() {{
             add(getCategoriesId());
-
         }};
 
-
         options.addAll(getOptionValues());
+        options.add(getPriceFromTo());
 
         return options;
     }
@@ -96,6 +95,7 @@ public class FilterOptionFilter {
 
 
         return optionListValues.stream().map(ovs -> Map.ofEntries(
+                Map.entry("type", "option"),
                 Map.entry("name", ovs.getOptionName()),
                 Map.entry("values", ovs.getValues())
         )).toList();
@@ -112,5 +112,13 @@ public class FilterOptionFilter {
         TypedQuery<Category> typedQuery = entityManager.createQuery(productCriteriaQuery).unwrap(Query.class);
 
         return typedQuery.getResultList().stream().map(c -> new CategoryIdResult(c.getId(), c.getName())).toList();
+    }
+
+    private Map<String, Object> getPriceFromTo() {
+        return Map.ofEntries(
+                Map.entry("name", "price"),
+                Map.entry("from", 0),
+                Map.entry("to", 999)
+        );
     }
 }
