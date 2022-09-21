@@ -57,6 +57,7 @@ public class FilterOptionFilter {
 
         return Map.ofEntries(
                 Map.entry("name", "category"),
+                Map.entry("type", "category"),
                 Map.entry("categoriesIds", categoriesIds)
         );
     }
@@ -116,9 +117,10 @@ public class FilterOptionFilter {
 
     private Map<String, Object> getPriceFromTo() {
         return Map.ofEntries(
+                Map.entry("type", "price"),
                 Map.entry("name", "price"),
-                Map.entry("from", 0),
-                Map.entry("to", 999)
+                Map.entry("from", 100),
+                Map.entry("to", 800)
         );
     }
 }

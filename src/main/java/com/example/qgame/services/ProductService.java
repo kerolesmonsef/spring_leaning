@@ -81,7 +81,6 @@ public class ProductService {
                 .setDiscount_percentage(request.getDiscount_percentage());
 
 
-
         return productRepository.save(product);
     }
 
@@ -145,11 +144,12 @@ public class ProductService {
 
         FilterOptionFilter filterOptionFilter = new FilterOptionFilter(productFilterResult);
 
-//        Pagination<Product> productPagination = paginationMaker.makeFromQuery(productFilterResult.getCriteria());
+        Pagination<Product> productPagination = paginationMaker.makeFromQueryBuilderResult(productFilterResult);
 
 
         return new Response()
-                .add("options",filterOptionFilter.getOptions())
+                .add("products", productPagination)
+                .add("options", filterOptionFilter.getOptions())
                 .responseEntity();
 
 

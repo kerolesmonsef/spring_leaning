@@ -35,7 +35,13 @@
         <div class="collection-wrapper">
             <div class="custom-container">
                 <div class="row">
-                    <th:block th:replace="products/filter_options :: options"></th:block>
+                    <div class="col-sm-3 collection-filter category-page-side">
+                        <div id="option-values-list"
+                             class="collection-filter-block creative-card creative-inner category-side">
+
+                        </div>
+
+                    </div>
                     <div class="collection-content col">
                         <div class="page-main-content">
                             <div class="row">
@@ -894,6 +900,82 @@
     <script>
         $(function () {
 
+            const optionValue = ({name, value, optionName, type}) => {
+                const id = "ov-" + Math.random();
+
+                return `<div class="custom-control custom-checkbox form-check collection-filter-checkbox">
+                            <input data-option-name="${optionName}" data-option-value="${value}" data-option-type="${type}" type="checkbox" class="custom-control-input form-check-input" id="${id}">
+                            <label class="custom-control-label form-check-label" for="${id}">${name}</label>
+                        </div>`;
+            };
+
+            const optionFilterDev = ({values = [{/****/}], optionName, type}) => {
+
+                const optionsValues = values.map(v => optionValue({...v, optionName, type})).join("");
+
+                return `<div class="collection-collapse-block open">
+                            <h3 class="collapse-block-title">${optionName}</h3>
+                            <div class="collection-collapse-block-content">
+                                <div class="collection-brand-filter">
+                                    ${optionsValues}
+                                </div>
+                            </div>
+                        </div>`;
+            };
+
+            const refreshOptions = (options) => {
+                const categoryOption = options.find(o => o.name === "category");
+                const categoriesValues = categoryOption.categoriesIds.map(c => {
+                    c.value = c.id;
+                    delete c.id;
+                    return c;
+                });
+                $("#option-values-list").children().remove();
+                $("#option-values-list").append(optionFilterDev({
+                    values: categoriesValues,
+                    optionName: "category",
+                    type: "category"
+                }));
+
+                //    --------------------------------- options
+                options.filter(o => o.type === "option").map(o => {
+                    o.values = o.values.map(v => ({
+                        value: v,
+                        name: v,
+                    }));
+                    return o;
+                }).forEach(o => {
+                    $("#option-values-list").append(optionFilterDev({
+                        values: o.values,
+                        optionName: o.name,
+                        type: "option",
+                    }))
+                });
+
+                // -------------- price
+                const priceOption = options.find(o => o.name === "price");
+
+                $("#option-values-list").append(`
+                    <div class="collection-collapse-block border-0 open">
+                            <h3 class="collapse-block-title">price</h3>
+                            <div class="collection-collapse-block-content">
+                                <div class="filter-slide">
+                                    <input class="js-range-slider" type="text" name="my_range" value=""
+                                           data-type="double">
+                                </div>
+                            </div>
+                        </div>`);
+
+                $(".js-range-slider").ionRangeSlider({
+                    type: "double",
+                    grid: true,
+                    min: 0,
+                    max: 1000,
+                    from: priceOption.from,
+                    to: priceOption.to,
+                    prefix: "$"
+                });
+            };
 
             const reGetData = () => {
                 $.ajax({
@@ -907,11 +989,11 @@
                         "properties": []
                     }),
                 }).done(function (response) {
-                    console.log(response);
+                    refreshOptions(response.options);
                 });
-            }
+            };
 
-
+            reGetData();
         });
     </script>
 </th:block>

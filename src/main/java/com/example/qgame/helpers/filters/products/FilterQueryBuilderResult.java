@@ -22,6 +22,4 @@ public class FilterQueryBuilderResult<T> {
         this.productRoot = productRoot;
         filterOptionCollection = FilterOptionCollection;
     }
-
-
 }
