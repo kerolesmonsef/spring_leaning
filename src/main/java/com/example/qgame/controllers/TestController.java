@@ -16,7 +16,9 @@ import com.example.qgame.helpers.filters.FilterBuilder;
 import com.example.qgame.helpers.filters.impls.TestWhere;
 import com.example.qgame.helpers.filters.impls.Where;
 import com.example.qgame.helpers.filters.impls.WhereLike;
+import com.example.qgame.repositories.ProductRepository;
 import org.hibernate.Session;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -42,6 +44,10 @@ public class TestController {
     @PersistenceContext
     private EntityManager entityManager;
 
+    @Autowired
+    ProductRepository repository;
+
+
     @GetMapping("/index")
     public String index() {
         return "index";
@@ -52,52 +58,9 @@ public class TestController {
     @Transactional
     @ResponseBody
     public Object test() {
+return repository.findById(1L);
 
-
-//        Test test = entityManager.find(Test.class,4L);
-//return test;
-//        Test test = new Test();
-//        ITestInter inter = new TestFile("name");
-//        test.setImages(inter);
-//        entityManager.persist(test);
-//        return test;
-//        return "/task/list.html";
-//        HttpServletRequest request;
-//
-//
-        CriteriaQuery<Object> criteria = entityManager.getCriteriaBuilder().createQuery(Object.class);
-        CriteriaBuilder cb = entityManager.getCriteriaBuilder();
-        Root<Product> p = criteria.from(Product.class);
-        criteria.select(p);
-//                .where(
-//                cb.and(
-//                        cb.equal(p.get("price"),23),
-//                        cb.or(
-//                              cb.gt(p.get("price"),33),
-//                              cb.gt(p.get("price"),33)
-//                        )
-//                )
-//        );
-//
-//
-        Query query = new FilterBuilder(criteria, entityManager)
-                .addFilter(new WhereLike(p.get("title"), "%entat%", true))
-                .addFilter(new Where(p.get("price"), "23", true))
-                .addFilter(new Where(p.get("price"), OperationType.GREATER_THAN, "23", true))
-                .addFilter(new Where(p.get("price"), "23", true))
-                .addFilter(new Where(p.get("price"), "23", true))
-                .addFilter(new Where(p.get("price"), "23", true))
-                .addFilter(new TestWhere(true).setR(p))
-                .buildQuery();
-//
-//
-        List<Product> items = query.getResultList();
-//
-        return items;
-
-
-//        return ServletUriComponentsBuilder.fromCurrentContextPath().build().toUriString();
-    }
+   }
 
     @ResponseBody
     @GetMapping("/seed")

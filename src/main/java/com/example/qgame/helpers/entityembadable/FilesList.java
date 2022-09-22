@@ -1,6 +1,8 @@
 package com.example.qgame.helpers.entityembadable;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -24,6 +26,7 @@ public class FilesList {
         return null;
     }
 
+    @JsonIgnore
     public List<String> getNativeFiles() {
         return this.files;
     }

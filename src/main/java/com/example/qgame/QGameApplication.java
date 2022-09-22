@@ -1,5 +1,6 @@
 package com.example.qgame;
 
+import com.example.qgame.Models.Product;
 import com.example.qgame.helpers.database.seeders.impls.BlogSeeder;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
@@ -27,6 +28,7 @@ public class QGameApplication implements CommandLineRunner {
 
     @Override
     public void run(String... args) throws Exception {
+
 //        new BlogSeeder().seed();
 //        System.out.println(ServletUriComponentsBuilder.fromCurrentContextPath().build().toUriString());
 //        System.out.println("aaaa");
