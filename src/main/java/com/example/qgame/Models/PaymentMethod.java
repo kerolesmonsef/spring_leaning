@@ -21,6 +21,8 @@ public class PaymentMethod {
 
     private String display_name;
 
+    private String className;
+
     private String logo;
 
     @Column(columnDefinition = "ENUM('yes','no')")
