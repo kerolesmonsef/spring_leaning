@@ -28,8 +28,8 @@ public class PaymentMethod {
     @Column(columnDefinition = "ENUM('yes','no')")
     private YesNo accept_refund;
 
-    @Column(columnDefinition = "enum('active','inactive')")
-    private ActiveStatus status;
+//    @Column(columnDefinition = "enum('active','inactive')")
+//    private ActiveStatus status;
 
     private String comment;
 

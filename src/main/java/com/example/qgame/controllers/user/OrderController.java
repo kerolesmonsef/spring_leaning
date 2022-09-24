@@ -33,6 +33,8 @@ public class OrderController extends IController {
     @PostMapping("/create")
     public ResponseEntity store(@Valid @RequestBody CreateOrderRequest request, BindingResult bindingResult) {
 
+        System.out.println(request);
+
         User user = userRepository.first();
 
         return orderService.clientCreateOrder(request, bindingResult, user);
