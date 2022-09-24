@@ -2,25 +2,22 @@ package com.example.qgame.thirdparties.payments.paymentclasses.paymentresponses;
 
 import com.example.qgame.Models.Payment;
 import com.example.qgame.thirdparties.payments.paymentclasses.IPaymentGateway;
+import lombok.Data;
 import lombok.Getter;
+import lombok.experimental.Accessors;
 
 
 import java.util.List;
 import java.util.Map;
 
-@Getter
+@Data
+@Accessors(chain = true)
 abstract public class IPaymentResponse {
-    private final boolean isSuccess;
+    private boolean isSuccess;
     private String referenceCode;
     private List<String> errors;
     private String apiResponse;
-
-    public IPaymentResponse(boolean isSuccess, String apiResponse,String referenceCode, List<String> errors) {
-        this.isSuccess = isSuccess;
-        this.referenceCode = referenceCode;
-        this.errors = errors;
-        this.apiResponse = apiResponse;
-    }
+    private String url;
 
 
     protected abstract Map<String, Object> innerToArray();

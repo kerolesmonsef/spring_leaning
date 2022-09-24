@@ -1,14 +1,17 @@
 package com.example.qgame.Models;
 
 import lombok.Data;
+import lombok.experimental.Accessors;
 
 import javax.persistence.*;
 
 @Entity
 @Data
 @Table(name = "order_details")
+@Accessors(chain = true)
 public class OrderDetail {
     @Id
+    @GeneratedValue(strategy = GenerationType.TABLE, generator = "hibernate_sequences")
     private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)
@@ -19,9 +22,11 @@ public class OrderDetail {
 
     private Integer quantity;
 
-    private double price_each;
+    @Column(name = "price_each")
+    private double priceEach;
 
-    private short discount_percentage;
+    @Column(name = "discountPercentage")
+    private float discountPercentage;
 
     @Column(columnDefinition = "JSON")
     private String properties; // color - size  - ...

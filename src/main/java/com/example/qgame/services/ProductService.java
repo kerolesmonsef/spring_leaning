@@ -78,7 +78,7 @@ public class ProductService {
                 .setSlug(request.getSlug())
                 .setBuyPrice(request.getBuyPrice())
                 .setPrice(request.getPrice())
-                .setDiscount_percentage(request.getDiscount_percentage());
+                .setDiscountPercentage(request.getDiscount_percentage());
 
 
         return productRepository.save(product);

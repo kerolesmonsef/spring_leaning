@@ -4,19 +4,19 @@ import com.example.qgame.helpers.enums.ActiveStatus;
 import com.example.qgame.helpers.enums.YesNo;
 import lombok.Data;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
+import javax.validation.constraints.NotNull;
+import java.util.Objects;
 
 @Entity
 @Table(name = "payment_methods")
 @Data
 public class PaymentMethod {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(unique = true)
+    @Column(unique = true,nullable = false)
     private String name;
 
     private String display_name;
@@ -33,4 +33,8 @@ public class PaymentMethod {
 
     private String comment;
 
+
+    public boolean isOnline(){
+        return !Objects.equals(name, "cache");
+    }
 }

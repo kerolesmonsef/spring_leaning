@@ -50,7 +50,7 @@
 
                 <div th:replace="includes/input :: input(grid=6,name='quantity',value=*{quantity} ?: ${product.quantity} ,type='number')"></div>
 
-                <div th:replace="includes/input :: input(grid=6,name='discount_percentage',value=*{discount_percentage} ?: ${product.discount_percentage} ,type='number')"></div>
+                <div th:replace="includes/input :: input(grid=6,name='discount_percentage',value=*{discount_percentage} ?: ${product.discountPercentage} ,type='number')"></div>
 
                 <div layout:replace="~{includes/input(label='Option Values',errorName='optionValues',grid='12')}">
                     <th:block layout:fragment="other">

@@ -4,6 +4,7 @@ import com.example.qgame.Models.Payment;
 import com.example.qgame.Models.PaymentMethod;
 import com.example.qgame.Models.User;
 import com.example.qgame.QGameApplication;
+import com.example.qgame.repositories.PaymentMethodRepository;
 import com.example.qgame.repositories.PaymentRepository;
 import com.example.qgame.thirdparties.payments.paymentclasses.paymentresponses.IPaymentResponse;
 import com.example.qgame.thirdparties.payments.paymentservices.IPaymentService;
@@ -11,34 +12,30 @@ import lombok.Getter;
 
 @Getter
 abstract public class IPaymentGateway {
-    private IPaymentService paymentService;
-    private User user;
-    private PaymentMethod paymentMethod;
+    protected IPaymentService paymentService;
+    protected User user;
+    protected PaymentMethod paymentMethod;
 
-    public IPaymentGateway(IPaymentService paymentService, User user, PaymentMethod paymentMethod) {
+    public IPaymentGateway(IPaymentService paymentService, User user) {
         this.paymentService = paymentService;
         this.user = user;
-        this.paymentMethod = paymentMethod;
+        this.paymentMethod = QGameApplication.getContext().getBean(PaymentMethodRepository.class).findByName(getName());
     }
 
-    public final IPaymentResponse gatewayResponse() {
+    public final IPaymentResponse gatewayResponse() throws Exception {
         Payment payment = paymentService.createPayment();
         PaymentRepository paymentRepository = QGameApplication.getContext().getBean(PaymentRepository.class);
 
         IPaymentResponse response = innerGatewayResponse(payment);
 
-
-//        $payment_update_array = [
-//                'payment_url' => $response->url(),
-//                'reference_code' => $response->getReferenceCode(),
-//                'third_party_response' => is_string($response->apiResponse()) ? $response->apiResponse() : json_encode($response->apiResponse()),
-//        ];
+        payment
+                .setPaymentUrl(response.getUrl())
+                .setReferenceCode(response.getReferenceCode())
+                .setThirdPartyResponse(response.getApiResponse());
 
         if (this instanceof ICreditPaymentGateway && response.isSuccess()) {
             payment.setSuccess(true);
-//        $out = get_class($this->paymentService)::handle($payment);
-//        $payment_update_array['status'] = "success";
-//        $response->setExtraOut($out);
+            // handle payment now
         }
 
         paymentRepository.save(payment);
@@ -47,7 +44,7 @@ abstract public class IPaymentGateway {
     }
 
 
-    protected abstract IPaymentResponse innerGatewayResponse(Payment payment);
+    protected abstract IPaymentResponse innerGatewayResponse(Payment payment) throws Exception;
 
-    public abstract String getName();
+    public abstract String getName(); // database name
 }

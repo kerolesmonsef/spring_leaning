@@ -2,21 +2,27 @@ package com.example.qgame.thirdparties.payments.paymentservices.services;
 
 import com.example.qgame.Models.Payment;
 import com.example.qgame.Models.PaymentMethod;
+import com.example.qgame.Models.Product;
 import com.example.qgame.Models.User;
 import com.example.qgame.QGameApplication;
+import com.example.qgame.helpers.dto.OrderItemDto;
+import com.example.qgame.helpers.order.OrderDescriptor;
 import com.example.qgame.repositories.PaymentRepository;
 import com.example.qgame.thirdparties.payments.paymentclasses.paymentinfo.PaymentInfo;
 import com.example.qgame.thirdparties.payments.paymentclasses.paymentinfo.PaymentInfoItem;
 import com.example.qgame.thirdparties.payments.paymentservices.IPaymentService;
 
 import java.util.Map;
+import java.util.UUID;
 
 public class PayOrderPaymentService extends IPaymentService {
     private final User user;
+    private final OrderDescriptor orderDescriptor;
 
-    public PayOrderPaymentService(PaymentMethod paymentMethod, User user) {
+    public PayOrderPaymentService(PaymentMethod paymentMethod, User user, OrderDescriptor orderDescriptor) {
         super(paymentMethod);
         this.user = user;
+        this.orderDescriptor = orderDescriptor;
     }
 
     @Override
@@ -34,21 +40,24 @@ public class PayOrderPaymentService extends IPaymentService {
 
         PaymentInfo paymentInfo = new PaymentInfo(Map.ofEntries(
                 Map.entry("user_id", user.getId()),
-                Map.entry("total", 12f),
-                Map.entry("taxes", 12f)
+                Map.entry("total", orderDescriptor.productsPriceAfterDiscount()),
+                Map.entry("taxes", orderDescriptor.getTaxes())
         ));
 
+        for (OrderItemDto orderItem : orderDescriptor.getOrderItems()) {
+            Product product = orderItem.getProduct();
+            paymentInfo.addItem(
+                    new PaymentInfoItem()
+                            .setDescription(product.getDescription())
+                            .setImageUrl(product.firstImageUrl())
+                            .setName(product.getTitle())
+                            .setPrice(orderItem.price())
+                            .setProductId(product.getId().toString())
+                            .setQuantity(orderItem.getQuantity())
+                            .setTotalPrice(orderItem.price()) // productsPriceAfterDiscount * quantity
+            );
+        }
 
-        paymentInfo.addItem(
-                new PaymentInfoItem()
-                .setDescription("new product")
-                .setImageUrl("no url")
-                .setName("product")
-                .setPrice(12)
-                .setProductId("$#F")
-                .setQuantity(3)
-                .setTotalPrice(12*3)
-        );
 
         return paymentInfo;
     }
@@ -60,6 +69,7 @@ public class PayOrderPaymentService extends IPaymentService {
         PaymentInfo paymentInfo = getPaymentInfo();
 
         payment
+                .setCode(UUID.randomUUID().toString())
                 .setUser(user)
                 .setInformation(paymentInfo)
                 .setPaymentService(getName())

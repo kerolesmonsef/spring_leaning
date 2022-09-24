@@ -2,6 +2,7 @@ package com.example.qgame.Models;
 
 import com.example.qgame.helpers.enums.OrderStatus;
 import lombok.Data;
+import lombok.experimental.Accessors;
 import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.Fetch;
 import org.springframework.data.annotation.CreatedDate;
@@ -14,6 +15,7 @@ import java.util.List;
 @Entity
 @Data
 @Table(name = "orders")
+@Accessors(chain = true)
 public class Order {
     @Id
     private Long id;
@@ -33,15 +35,19 @@ public class Order {
     @OneToMany(mappedBy = "order")
     private List<OrderDetail> detail;
 
-    private double products_price;
+    @Column(name = "productsPrice")
+    private double productsPrice;
 
-    private double products_price_after_discount;
+    @Column(name = "productsPriceAfterDiscount")
+    private double productsPriceAfterDiscount;
 
-    private double total_price;
+    @Column(name = "totalPrice")
+    private double totalPrice;
 
     @ColumnDefault("0")
     private double taxes;
 
+    @ColumnDefault("init")
     private OrderStatus status;
 
     private Date delivered_at;

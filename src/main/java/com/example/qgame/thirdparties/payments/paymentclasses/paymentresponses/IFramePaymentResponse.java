@@ -7,12 +7,8 @@ import java.util.Map;
 
 public class IFramePaymentResponse extends IPaymentResponse {
 
-    private final String url;
+    private String url;
 
-    public IFramePaymentResponse(boolean isSuccess, String apiResponse, String referenceCode, List<String> errors, String url) {
-        super(isSuccess, apiResponse, referenceCode, errors);
-        this.url = url;
-    }
 
     @Override
     protected Map<String, Object> innerToArray() {

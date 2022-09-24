@@ -21,6 +21,10 @@ public class Payment {
 
     private String referenceCode;
 
+    private String code;
+
+    private String thirdPartyResponse;
+
     @ManyToOne()
     private User user;
 

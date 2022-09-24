@@ -4,10 +4,7 @@ import com.example.qgame.helpers.Helper;
 import com.example.qgame.helpers.converters.IJsonConverter;
 import com.example.qgame.helpers.entityembadable.FilesList;
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
-import com.fasterxml.jackson.annotation.JsonView;
 import lombok.Data;
-import lombok.Setter;
 import lombok.ToString;
 import lombok.experimental.Accessors;
 import org.springframework.data.annotation.CreatedDate;
@@ -45,8 +42,8 @@ public class Product {
 
     private int quantity;
 
-    @Column(columnDefinition = "DECIMAL(4,2)")
-    private float discount_percentage;
+    @Column(name = "discountPercentage",columnDefinition = "DECIMAL(4,2)")
+    private float discountPercentage;
 
     @Convert(converter = IJsonConverter.class)
     @Column(columnDefinition = "json")
@@ -83,8 +80,8 @@ public class Product {
     }
 
     public float priceAfterDiscount(Boolean round) {
-        float priceAfter = price - (discount_percentage / 100) * price;
-        return round ? Math.round(price - (discount_percentage / 100) * price) : priceAfter;
+        float priceAfter = price - (discountPercentage / 100) * price;
+        return round ? Math.round(price - (discountPercentage / 100) * price) : priceAfter;
     }
 
     public String getSmallTitle() {

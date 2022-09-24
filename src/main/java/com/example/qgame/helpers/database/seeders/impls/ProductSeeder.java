@@ -10,7 +10,6 @@ import com.example.qgame.repositories.ProductRepository;
 import com.github.javafaker.Faker;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 import java.util.Random;
 
@@ -31,7 +30,7 @@ public class ProductSeeder extends ISeeder<Product> {
             product.setTitle(faker.name().title());
             product.setDescription(faker.lorem().paragraph(20));
             product.setCategory(categories.get(random.nextInt(categories.size())));
-            product.setDiscount_percentage(random.nextFloat(100f));
+            product.setDiscountPercentage(random.nextFloat(100f));
             product.setSlug(faker.internet().slug() + "-" + random.nextInt(99999));
             product.setImages(new FilesList().add(random.nextInt(MAX_IMAGE) + ".jpg").add(random.nextInt(MAX_IMAGE) + ".jpg"));
             product.setQuantity(random.nextInt(50));

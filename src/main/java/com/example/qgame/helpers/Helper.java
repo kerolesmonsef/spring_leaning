@@ -25,7 +25,7 @@ public class Helper {
     private static final Pattern WHITESPACE = Pattern.compile("[\\s]");
 
     public static String limit(String text, int limit) {
-        if (text!= null && text.length() > limit) {
+        if (text != null && text.length() > limit) {
             return text.substring(0, limit) + " ...";
         }
         return text;
@@ -40,7 +40,10 @@ public class Helper {
 
     public static String base_url() {
         return ServletUriComponentsBuilder.fromCurrentContextPath().build().toUriString();
+    }
 
+    public static String base_url(String url) {
+        return base_url() + "/" + url;
     }
 
 

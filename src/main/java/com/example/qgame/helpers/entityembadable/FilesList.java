@@ -23,7 +23,7 @@ public class FilesList {
         if (index >= 0 && index < files.size()) {
             return prefixUrl + files.get(index);
         }
-        return null;
+        return "";
     }
 
     @JsonIgnore
