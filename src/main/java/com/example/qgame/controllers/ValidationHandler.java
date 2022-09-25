@@ -1,5 +1,6 @@
 package com.example.qgame.controllers;
 
+import com.example.qgame.helpers.Response;
 import org.springframework.core.annotation.Order;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -37,11 +38,13 @@ public class ValidationHandler extends ResponseEntityExceptionHandler {
         });
 
 
-        return new ResponseEntity(Map.ofEntries(
-                Map.entry("errors",errors),
-                Map.entry("timestamp",new Date()),
-                Map.entry("message",ex.getMessage())
-        ), HttpStatus.BAD_REQUEST);
+        return new Response()
+                .add("errors",errors)
+                .add("timestamp",new Date())
+                .add("message",ex.getMessage())
+                .setFail()
+                .responseEntity();
+
     }
 
     @Override

@@ -35,7 +35,7 @@ public class Response {
         return this;
     }
 
-    public ResponseEntity<Map<String, Object> > responseEntity() {
+    public ResponseEntity responseEntity() {
         if (data.get("status") == "success") {
             return ResponseEntity.ok(data);
         }

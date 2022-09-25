@@ -7,6 +7,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 
 @Data
@@ -20,6 +21,7 @@ public class OrderItemDto {
     @Exists(entity = "Product", column = "id")
     private Long product_id;
 
+    @Min(1)
     @NotNull
     private Integer quantity;
 
