@@ -1,11 +1,8 @@
 package com.example.qgame.controllers.user;
 
-import com.example.qgame.Models.Order;
-import com.example.qgame.Models.User;
 import com.example.qgame.controllers.IController;
 import com.example.qgame.repositories.UserRepository;
 import com.example.qgame.requests.CreateOrderRequest;
-import com.example.qgame.services.OrderCreator;
 import com.example.qgame.services.OrderService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -31,12 +28,14 @@ public class OrderController extends IController {
 
     @ResponseBody
     @PostMapping("/create")
-    public ResponseEntity store(@Valid @RequestBody CreateOrderRequest request, BindingResult bindingResult) {
+    public ResponseEntity store(@Valid @RequestBody CreateOrderRequest request) {
 
         System.out.println(request);
 
-        User user = userRepository.first();
+//        User user = userRepository.first();
 
-        return orderService.clientCreateOrder(request, bindingResult, user);
+        return null;
+
+//        return orderService.clientCreateOrder(request, bindingResult, user);
     }
 }

@@ -26,7 +26,6 @@ public class ExistsValidator implements ConstraintValidator<Exists, Object> {
     public void initialize(Exists exists) {
         entity = exists.entity();
         column = exists.column();
-
     }
 
     @Override
@@ -40,6 +39,13 @@ public class ExistsValidator implements ConstraintValidator<Exists, Object> {
         String sql = "SELECT COUNT(e) > 0  FROM %s e WHERE e.%s = '%s'".formatted(entity, column, stringValue);
         TypedQuery<Boolean> query = entityManager.createQuery(sql).unwrap(Query.class);
 
+        changeMessage(context, "the value '%s' is not found in %s".formatted(stringValue,entity));
+
         return query.getSingleResult();
+    }
+
+    private void changeMessage(ConstraintValidatorContext context, String message) {
+        context.disableDefaultConstraintViolation();
+        context.buildConstraintViolationWithTemplate(message).addConstraintViolation();
     }
 }

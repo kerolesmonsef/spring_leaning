@@ -1,6 +1,7 @@
 package com.example.qgame.helpers.dto;
 
 import com.example.qgame.Models.Product;
+import com.example.qgame.validations.Exists;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -16,10 +17,11 @@ public class OrderItemDto {
     private Product product;
 
     @NotNull
+    @Exists(entity = "Product", column = "id")
     private Long product_id;
 
     @NotNull
-    private int quantity;
+    private Integer quantity;
 
     public float price() {
         return product.priceAfterDiscount() * quantity;
