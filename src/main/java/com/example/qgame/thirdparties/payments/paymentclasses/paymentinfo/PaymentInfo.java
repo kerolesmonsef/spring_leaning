@@ -16,7 +16,7 @@ public class PaymentInfo {
     private Map<String, Object> data;
 
     @Getter
-    private List<PaymentInfoItem> items;
+    private final List<PaymentInfoItem> items = new ArrayList<>();
 
     public PaymentInfo(Map<String, Object> data) {
         this.data = data;

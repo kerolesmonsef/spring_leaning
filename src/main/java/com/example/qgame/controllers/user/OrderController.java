@@ -29,7 +29,7 @@ public class OrderController extends IController {
 
     @ResponseBody
     @PostMapping("/create")
-    public ResponseEntity store(@Valid @RequestBody CreateOrderRequest request) {
+    public ResponseEntity store(@Valid @RequestBody CreateOrderRequest request) throws Exception {
 
         System.out.println(request);
 

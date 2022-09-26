@@ -8,13 +8,15 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonSetter;
 import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.Getter;
+import lombok.Setter;
 
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 
-@Data
-@AllArgsConstructor
+@Getter
+@Setter
+//@AllArgsConstructor
 public class OrderItemDto {
 
     @JsonIgnore
@@ -40,9 +42,9 @@ public class OrderItemDto {
         return this.product.getPrice();
     }
 
-    @JsonSetter("productId")
     public void setProductId(Long productId){
         this.productId = productId;
+        System.out.println("aya");
         this.product = QGameApplication.getContext().getBean(ProductRepository.class).findById(productId).orElse(null);
     }
 }

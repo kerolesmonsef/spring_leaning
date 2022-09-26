@@ -5,10 +5,13 @@ import com.example.qgame.Models.PaymentMethod;
 import com.example.qgame.Models.User;
 import com.example.qgame.thirdparties.payments.paymentclasses.IFramePaymentGateway;
 import com.example.qgame.thirdparties.payments.paymentclasses.paymentinfo.PaymentInfo;
+import com.example.qgame.thirdparties.payments.paymentclasses.paymentresponses.IFramePaymentResponse;
 import com.example.qgame.thirdparties.payments.paymentclasses.paymentresponses.IPaymentResponse;
 import com.example.qgame.thirdparties.payments.paymentclasses.paymentresponses.PaymentWebhookResponse;
 import com.example.qgame.thirdparties.payments.paymentservices.IPaymentService;
 import com.google.gson.Gson;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
@@ -25,6 +28,10 @@ abstract public class IOpayFramePaymentGateway extends IFramePaymentGateway {
     protected abstract String getPayMethod();
 
     protected abstract String getReturnUrl();
+
+    public IOpayFramePaymentGateway(){
+
+    }
 
     public IOpayFramePaymentGateway(IPaymentService paymentService, User user) {
         super(paymentService, user);
@@ -91,9 +98,12 @@ abstract public class IOpayFramePaymentGateway extends IFramePaymentGateway {
 
         System.out.println("--response:");
         System.out.println(response.toString());
+        JsonObject responseJsonObject = (new JsonParser()).parse(response.toString()).getAsJsonObject();
 
 
-        return null;
+        return new IFramePaymentResponse(Map.ofEntries(
+                Map.entry("isSuccess",responseJsonObject.get("message").getAsString() == "SUCCESSFUL")
+        ));
     }
 
     @Override

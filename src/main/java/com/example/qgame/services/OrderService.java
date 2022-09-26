@@ -1,12 +1,15 @@
 package com.example.qgame.services;
 
 import com.example.qgame.Models.Order;
+import com.example.qgame.Models.PaymentMethod;
 import com.example.qgame.Models.User;
 import com.example.qgame.helpers.Response;
 import com.example.qgame.helpers.StringHelper;
 import com.example.qgame.helpers.order.OrderDescriptor;
 import com.example.qgame.repositories.OrderRepository;
 import com.example.qgame.requests.CreateOrderRequest;
+import com.example.qgame.thirdparties.payments.paymentclasses.IPaymentGateway;
+import com.example.qgame.thirdparties.payments.paymentclasses.PaymentGatewayFactory;
 import com.example.qgame.thirdparties.payments.paymentservices.IPaymentService;
 import com.example.qgame.thirdparties.payments.paymentservices.services.PayOrderPaymentService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -45,10 +48,10 @@ public class OrderService {
     }
 
 
-    public ResponseEntity clientCreateOrder(CreateOrderRequest request, User user) {
+    public ResponseEntity clientCreateOrder(CreateOrderRequest request, User user) throws Exception {
 
         Response response = new Response();
-
+        PaymentMethod paymentMethod = request.getPaymentMethod();
 
         OrderCreator orderCreator = new OrderCreator(request, user)
                 .setOrderService(this);
@@ -57,13 +60,16 @@ public class OrderService {
 
         if (request.getPaymentMethod().isOnline()) {
 
-            IPaymentService service = new PayOrderPaymentService(
-                    request.getPaymentMethod(),
+            IPaymentService paymentService = new PayOrderPaymentService(
+                    paymentMethod,
                     user,
                     orderCreator.getOrderDescriptor()
             );
 
+            IPaymentGateway paymentGateway = PaymentGatewayFactory
+                    .create(paymentMethod,user,paymentService);
 
+            paymentGateway.gatewayResponse();
 
         } else { // cash on delivery
 
