@@ -8,8 +8,9 @@ import com.example.qgame.thirdparties.payments.paymentclasses.IPaymentGateway;
 import com.example.qgame.thirdparties.payments.paymentclasses.paymentresponses.IPaymentResponse;
 import com.example.qgame.thirdparties.payments.paymentclasses.paymentresponses.PaymentWebhookResponse;
 import com.example.qgame.thirdparties.payments.paymentservices.IPaymentService;
+import org.springframework.stereotype.Component;
 
-
+@Component(value = "opay-visa")
 public class OpayVisaMasterCard extends IOpayFramePaymentGateway {
 
     @Override

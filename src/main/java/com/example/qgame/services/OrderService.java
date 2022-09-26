@@ -45,18 +45,10 @@ public class OrderService {
     }
 
 
-    public ResponseEntity clientCreateOrder(CreateOrderRequest request, BindingResult bindingResult, User user) {
+    public ResponseEntity clientCreateOrder(CreateOrderRequest request, User user) {
 
         Response response = new Response();
 
-        // check for validation errors if exists
-
-        if (bindingResult.hasErrors()) {
-            return response
-                    .setFail()
-                    .add("error", bindingResult.getAllErrors())
-                    .responseEntity();
-        }
 
         OrderCreator orderCreator = new OrderCreator(request, user)
                 .setOrderService(this);

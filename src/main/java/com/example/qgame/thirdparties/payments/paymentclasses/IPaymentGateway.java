@@ -9,12 +9,22 @@ import com.example.qgame.repositories.PaymentRepository;
 import com.example.qgame.thirdparties.payments.paymentclasses.paymentresponses.IPaymentResponse;
 import com.example.qgame.thirdparties.payments.paymentservices.IPaymentService;
 import lombok.Getter;
+import lombok.Setter;
+import org.springframework.stereotype.Component;
 
 @Getter
+@Component
 abstract public class IPaymentGateway {
+    @Setter
     protected IPaymentService paymentService;
+    @Setter
     protected User user;
+
     protected PaymentMethod paymentMethod;
+
+    public IPaymentGateway(){
+
+    }
 
     public IPaymentGateway(IPaymentService paymentService, User user) {
         this.paymentService = paymentService;

@@ -25,8 +25,6 @@ public class PaymentMethod {
 
     private String logo;
 
-    @Column(columnDefinition = "ENUM('yes','no')")
-    private YesNo accept_refund;
 
 //    @Column(columnDefinition = "enum('active','inactive')")
 //    private ActiveStatus status;
