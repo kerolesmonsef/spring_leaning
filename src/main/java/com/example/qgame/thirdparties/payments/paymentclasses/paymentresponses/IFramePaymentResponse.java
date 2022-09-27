@@ -9,7 +9,7 @@ public class IFramePaymentResponse extends IPaymentResponse {
     }
 
     @Override
-    protected Map<String, Object> innerToArray() {
+    protected Map<String, Object> innerToResource() {
 
         return Map.ofEntries();
     }

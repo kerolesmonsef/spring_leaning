@@ -35,7 +35,7 @@ public class PaymentInfo {
             TreeMap<String, Object> productTreeMap = new TreeMap<>();
             productTreeMap.put("productId", pii.getProductId());
             productTreeMap.put("name", pii.getName());
-            productTreeMap.put("description", pii.getDescription());
+            productTreeMap.put("description", pii.getName());
             productTreeMap.put("price", pii.getPrice());
             productTreeMap.put("quantity", pii.getQuantity());
             productTreeMap.put("imageUrl", pii.getImageUrl());

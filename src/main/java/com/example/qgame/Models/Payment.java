@@ -23,6 +23,7 @@ public class Payment {
 
     private String code;
 
+    @Column(columnDefinition = "TEXT")
     private String thirdPartyResponse;
 
     @ManyToOne()

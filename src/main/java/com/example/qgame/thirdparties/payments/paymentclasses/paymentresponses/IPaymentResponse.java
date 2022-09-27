@@ -1,9 +1,6 @@
 package com.example.qgame.thirdparties.payments.paymentclasses.paymentresponses;
 
-import com.example.qgame.Models.Payment;
-import com.example.qgame.thirdparties.payments.paymentclasses.IPaymentGateway;
 import lombok.Data;
-import lombok.Getter;
 import lombok.experimental.Accessors;
 
 
@@ -26,17 +23,18 @@ abstract public class IPaymentResponse {
         init(map);
     }
 
-    protected abstract Map<String, Object> innerToArray();
+    protected abstract Map<String, Object> innerToResource();
 
 
-    public final Map<String, Object> toArray() {
+    public final Map<String, Object> toResource() {
         Map<String, Object> map = new HashMap<>() {{
             put("isSuccess", isSuccess);
             put("errors", errors);
+            put("url", url);
         }};
 
 
-        map.putAll(innerToArray());
+        map.putAll(innerToResource());
 
         return map;
     }

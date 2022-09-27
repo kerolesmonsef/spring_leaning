@@ -99,10 +99,15 @@ abstract public class IOpayFramePaymentGateway extends IFramePaymentGateway {
         System.out.println("--response:");
         System.out.println(response.toString());
         JsonObject responseJsonObject = (new JsonParser()).parse(response.toString()).getAsJsonObject();
+        JsonObject data = responseJsonObject.getAsJsonObject("data");
+
 
 
         return new IFramePaymentResponse(Map.ofEntries(
-                Map.entry("isSuccess",responseJsonObject.get("message").getAsString() == "SUCCESSFUL")
+                Map.entry("isSuccess","SUCCESSFUL".equals(responseJsonObject.get("message").getAsString())),
+                Map.entry("url",data.get("cashierUrl").getAsString()),
+                Map.entry("referenceCode",data.get("reference").getAsString()),
+                Map.entry("apiResponse",response.toString())
         ));
     }
 

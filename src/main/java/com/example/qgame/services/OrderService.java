@@ -10,6 +10,7 @@ import com.example.qgame.repositories.OrderRepository;
 import com.example.qgame.requests.CreateOrderRequest;
 import com.example.qgame.thirdparties.payments.paymentclasses.IPaymentGateway;
 import com.example.qgame.thirdparties.payments.paymentclasses.PaymentGatewayFactory;
+import com.example.qgame.thirdparties.payments.paymentclasses.paymentresponses.IPaymentResponse;
 import com.example.qgame.thirdparties.payments.paymentservices.IPaymentService;
 import com.example.qgame.thirdparties.payments.paymentservices.services.PayOrderPaymentService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -67,9 +68,10 @@ public class OrderService {
             );
 
             IPaymentGateway paymentGateway = PaymentGatewayFactory
-                    .create(paymentMethod,user,paymentService);
+                    .create(paymentMethod, user, paymentService);
 
-            paymentGateway.gatewayResponse();
+            IPaymentResponse paymentResponse = paymentGateway.gatewayResponse();
+            response.addAll(paymentResponse.toResource());
 
         } else { // cash on delivery
 

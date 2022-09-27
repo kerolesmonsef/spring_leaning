@@ -25,6 +25,11 @@ public class Response {
         return this;
     }
 
+    public Response addAll(Map<String,Object> map){
+        this.data.putAll(map);
+        return this;
+    }
+
     public Response setSuccess() {
         data.put("status", "success");
         return this;

@@ -31,8 +31,6 @@ public class OrderController extends IController {
     @PostMapping("/create")
     public ResponseEntity store(@Valid @RequestBody CreateOrderRequest request) throws Exception {
 
-        System.out.println(request);
-
         User user = userRepository.first();
 
 

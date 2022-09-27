@@ -11,6 +11,7 @@ import com.example.qgame.repositories.PaymentRepository;
 import com.example.qgame.thirdparties.payments.paymentclasses.paymentinfo.PaymentInfo;
 import com.example.qgame.thirdparties.payments.paymentclasses.paymentinfo.PaymentInfoItem;
 import com.example.qgame.thirdparties.payments.paymentservices.IPaymentService;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Map;
 import java.util.UUID;
