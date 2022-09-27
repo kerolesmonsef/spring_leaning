@@ -1,6 +1,7 @@
 package com.example.qgame.controllers.user;
 
 import com.example.qgame.Models.User;
+import com.example.qgame.QGameApplication;
 import com.example.qgame.controllers.IController;
 import com.example.qgame.repositories.UserRepository;
 import com.example.qgame.requests.CreateOrderRequest;
@@ -23,15 +24,12 @@ public class OrderController extends IController {
     @Autowired
     private OrderService orderService;
 
-    @Autowired
-    private UserRepository userRepository;
-
 
     @ResponseBody
     @PostMapping("/create")
     public ResponseEntity store(@Valid @RequestBody CreateOrderRequest request) throws Exception {
 
-        User user = userRepository.first();
+        User user = QGameApplication.getContext().getBean(UserRepository.class).findById(1L).orElse(null);
 
 
         return orderService.clientCreateOrder(request, user);

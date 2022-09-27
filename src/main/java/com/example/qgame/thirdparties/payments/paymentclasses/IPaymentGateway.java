@@ -6,8 +6,10 @@ import com.example.qgame.Models.User;
 import com.example.qgame.QGameApplication;
 import com.example.qgame.repositories.PaymentMethodRepository;
 import com.example.qgame.repositories.PaymentRepository;
+import com.example.qgame.repositories.UserRepository;
 import com.example.qgame.thirdparties.payments.paymentclasses.paymentresponses.IPaymentResponse;
 import com.example.qgame.thirdparties.payments.paymentservices.IPaymentService;
+import com.example.qgame.thirdparties.payments.paymentservices.services.PayOrderPaymentService;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.stereotype.Component;
@@ -48,7 +50,8 @@ abstract public class IPaymentGateway {
             // handle payment now
         }
 
-        paymentRepository.save(payment);
+//        paymentRepository.save(payment);
+        QGameApplication.getContext().getBean(UserRepository.class).save(((PayOrderPaymentService)paymentService).getUser());
 
         return response;
     }

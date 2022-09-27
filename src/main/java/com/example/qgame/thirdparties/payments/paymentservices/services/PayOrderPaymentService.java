@@ -11,12 +11,14 @@ import com.example.qgame.repositories.PaymentRepository;
 import com.example.qgame.thirdparties.payments.paymentclasses.paymentinfo.PaymentInfo;
 import com.example.qgame.thirdparties.payments.paymentclasses.paymentinfo.PaymentInfoItem;
 import com.example.qgame.thirdparties.payments.paymentservices.IPaymentService;
+import lombok.Getter;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Map;
 import java.util.UUID;
 
 public class PayOrderPaymentService extends IPaymentService {
+    @Getter
     private final User user;
     private final OrderDescriptor orderDescriptor;
 
@@ -77,7 +79,6 @@ public class PayOrderPaymentService extends IPaymentService {
                 .setAmount(paymentInfo.getTotal())
                 .setPaymentMethod(paymentMethod);
 
-        QGameApplication.getContext().getBean(PaymentRepository.class).save(payment);
 
         return payment;
     }

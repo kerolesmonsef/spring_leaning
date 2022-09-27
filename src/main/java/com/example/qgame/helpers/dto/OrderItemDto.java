@@ -45,6 +45,6 @@ public class OrderItemDto {
     public void setProductId(Long productId){
         this.productId = productId;
         System.out.println("aya");
-        this.product = QGameApplication.getContext().getBean(ProductRepository.class).findById(productId).orElse(null);
+        this.product = QGameApplication.getContext().getBean(ProductRepository.class).getById(productId);
     }
 }
