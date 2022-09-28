@@ -7,6 +7,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 import lombok.ToString;
 import lombok.experimental.Accessors;
+import org.hibernate.annotations.DynamicUpdate;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
@@ -18,6 +19,7 @@ import java.util.Date;
 @Table(name = "products")
 @Data
 @Accessors(chain = true)
+@DynamicUpdate
 public class Product {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -62,17 +64,18 @@ public class Product {
         return this.images;
     }
 
-    public FilesList getImages() {
+    public FilesList images() {
         if (this.images == null) {
-            return new FilesList();
+//            return new FilesList(); // never do this
+            return null;
         }
-        String base_path = ServletUriComponentsBuilder.fromCurrentContextPath().build().toUriString();
-        this.images.setPrefix(base_path + "/images/products/");
+//        String base_path = ServletUriComponentsBuilder.fromCurrentContextPath().build().toUriString();
+//        this.images.setPrefix(base_path + "/images/products/");
         return this.images;
     }
 
     public String firstImageUrl() {
-        return getImages().get(0);
+        return images().get(0);
     }
 
     public float priceAfterDiscount() {

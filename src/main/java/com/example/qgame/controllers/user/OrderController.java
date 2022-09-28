@@ -24,14 +24,21 @@ public class OrderController extends IController {
     @Autowired
     private OrderService orderService;
 
+    @Autowired
+    private UserRepository userRepository;
+
 
     @ResponseBody
     @PostMapping("/create")
     public ResponseEntity store(@Valid @RequestBody CreateOrderRequest request) throws Exception {
 
-        User user = QGameApplication.getContext().getBean(UserRepository.class).findById(1L).orElse(null);
+        User user = userRepository.findById(1L).orElse(null);
 
+//        user.setMobile(user.getMobile());
+//
+//        userRepository.save(user);
 
+//        return null;
         return orderService.clientCreateOrder(request, user);
     }
 }

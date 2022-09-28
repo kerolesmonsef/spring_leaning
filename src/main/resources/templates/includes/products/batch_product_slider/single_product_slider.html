@@ -3,7 +3,7 @@
 <div th:fragment="product(${product})" class="media-banner-box">
     <div class="media">
         <a th:href="${product.getUrl()}">
-            <img th:src="${product.getImages().get(1)}" style="width: 84px;height: 108px" class="img-fluid "
+            <img th:src="${product.images().get(1)}" style="width: 84px;height: 108px" class="img-fluid "
                  alt="banner">
         </a>
         <div class="media-body">

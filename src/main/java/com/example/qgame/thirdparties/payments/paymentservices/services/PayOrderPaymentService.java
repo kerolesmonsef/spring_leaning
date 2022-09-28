@@ -79,6 +79,7 @@ public class PayOrderPaymentService extends IPaymentService {
                 .setAmount(paymentInfo.getTotal())
                 .setPaymentMethod(paymentMethod);
 
+        QGameApplication.getContext().getBean(PaymentRepository.class).save(payment);
 
         return payment;
     }

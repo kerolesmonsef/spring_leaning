@@ -35,4 +35,15 @@ public class FilesList {
         return files.stream().map((file) -> this.prefixUrl + file).toList();
     }
 
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (obj == null)
+            return false;
+        if (getClass() != obj.getClass())
+            return false;
+        FilesList other = (FilesList) obj;
+        return this.files.size() == other.files.size();
+    }
 }

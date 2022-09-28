@@ -51,7 +51,6 @@ abstract public class IPaymentGateway {
         }
 
 //        paymentRepository.save(payment);
-        QGameApplication.getContext().getBean(UserRepository.class).save(((PayOrderPaymentService)paymentService).getUser());
 
         return response;
     }

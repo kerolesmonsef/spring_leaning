@@ -44,4 +44,17 @@ public class PaymentInfo {
 
         return productList;
     }
+
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (obj == null)
+            return false;
+        if (getClass() != obj.getClass())
+            return false;
+        PaymentInfo other = (PaymentInfo) obj;
+        return total == other.total;
+    }
 }
