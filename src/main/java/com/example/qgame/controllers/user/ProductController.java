@@ -1,5 +1,6 @@
 package com.example.qgame.controllers.user;
 
+import com.example.qgame.Models.Product;
 import com.example.qgame.helpers.Helper;
 import com.example.qgame.helpers.filters.products.FilterOptionCollection;
 import com.example.qgame.helpers.filters.products.FilterQueryBuilder;
@@ -29,5 +30,13 @@ public class ProductController {
     @RequestMapping(value = "/filter", method = {RequestMethod.GET, RequestMethod.POST})
     public Object filter(@RequestBody @Valid ProductFilterRequest request, BindingResult result) {
         return productService.filter(request.getProperties());
+    }
+
+
+    @ResponseBody
+    @GetMapping("/{product}")
+    public Object show(@PathVariable("product") Product product) {
+
+        return product;
     }
 }

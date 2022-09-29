@@ -46,4 +46,6 @@ public class FilesList {
         FilesList other = (FilesList) obj;
         return this.files.size() == other.files.size();
     }
+
+
 }
