@@ -13,7 +13,7 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 @SpringBootApplication
 @EnableJpaAuditing // for now for timestamp use current
-public class QGameApplication implements CommandLineRunner {
+public class QGameApplication {
 
     private static ConfigurableApplicationContext context;
 
@@ -22,15 +22,11 @@ public class QGameApplication implements CommandLineRunner {
     }
 
     public static void main(String[] args) {
-
-        QGameApplication.context = SpringApplication.run(QGameApplication.class, args);
+        context = SpringApplication.run(QGameApplication.class, args);
     }
 
-    @Override
-    public void run(String... args) throws Exception {
-
-//        new BlogSeeder().seed();
-//        System.out.println(ServletUriComponentsBuilder.fromCurrentContextPath().build().toUriString());
-//        System.out.println("aaaa");
+    public static <T> T getBean(Class<T> clazz) {
+        return context.getBean(clazz);
     }
+
 }

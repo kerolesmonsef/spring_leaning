@@ -24,7 +24,7 @@
 
 <footer th:include="layouts/footer.html :: footer"></footer>
 
-
+<th:block th:replace="includes/cart/cart_section :: cart_section"></th:block>
 
 <!--<footer th:inclugde="layouts/header.html :: footer"></footer>-->
 </body>
@@ -45,5 +45,6 @@
 <script th:src="@{/assets/js/sweetalert.js}"></script>
 
 <div layout:fragment="scripts"></div>
+<th:block th:replace="includes/cart/cart_scripts :: cart_scripts"></th:block>
 
 </html>

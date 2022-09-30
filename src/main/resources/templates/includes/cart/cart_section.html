@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<th:block th:fragment="cart_section">
+    <div id="cart_side" class="add_to_cart right ">
+        <a href="javascript:void(0)" class="overlay" onclick="closeCart()"></a>
+        <div class="cart-inner">
+            <div class="cart_top">
+                <h3>my cart</h3>
+                <div class="close-cart">
+                    <a href="javascript:void(0)" onclick="closeCart()">
+                        <i class="fa fa-times" aria-hidden="true"></i>
+                    </a>
+                </div>
+            </div>
+            <div class="cart_media">
+                <ul class="cart_product cart-items-ul">
+
+                </ul>
+                <ul class="cart_total">
+                    <li>
+                        subtotal : <span>$1050.00</span>
+                    </li>
+                    <li>
+                        shpping <span>free</span>
+                    </li>
+                    <li>
+                        taxes <span>$0.00</span>
+                    </li>
+                    <li>
+                        <div class="total">
+                            total<span>$1050.00</span>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="buttons">
+                            <a href="checkout.html" class="btn btn-solid btn-sm ">checkout</a>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</th:block>
+</html>

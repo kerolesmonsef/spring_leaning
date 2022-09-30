@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<th:block th:fragment="cart_scripts">
+    <script>
+        $(function () {
+
+            const cart = {
+                totalPrice() {
+                    let price = 0;
+
+                    for (let product of this.getProducts()) {
+                        price += (product.quantity * product.price);
+                    }
+
+                    return price;
+                },
+
+                addProduct(product) {
+                    let products = this.getProducts();
+                    let fountProduct = products.find((p) => p.id === product.id);
+                    if (fountProduct) {
+                        fountProduct.quantity++;
+                    } else {
+                        products.push({...product, quantity: 1});
+                    }
+
+                    this.setProducts(products);
+                },
+
+                getProducts() {
+                    return JSON.parse(localStorage.getItem("cartProducts")) ?? [];
+                },
+
+                setProducts(products) {
+                    localStorage.setItem("cartProducts", JSON.stringify(products));
+                },
+
+                changeProductQuantity(productId, quantity) {
+                    // debugger;
+                    let products = this.getProducts();
+
+
+                    for (let product of products) {
+                        if (product.id == productId) {
+                            product.quantity = quantity;
+                            break;
+                        }
+                    }
+
+                    products = products.filter(product => product.quantity > 0);
+                    this.setProducts(products);
+                },
+
+                productsCount() {
+                    return this.getProducts().reduce((acc, current) => acc + current.quantity, 0);
+                }
+            };
+
+
+            let cartItemLi = (product) => {
+                return `<li>
+                        <div class="media">
+                            <a href="${product.url}">
+                                <img alt="megastore1" class="me-3" src="${product.imageUrl}">
+                            </a>
+                            <div class="media-body">
+                                <a href="product-page(left-sidebar).html">
+                                    <h4>${product.title}</h4>
+                                </a>
+                                <h6>
+                                    $ ${product.price}
+                                </h6>
+                                <div class="addit-box">
+                                    <div class="qty-box">
+                                        <div class="input-group" data-product-id="${product.id}">
+                                            <button class="qty-minus"></button>
+                                            <input class="qty-adj form-control" type="number" value="${product.quantity}">
+                                            <button class="qty-plus"></button>
+                                        </div>
+                                    </div>
+                                   <div class="pro-add">
+                                      <a href="javascript:void(0)" class="remove-from-cart" data-product-id="${product.id}">
+                                        <i class="fa fa-trash"></i>
+                                      </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </li>`;
+            };
+
+            $(document).on("click", ".qty-minus", function () {
+                let value = $(this).next().val();
+                const productId = $(this).parent().data("product-id");
+                if (value > 0) {
+                    $(this).next().val(--value);
+                } else {
+                    // delete the item, etc
+                }
+
+                cart.changeProductQuantity(productId, $(this).next().val());
+                refresh();
+            });
+            $(document).on("click", ".qty-plus", function () {
+                const value = 1 + interval($(this).prev().val());
+                const productId = $(this).parent().data("product-id");
+
+                console.log(productId, value)
+                $(this).prev().val(value);
+                cart.changeProductQuantity(productId, value);
+                refresh();
+            });
+
+
+            $(document).on("click", ".remove-from-cart", function () {
+                const productId = $(this).data("product-id");
+                cart.changeProductQuantity(productId, 0);
+                refresh();
+            });
+
+
+            let refreshCartIcon = () => {
+                let value = cart.productsCount();
+                if (value == 0) {
+                    value = "";
+                }
+                $(".open-cart-li").find(".item-count-contain").text(value);
+            };
+
+            const refreshCartModal = () => {
+                $(".cart-items-ul").children().remove();
+
+                for (let product of cart.getProducts()) {
+                    $(".cart-items-ul").append(cartItemLi(product));
+                }
+            };
+
+
+            $(document).on("click", ".add-to-cart-button", function () {
+                let productId = $(this).parent("div").data("product-id") || $(this).data("product-id");
+                $.ajax({
+                    "url": `/products/${productId}`,
+                    "method": "GET",
+                    "timeout": 0,
+                    "headers": {
+                        "Content-Type": "application/json"
+                    },
+                }).done(function (response) {
+                    cart.addProduct(response.product);
+                    refresh();
+                });
+            });
+
+
+            let refresh = () => {
+                refreshCartIcon();
+                refreshCartModal();
+            };
+
+            refresh();
+        });
+    </script>
+</th:block>
+</html>

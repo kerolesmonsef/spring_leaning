@@ -4,6 +4,7 @@ import org.springframework.data.domain.*;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 public class Pagination<T> extends IPageWrapper<T> {
     public static final int MAX_PAGE_ITEM_DISPLAY = 10;
@@ -91,5 +92,19 @@ public class Pagination<T> extends IPageWrapper<T> {
 
     protected void setPage(Slice<T> page) {
         this.page = (Page<T>) page;
+    }
+
+    @Override
+    public Map<String, Object> getInfoResource() {
+        return Map.ofEntries(
+                Map.entry("size",getSize()),
+                Map.entry("firstPageUrl",firstPageUrl()),
+                Map.entry("lastPageUrl",lastPageUrl()),
+                Map.entry("totalPages",getTotalPages()),
+                Map.entry("isFirstPage",isFirstPage()),
+                Map.entry("isLastPage",isLastPage()),
+                Map.entry("currentPage",getCurrentNumber()),
+                Map.entry("pageSize",getSize())
+        );
     }
 }

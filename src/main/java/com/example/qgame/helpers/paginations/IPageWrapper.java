@@ -5,6 +5,7 @@ import org.springframework.data.domain.Slice;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 public abstract class IPageWrapper<T> {
     private Slice<T> page;
@@ -49,4 +50,10 @@ public abstract class IPageWrapper<T> {
     public abstract String nextPageUrl();
 
     public abstract String previousPageUrl();
+
+    public Map<String, Object> getInfoResource() {
+        return Map.ofEntries(
+                Map.entry("size", getSize())
+        );
+    }
 }

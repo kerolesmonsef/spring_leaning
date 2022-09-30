@@ -1,5 +1,6 @@
 package com.example.qgame.helpers;
 
+import com.example.qgame.resources.JsonResponseResource;
 import lombok.Data;
 import lombok.Getter;
 import org.springframework.http.ResponseEntity;
@@ -27,6 +28,11 @@ public class Response {
 
     public Response addAll(Map<String,Object> map){
         this.data.putAll(map);
+        return this;
+    }
+
+    public Response addResource(String key,JsonResponseResource resource){
+        this.add(key,resource.toArray());
         return this;
     }
 

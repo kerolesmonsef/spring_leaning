@@ -2,9 +2,11 @@ package com.example.qgame.controllers.user;
 
 import com.example.qgame.Models.Product;
 import com.example.qgame.helpers.Helper;
+import com.example.qgame.helpers.Response;
 import com.example.qgame.helpers.filters.products.FilterOptionCollection;
 import com.example.qgame.helpers.filters.products.FilterQueryBuilder;
 import com.example.qgame.requests.ProductFilterRequest;
+import com.example.qgame.resources.ProductResource;
 import com.example.qgame.services.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -13,6 +15,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.validation.Valid;
+import java.util.Optional;
 
 @Controller
 @RequestMapping("/products")
@@ -35,8 +38,9 @@ public class ProductController {
 
     @ResponseBody
     @GetMapping("/{product}")
-    public Object show(@PathVariable("product") Product product) {
-
-        return product;
+    public Object show(@PathVariable("product") Optional<Product> product) {
+        return new Response()
+                .addResource("product", new ProductResource(product.orElseThrow()))
+                .responseEntity();
     }
 }

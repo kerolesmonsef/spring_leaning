@@ -14,6 +14,7 @@ import com.example.qgame.helpers.services.files.FileInfo;
 import com.example.qgame.repositories.ProductOptionValueRepository;
 import com.example.qgame.repositories.ProductRepository;
 import com.example.qgame.requests.admin.AdminProductRequest;
+import com.example.qgame.resources.ProductResource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -23,6 +24,7 @@ import org.springframework.web.multipart.MultipartFile;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.servlet.http.HttpServletRequest;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -146,13 +148,14 @@ public class ProductService {
 
         Pagination<Product> productPagination = paginationMaker.makeFromQueryBuilderResult(productFilterResult);
 
+        List<Map<String,Object>> productResourceList = productPagination.getContent().stream().map(p -> new ProductResource(p).toArray()).toList();
 
         return new Response()
-                .add("products", productPagination)
+                .add("products", Map.ofEntries(
+                        Map.entry("data",productResourceList),
+                        Map.entry("urlInfos",productPagination.getInfoResource())
+                ))
                 .add("options", filterOptionFilter.getOptions())
                 .responseEntity();
-
-
-//        return entityManager.createQuery(productFilterResult.getCriteria()).getResultList();
     }
 }

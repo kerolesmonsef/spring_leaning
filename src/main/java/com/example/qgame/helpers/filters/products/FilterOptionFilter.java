@@ -57,8 +57,8 @@ public class FilterOptionFilter {
 
         return Map.ofEntries(
                 Map.entry("name", "category"),
-                Map.entry("type", "category"),
-                Map.entry("categoriesIds", categoriesIds)
+                Map.entry("type", "option"),
+                Map.entry("options", categoriesIds)
         );
     }
 
@@ -81,25 +81,35 @@ public class FilterOptionFilter {
 
         List<OptionValueDTO> optionValueDTOS = typedQuery.getResultList().stream().map(t -> new OptionValueDTO(t.get("title").toString(), t.get("value").toString())).toList();
 
-        List<OptionValuesDto> optionListValues = new ArrayList<>();
 
-        optionValueDTOS.forEach((ov) -> {
+        List<Map<String, Object>> result = new ArrayList<>();
 
-            OptionValuesDto existsOptionValuesDto = optionListValues.stream().filter(ovs -> ovs.getOptionName().equals(ov.getOptionName())).findFirst().orElse(null);
+        optionValueDTOS.forEach(ov -> {
+            Map<String, Object> map = result.stream().filter(r ->
+                    {
+                        String getName = r.get("name").toString();
+                        String optionName = ov.getOptionName();
+                        boolean rr = Objects.equals(getName,optionName);
 
-            if (existsOptionValuesDto != null) {
-                existsOptionValuesDto.getValues().add(ov.getValue());
-            } else {
-                optionListValues.add(new OptionValuesDto(ov.getOptionName(), new ArrayList<String>(Collections.singletonList(ov.getValue()))));
+                        return rr;
+                    }
+            ).findFirst().orElse(null);
+
+            if (map == null) {
+                map = new HashMap<>();
+                map.put("name", ov.getOptionName());
+                map.put("type", "option");
+                map.put("options", new ArrayList<Map<String, String>>());
+
+                result.add(map);
             }
+            ((List<Map<String,String>>)map.get("options")).add(Map.ofEntries(
+                    Map.entry("id", ov.getOptionName()),
+                    Map.entry("name", ov.getValue())
+            ));
         });
 
-
-        return optionListValues.stream().map(ovs -> Map.ofEntries(
-                Map.entry("type", "option"),
-                Map.entry("name", ovs.getOptionName()),
-                Map.entry("values", ovs.getValues())
-        )).toList();
+        return result;
     }
 
     private List<CategoryIdResult> getCategoriesFilterIds() {

@@ -37,7 +37,7 @@ public class BlogSeeder extends ISeeder<Blog> {
 
     @Override
     public void seed() {
-        BlogRepository blogRepository = QGameApplication.getContext().getBean(BlogRepository.class);
+        BlogRepository blogRepository = QGameApplication.getBean(BlogRepository.class);
         blogRepository.saveAll(data());
     }
 }

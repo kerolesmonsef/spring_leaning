@@ -36,18 +36,19 @@ public class Order {
     private List<OrderDetail> detail;
 
     @Column(name = "productsPrice")
-    private double productsPrice;
+    private float productsPrice;
 
     @Column(name = "productsPriceAfterDiscount")
-    private double productsPriceAfterDiscount;
+    private float productsPriceAfterDiscount;
 
     @Column(name = "totalPrice")
-    private double totalPrice;
+    private float totalPrice;
 
     @ColumnDefault("0")
-    private double taxes;
+    private float taxes;
 
-    @ColumnDefault("init")
+    @ColumnDefault("'init'")
+    @Column(columnDefinition = "ENUM('init','pending_online_payment','canceled','completed')")
     private OrderStatus status;
 
     private Date delivered_at;

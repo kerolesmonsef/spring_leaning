@@ -18,13 +18,11 @@ import java.util.Map;
 import java.util.UUID;
 
 public class PayOrderPaymentService extends IPaymentService {
-    @Getter
-    private final User user;
-    private final OrderDescriptor orderDescriptor;
 
-    public PayOrderPaymentService(PaymentMethod paymentMethod, User user, OrderDescriptor orderDescriptor) {
-        super(paymentMethod);
-        this.user = user;
+    protected final OrderDescriptor orderDescriptor;
+
+    public PayOrderPaymentService(User user, OrderDescriptor orderDescriptor) {
+        super(user);
         this.orderDescriptor = orderDescriptor;
     }
 
@@ -63,24 +61,5 @@ public class PayOrderPaymentService extends IPaymentService {
 
 
         return paymentInfo;
-    }
-
-    @Override
-    public Payment createPayment() {
-
-        Payment payment = new Payment();
-        PaymentInfo paymentInfo = getPaymentInfo();
-
-        payment
-                .setCode(UUID.randomUUID().toString())
-                .setUser(user)
-                .setInformation(paymentInfo)
-                .setPaymentService(getName())
-                .setAmount(paymentInfo.getTotal())
-                .setPaymentMethod(paymentMethod);
-
-        QGameApplication.getContext().getBean(PaymentRepository.class).save(payment);
-
-        return payment;
     }
 }

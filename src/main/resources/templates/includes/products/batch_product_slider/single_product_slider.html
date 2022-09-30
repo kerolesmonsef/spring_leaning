@@ -3,7 +3,7 @@
 <div th:fragment="product(${product})" class="media-banner-box">
     <div class="media">
         <a th:href="${product.getUrl()}">
-            <img th:src="${product.images().get(1)}" style="width: 84px;height: 108px" class="img-fluid "
+            <img th:src="${product.firstImageUrl()}" style="width: 84px;height: 108px" class="img-fluid "
                  alt="banner">
         </a>
         <div class="media-body">
@@ -25,9 +25,11 @@
                             <span th:text="'$' + ${product.price}"></span>
                         </h6>
                     </div>
-                    <div class="cart-info">
+                    <div class="cart-info"
+                         th:attr="data-product-id=${product.getId()}"
+                    >
                         <button data-bs-toggle="modal" data-bs-target="#addtocart"
-                                class="tooltip-top" data-tippy-content="Add to cart"><i
+                                class="tooltip-top add-to-cart-button" data-tippy-content="Add to cart"><i
                                 data-feather="shopping-cart"></i></button>
                         <a href="javascript:void(0)" class="add-to-wish tooltip-top"
                            data-tippy-content="Add to Wishlist"><i data-feather="heart"

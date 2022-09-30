@@ -41,4 +41,6 @@ public class Payment {
     private String paymentService;
 
     private float amount;
+
+    private String test;
 }

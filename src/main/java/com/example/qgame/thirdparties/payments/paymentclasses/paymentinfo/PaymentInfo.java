@@ -57,4 +57,9 @@ public class PaymentInfo {
         PaymentInfo other = (PaymentInfo) obj;
         return total == other.total;
     }
+
+    @Override
+    public int hashCode() {
+        return 1;
+    }
 }

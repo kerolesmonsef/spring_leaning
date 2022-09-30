@@ -4,7 +4,7 @@
     <div class="product-imgbox">
         <div class="product-front">
             <a th:href="${product.getUrl()}">
-                <img style="height: 328px" th:src="${product.images().get(0)}" class="img-fluid  " alt="product">
+                <img style="height: 328px" th:src="${product.firstImageUrl()}" class="img-fluid  " alt="product">
             </a>
         </div>
         <div class="product-back">
@@ -12,8 +12,10 @@
                 <img style="height: 328px" th:src="${product.images().get(1)}" class="img-fluid  " alt="product">
             </a>
         </div>
-        <div class="product-icon icon-inline">
-            <button data-bs-toggle="modal" data-bs-target="#addtocart" class="tooltip-top"
+        <div class="product-icon icon-inline"
+             th:attr="data-product-id=${product.getId()}"
+        >
+            <button data-bs-toggle="modal" data-bs-target="#addtocart" class="tooltip-top add-to-cart-button"
                     data-tippy-content="Add to cart">
                 <i data-feather="shopping-cart"></i>
             </button>

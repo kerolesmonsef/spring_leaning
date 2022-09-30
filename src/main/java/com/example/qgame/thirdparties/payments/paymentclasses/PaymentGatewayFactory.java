@@ -11,7 +11,7 @@ public class PaymentGatewayFactory {
                 .getContext()
                 .getBean(paymentMethod.getClassName(), IPaymentGateway.class);
 
-        iPaymentGateway.setPaymentService(paymentService);
+        iPaymentGateway.setService(paymentService);
         iPaymentGateway.setUser(user);
 
         return iPaymentGateway;

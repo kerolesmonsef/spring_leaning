@@ -66,11 +66,10 @@ public class Product {
 
     public FilesList images() {
         if (this.images == null) {
-//            return new FilesList(); // never do this
-            return null;
+            return new FilesList();
         }
-//        String base_path = ServletUriComponentsBuilder.fromCurrentContextPath().build().toUriString();
-//        this.images.setPrefix(base_path + "/images/products/");
+        String base_path = ServletUriComponentsBuilder.fromCurrentContextPath().build().toUriString();
+        this.images.setPrefix(base_path + "/images/products/");
         return this.images;
     }
 

@@ -1,7 +1,6 @@
 package com.example.qgame.thirdparties.payments.apis.opay;
 
 import com.example.qgame.Models.Payment;
-import com.example.qgame.Models.PaymentMethod;
 import com.example.qgame.Models.User;
 import com.example.qgame.thirdparties.payments.paymentclasses.IFramePaymentGateway;
 import com.example.qgame.thirdparties.payments.paymentclasses.paymentinfo.PaymentInfo;
@@ -41,7 +40,7 @@ abstract public class IOpayFramePaymentGateway extends IFramePaymentGateway {
     @Override
     protected IPaymentResponse innerGatewayResponse(Payment payment) throws Exception {
 
-        PaymentInfo paymentInfo = this.paymentService.getPaymentInfo();
+        PaymentInfo paymentInfo = this.service.getPaymentInfo();
 
         float total = paymentInfo.getTotal() * 100;
 

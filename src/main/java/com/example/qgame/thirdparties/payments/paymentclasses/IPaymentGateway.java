@@ -6,10 +6,9 @@ import com.example.qgame.Models.User;
 import com.example.qgame.QGameApplication;
 import com.example.qgame.repositories.PaymentMethodRepository;
 import com.example.qgame.repositories.PaymentRepository;
-import com.example.qgame.repositories.UserRepository;
+import com.example.qgame.services.PaymentService;
 import com.example.qgame.thirdparties.payments.paymentclasses.paymentresponses.IPaymentResponse;
 import com.example.qgame.thirdparties.payments.paymentservices.IPaymentService;
-import com.example.qgame.thirdparties.payments.paymentservices.services.PayOrderPaymentService;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.stereotype.Component;
@@ -18,24 +17,29 @@ import org.springframework.stereotype.Component;
 @Component
 abstract public class IPaymentGateway {
     @Setter
-    protected IPaymentService paymentService;
+    protected IPaymentService service;
     @Setter
     protected User user;
 
     protected PaymentMethod paymentMethod;
 
-    public IPaymentGateway(){
+    protected PaymentService paymentService;
+
+
+    public IPaymentGateway() {
 
     }
 
     public IPaymentGateway(IPaymentService paymentService, User user) {
-        this.paymentService = paymentService;
+        this.service = paymentService;
         this.user = user;
-        this.paymentMethod = QGameApplication.getContext().getBean(PaymentMethodRepository.class).findByName(getName());
+        this.paymentMethod = QGameApplication.getBean(PaymentMethodRepository.class).findByName(getName());
+        this.paymentService = QGameApplication.getBean(PaymentService.class);
+
     }
 
     public final IPaymentResponse gatewayResponse() throws Exception {
-        Payment payment = paymentService.createPayment();
+        Payment payment = paymentService.create(service, paymentMethod);
         PaymentRepository paymentRepository = QGameApplication.getContext().getBean(PaymentRepository.class);
 
         IPaymentResponse response = innerGatewayResponse(payment);
@@ -50,7 +54,7 @@ abstract public class IPaymentGateway {
             // handle payment now
         }
 
-//        paymentRepository.save(payment);
+        paymentRepository.save(payment);
 
         return response;
     }
