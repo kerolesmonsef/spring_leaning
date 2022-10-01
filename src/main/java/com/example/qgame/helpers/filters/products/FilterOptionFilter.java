@@ -46,36 +46,37 @@ public class FilterOptionFilter {
     //--------------------------------------------------------
     private Map<String, Object> getCategoriesId() {
 
-        List<CategoryIdResult> categoriesIds;
+        List<CategoryIdResult> values;
 
         if (filterQueryBuilderResult.getFilterOptionCollection().hasType("category")) {
-            categoriesIds = QGameApplication.getContext().getBean(CategoryRepository.class).getIdAndName();
+            values = QGameApplication.getContext().getBean(CategoryRepository.class).getIdAndName();
         } else {
-            categoriesIds = getCategoriesFilterIds();
+            values = getCategoriesFilterIds();
         }
 
 
         return Map.ofEntries(
                 Map.entry("name", "category"),
                 Map.entry("type", "option"),
-                Map.entry("options", categoriesIds)
+                Map.entry("options", values)
         );
     }
 
     private List<Map<String, Object>> getOptionValues() {
         CriteriaQuery<Tuple> productCriteriaQuery = cb.createQuery(Tuple.class);
         Root<Product> p = productCriteriaQuery.from(Product.class);
+        p.alias("pProduct");
         Root<ProductOptionValue> pov = productCriteriaQuery.from(ProductOptionValue.class);
         Root<Option> o = productCriteriaQuery.from(Option.class);
 
-        productCriteriaQuery.multiselect(p.get("id").alias("idd"), o.get("title").alias("title"), pov.get("value").alias("value"))
+        productCriteriaQuery.multiselect(o.get("title").alias("title"), pov.get("value").alias("value"))
                 .where(
                         cb.and(
                                 cb.and(filterQueryBuilderResult.getPredicate(), cb.equal(p.get("id"), pov.get("product").get("id")))
                                 ,
                                 cb.equal(o.get("id"), pov.get("option").get("id"))
                         )
-                ).groupBy(o.get("title"), pov.get("value"), p.get("id")); // group by here
+                ).groupBy(o.get("title"), pov.get("value")); // group by here
 
         TypedQuery<Tuple> typedQuery = entityManager.createQuery(productCriteriaQuery).unwrap(Query.class);
 
@@ -89,7 +90,7 @@ public class FilterOptionFilter {
                     {
                         String getName = r.get("name").toString();
                         String optionName = ov.getOptionName();
-                        boolean rr = Objects.equals(getName,optionName);
+                        boolean rr = Objects.equals(getName, optionName);
 
                         return rr;
                     }
@@ -103,9 +104,9 @@ public class FilterOptionFilter {
 
                 result.add(map);
             }
-            ((List<Map<String,String>>)map.get("options")).add(Map.ofEntries(
-                    Map.entry("id", ov.getOptionName()),
-                    Map.entry("name", ov.getValue())
+            ((List<Map<String, String>>) map.get("options")).add(Map.ofEntries(
+                    Map.entry("name", ov.getValue()),
+                    Map.entry("id", ov.getValue())
             ));
         });
 

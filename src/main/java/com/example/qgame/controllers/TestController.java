@@ -5,10 +5,7 @@ import com.example.qgame.Models.Test;
 import com.example.qgame.Models.User;
 import com.example.qgame.helpers.database.seeders.ISeeder;
 import com.example.qgame.helpers.database.seeders.SeederExecuter;
-import com.example.qgame.helpers.database.seeders.impls.BlogSeeder;
-import com.example.qgame.helpers.database.seeders.impls.CategorySeeder;
-import com.example.qgame.helpers.database.seeders.impls.OptionSeeder;
-import com.example.qgame.helpers.database.seeders.impls.ProductSeeder;
+import com.example.qgame.helpers.database.seeders.impls.*;
 import com.example.qgame.helpers.entityembadable.ITestInter;
 import com.example.qgame.helpers.entityembadable.TestFile;
 import com.example.qgame.helpers.enums.OperationType;
@@ -58,18 +55,19 @@ public class TestController {
     @Transactional
     @ResponseBody
     public Object test() {
-return repository.findById(1L);
+        return repository.findById(1L);
 
-   }
+    }
 
     @ResponseBody
     @GetMapping("/seed")
     public void seed() {
         List<ISeeder> seeders = Arrays.asList(
-                new CategorySeeder(),
-                new OptionSeeder(),
-                new ProductSeeder(),
-                new BlogSeeder()
+//                new CategorySeeder(),
+//                new OptionSeeder(),
+//                new ProductSeeder(),
+//                new BlogSeeder()
+                new ProductOptionValueSeeder()
         );
 
 

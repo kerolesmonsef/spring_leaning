@@ -34,12 +34,4 @@ public class KeywordFilterOption extends IFilterOption {
         match = "%" + keyword + "%";
         return this;
     }
-
-    @Override
-    public Map<String, Object> toResource() {
-        return Map.ofEntries(
-                Map.entry("name", getName()),
-                Map.entry("keyword", keyword)
-        );
-    }
 }

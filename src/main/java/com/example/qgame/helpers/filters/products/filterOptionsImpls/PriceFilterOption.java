@@ -37,13 +37,4 @@ public class PriceFilterOption extends IFilterOption {
         this.to = Double.parseDouble(property.get("to").toString());
         return this;
     }
-
-    @Override
-    public Map<String, Object> toResource() {
-        return Map.ofEntries(
-                Map.entry("name", getName()),
-                Map.entry("from", from),
-                Map.entry("to", to)
-        );
-    }
 }

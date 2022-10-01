@@ -208,8 +208,9 @@
                 });
             };
 
-            const refreshPage = (response) => {
-                refreshOptions(response.options);
+            const refreshPage = (response, canRefreshOption = true) => {
+                if (canRefreshOption)
+                    refreshOptions(response.options);
                 $('.all-product').children().remove();
 
                 for (let product of response.products.data) {
@@ -220,7 +221,7 @@
 
             };
 
-            const reGetData = () => {
+            const reGetData = ({properties = []} = {}) => {
                 $.ajax({
                     "url": "/products/filter",
                     "method": "POST",
@@ -229,10 +230,10 @@
                         "Content-Type": "application/json"
                     },
                     "data": JSON.stringify({
-                        "properties": []
+                        "properties": properties
                     }),
                 }).done(function (response) {
-                    refreshPage(response);
+                    refreshPage(response, properties.length === 0);
                 });
             };
 
@@ -284,12 +285,25 @@
                                             </div>
                                         </div>
                                     </div>`;
-            }
+            };
 
-        //    -------------------------------------------------------
-            $(document).on("change",".form-check-input",function () {
-                alert();
-            })
+            //    -------------------------------------------------------
+            $(document).on("change", ".form-check-input", function () {
+                const properties = [];
+
+                $(".form-check-input:checked").each(function () {
+                    const name = $(this).data('option-name');
+                    const value = $(this).data('option-value');
+
+                    let property = properties.find(prop => prop.name == name);
+                    if (!property) {
+                        property = {name, values: []};
+                        properties.push(property);
+                    }
+                    property.values.push(value);
+                });
+                reGetData({properties});
+            });
         });
     </script>
 </th:block>

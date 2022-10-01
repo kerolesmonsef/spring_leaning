@@ -23,9 +23,10 @@ public class FilterQueryBuilder {
         CriteriaQuery<Product> criteria = entityManager.getCriteriaBuilder().createQuery(Product.class);
         CriteriaBuilder cb = entityManager.getCriteriaBuilder();
         Root<Product> productRoot = criteria.from(Product.class);
+        productRoot.alias("pProduct");
         criteria.select(productRoot);
 
-        Predicate predicate = getCumulativePredicate(optionCollection, cb, productRoot);
+        Predicate predicate = getCumulativePredicate(optionCollection, criteria, cb, productRoot);
 
         criteria.where(predicate);
 
@@ -37,7 +38,7 @@ public class FilterQueryBuilder {
     }
 
 
-    protected Predicate getCumulativePredicate(FilterOptionCollection optionCollection, CriteriaBuilder cb, Root productRoot) {
+    protected Predicate getCumulativePredicate(FilterOptionCollection optionCollection, CriteriaQuery query, CriteriaBuilder cb, Root productRoot) {
         Predicate predicate = null;
 
         if (optionCollection.isEmpty()) {
@@ -46,7 +47,12 @@ public class FilterQueryBuilder {
 
         for (int i = 0; i < optionCollection.size(); i++) {
 
-            predicate = optionCollection.get(i).setCb(cb).setRoot(productRoot).cumulatePredicateate(predicate);
+            predicate = optionCollection
+                    .get(i)
+                    .setCb(cb)
+                    .setRoot(productRoot)
+                    .setCriteriaQuery(query)
+                    .cumulatePredicateate(predicate);
         }
 
 

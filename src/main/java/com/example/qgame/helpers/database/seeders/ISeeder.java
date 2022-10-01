@@ -14,7 +14,7 @@ public abstract class ISeeder<C> {
 
     public abstract void seed();
 
-    protected Faker faker(){
-        return QGameApplication.getContext().getBean(Faker.class);
+    protected Faker faker() {
+        return QGameApplication.getBean(Faker.class);
     }
 }

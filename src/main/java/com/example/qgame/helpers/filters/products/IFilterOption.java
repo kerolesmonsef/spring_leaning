@@ -5,20 +5,23 @@ import lombok.Setter;
 import lombok.experimental.Accessors;
 
 import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 import java.util.Map;
 
+@Accessors(chain = true)
 public abstract class IFilterOption {
 
 
     @Setter
-    @Accessors(chain = true)
     protected CriteriaBuilder cb;
 
     @Setter
-    @Accessors(chain = true)
     protected Root root;
+
+    @Setter
+    protected CriteriaQuery criteriaQuery;
 
     public abstract String getName();
 
@@ -41,8 +44,4 @@ public abstract class IFilterOption {
 
     public abstract IFilterOption init(Map<String, Object> property);
 
-
-    public Map<String, Object> toResource() {
-        return null;
-    }
 }
