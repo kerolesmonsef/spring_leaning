@@ -63,11 +63,13 @@ public class TestController {
     @GetMapping("/seed")
     public void seed() {
         List<ISeeder> seeders = Arrays.asList(
-                new CategorySeeder(),
-                new OptionSeeder(),
-                new ProductSeeder(),
-                new BlogSeeder(),
-                new ProductOptionValueSeeder()
+//                new CategorySeeder(),
+//                new OptionSeeder(),
+//                new ProductSeeder(),
+//                new BlogSeeder(),
+//                new ProductOptionValueSeeder(),
+//                new PaymentMethodSeeder(),
+                new UserSeeder()
         );
 
 

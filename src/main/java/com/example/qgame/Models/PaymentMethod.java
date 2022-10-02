@@ -2,6 +2,7 @@ package com.example.qgame.Models;
 
 import com.example.qgame.helpers.enums.ActiveStatus;
 import lombok.Data;
+import lombok.experimental.Accessors;
 
 import javax.persistence.*;
 import java.util.Objects;
@@ -9,6 +10,7 @@ import java.util.Objects;
 @Entity
 @Table(name = "payment_methods")
 @Data
+@Accessors(chain = true)
 public class PaymentMethod {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

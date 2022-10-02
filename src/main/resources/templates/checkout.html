@@ -1,0 +1,96 @@
+<!doctype html>
+<html
+        xmlns:th="http://www.w3.org/1999/xhtml"
+        xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+        layout:decorate="~{layouts/master.html}"
+>
+
+<div layout:fragment="content">
+    <!-- section start -->
+    <section class="section-big-py-space b-g-light">
+        <div class="custom-container">
+            <div class="checkout-page contact-page">
+                <div class="checkout-form">
+                    <form>
+                        <div class="row">
+                            <div class="col-lg-6 col-sm-12 col-xs-12">
+                                <div class="checkout-title">
+                                    <h3>Billing Details</h3></div>
+                                <div class="theme-form">
+                                    <div class="row check-out ">
+
+                                        <div class="form-group col-md-6 col-sm-6 col-xs-12">
+                                            <label>User Name</label>
+                                            <input type="text" name="name" value="" placeholder="">
+                                        </div>
+                                        <div class="form-group col-md-6 col-sm-6 col-xs-12">
+                                            <label class="field-label">Email Address</label>
+                                            <input type="text" name="field-name" value="" placeholder="">
+                                        </div>
+
+                                        <div class="form-group col-md-12 col-sm-12 col-xs-12">
+                                            <label class="field-label">Password</label>
+                                            <input type="text" name="password" value="" placeholder="password">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-6 col-sm-12 col-xs-12">
+                                <div class="checkout-details theme-form  section-big-mt-space">
+                                    <div class="order-box">
+                                        <div class="title-box">
+                                            <div>Product <span>Total</span></div>
+                                        </div>
+                                        <ul class="qty cart-items">
+
+                                        </ul>
+
+                                        <ul class="total">
+                                            <li>Total <span class="total_count total-price">0</span></li>
+                                        </ul>
+                                    </div>
+                                    <div class="payment-box">
+                                        <div class="upper-box">
+                                            <div class="payment-options">
+                                                <ul>
+                                                    <li th:each="paymentMethod : ${paymentMethods}">
+                                                        <div class="radio-option">
+                                                            <input type="radio" name="payment-group" id="payment-1"
+                                                                   checked="checked" th:value="${paymentMethod.id}">
+                                                            <label for="payment-1"
+                                                                   th:text="${paymentMethod.display_name}">Check
+                                                                Payments</label>
+                                                        </div>
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                        <div class="text-right"><a href="javascript:void(0)" class="btn-normal btn">Place
+                                            Order</a></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- section end -->
+
+</div>
+
+<th:block layout:fragment="scripts">
+    <script>
+        $(function () {
+            cart.getProducts().forEach((product) => {
+                console.log(product)
+                $('.cart-items').append(
+                    `<li><img src="${product.imageUrl}" width="50" height="50"> ${product.title} × ${product.quantity} <span>$${product.quantity * product.price}</span></li>`
+                )
+            });
+        });
+    </script>
+</th:block>
+
+</html>

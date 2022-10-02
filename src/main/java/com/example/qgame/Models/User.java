@@ -2,6 +2,7 @@ package com.example.qgame.Models;
 
 import com.example.qgame.helpers.enums.UserStatus;
 import lombok.Data;
+import lombok.experimental.Accessors;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.security.core.GrantedAuthority;
@@ -13,6 +14,7 @@ import java.util.Date;
 
 @Data
 @Entity
+@Accessors(chain = true)
 public class User implements UserDetails {
 
     @Id

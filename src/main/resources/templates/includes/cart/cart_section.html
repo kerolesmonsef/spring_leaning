@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
 <th:block th:fragment="cart_section">
-    <div id="cart_side" class="add_to_cart right ">
+    <div id="cart_side" class="add_to_cart top ">
         <a href="javascript:void(0)" class="overlay" onclick="closeCart()"></a>
         <div class="cart-inner">
             <div class="cart_top">
@@ -18,7 +18,7 @@
                 </ul>
                 <ul class="cart_total">
                     <li>
-                        subtotal : <span>$1050.00</span>
+                        subtotal : <span class="total-price">0</span>
                     </li>
                     <li>
                         shpping <span>free</span>
@@ -28,12 +28,12 @@
                     </li>
                     <li>
                         <div class="total">
-                            total<span>$1050.00</span>
+                            total <span class="total-price">0</span>
                         </div>
                     </li>
                     <li>
                         <div class="buttons">
-                            <a href="checkout.html" class="btn btn-solid btn-sm ">checkout</a>
+                            <a href="/checkout" class="btn btn-solid btn-sm ">checkout</a>
                         </div>
                     </li>
                 </ul>
