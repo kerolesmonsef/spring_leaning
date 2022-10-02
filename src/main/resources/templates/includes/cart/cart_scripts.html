@@ -121,7 +121,7 @@
 
             let refreshCartIcon = () => {
                 let value = cart.productsCount();
-                if (value == 0) {
+                if (value === 0) {
                     value = "";
                 }
                 $(".open-cart-li").find(".item-count-contain").text(value);

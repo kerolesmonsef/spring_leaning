@@ -5,6 +5,7 @@ import com.example.qgame.Models.ProductOptionValue;
 import com.example.qgame.QGameApplication;
 import com.example.qgame.helpers.filters.products.IFilterOption;
 import com.example.qgame.repositories.OptionRepository;
+import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
 import javax.persistence.criteria.Predicate;
@@ -14,6 +15,7 @@ import java.util.List;
 import java.util.Map;
 
 @Component
+@Scope("prototype")
 public class OptionValueFilterOption extends IFilterOption {
     private String optionName;
     private List<String> values;

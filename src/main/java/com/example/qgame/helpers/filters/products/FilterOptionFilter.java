@@ -116,6 +116,7 @@ public class FilterOptionFilter {
     private List<CategoryIdResult> getCategoriesFilterIds() {
         CriteriaQuery<Product> productCriteriaQuery = cb.createQuery(Product.class);
         Root<Product> productRoot = productCriteriaQuery.from(Product.class);
+        productRoot.alias("pProduct");
         productRoot.join("category");
 
         productCriteriaQuery.select(productRoot.get("category"))

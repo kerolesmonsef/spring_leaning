@@ -292,12 +292,16 @@
                 const properties = [];
 
                 $(".form-check-input:checked").each(function () {
-                    const name = $(this).data('option-name');
+                    let name = $(this).data('option-name');
                     const value = $(this).data('option-value');
 
-                    let property = properties.find(prop => prop.name == name);
+                    let property = properties.find(prop => prop.optionName === name);
                     if (!property) {
-                        property = {name, values: []};
+                        property = {
+                            name: name === "category" ? "category" : "option",
+                            optionName: name,
+                            values: []
+                        };
                         properties.push(property);
                     }
                     property.values.push(value);
