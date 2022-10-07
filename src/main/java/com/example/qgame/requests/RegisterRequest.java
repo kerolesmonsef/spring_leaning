@@ -6,6 +6,7 @@ import com.example.qgame.validations.Unique;
 import lombok.Data;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
+import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 
@@ -18,6 +19,7 @@ public class RegisterRequest {
     @NotNull
     @NotEmpty
     @Unique(entity = "User",column = "email")
+    @Email
     private String email;
 
     @NotNull

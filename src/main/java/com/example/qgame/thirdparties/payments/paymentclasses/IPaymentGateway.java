@@ -11,10 +11,12 @@ import com.example.qgame.thirdparties.payments.paymentclasses.paymentresponses.I
 import com.example.qgame.thirdparties.payments.paymentservices.IPaymentService;
 import lombok.Getter;
 import lombok.Setter;
+import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
 @Getter
 @Component
+@Scope("prototype")
 abstract public class IPaymentGateway {
     @Setter
     protected IPaymentService service;

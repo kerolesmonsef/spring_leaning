@@ -3,6 +3,9 @@ package com.example.qgame.helpers;
 import com.example.qgame.resources.JsonResponseResource;
 import lombok.Data;
 import lombok.Getter;
+import lombok.Setter;
+import lombok.experimental.Accessors;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
 import java.util.HashMap;
@@ -12,6 +15,10 @@ import java.util.Map;
 public class Response {
     @Getter
     private final Map<String, Object> data = new HashMap<>();
+
+    @Setter
+    @Accessors(chain = true)
+    private HttpStatus httpStatus = HttpStatus.OK;
 
     public Response() {
         this.setSuccess();
@@ -26,13 +33,13 @@ public class Response {
         return this;
     }
 
-    public Response addAll(Map<String,Object> map){
+    public Response addAll(Map<String, Object> map) {
         this.data.putAll(map);
         return this;
     }
 
-    public Response addResource(String key,JsonResponseResource resource){
-        this.add(key,resource.toArray());
+    public Response add(String key, JsonResponseResource resource) {
+        this.add(key, resource.toArray());
         return this;
     }
 
@@ -43,13 +50,11 @@ public class Response {
 
     public Response setFail() {
         data.put("status", "fail");
+        httpStatus = HttpStatus.BAD_REQUEST;
         return this;
     }
 
     public ResponseEntity responseEntity() {
-        if (data.get("status") == "success") {
-            return ResponseEntity.ok(data);
-        }
-        return ResponseEntity.badRequest().body(data);
+        return new ResponseEntity(data, httpStatus);
     }
 }

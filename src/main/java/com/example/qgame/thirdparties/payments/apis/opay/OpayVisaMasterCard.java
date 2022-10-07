@@ -9,19 +9,20 @@ import com.example.qgame.thirdparties.payments.paymentclasses.paymentresponses.I
 import com.example.qgame.thirdparties.payments.paymentclasses.paymentresponses.PaymentWebhookResponse;
 import com.example.qgame.thirdparties.payments.paymentservices.IPaymentService;
 import org.springframework.context.annotation.Lazy;
+import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
 @Component(value = "opay-visa")
+@Scope("prototype")
 public class OpayVisaMasterCard extends IOpayFramePaymentGateway {
+
+    public OpayVisaMasterCard(IPaymentService paymentService, User user) {
+        super(paymentService, user);
+    }
 
     @Override
     protected String getPayMethod() {
         return "BankCard";
-    }
-
-    @Override
-    protected String getReturnUrl() {
-        return "https://google.com";
     }
 
 

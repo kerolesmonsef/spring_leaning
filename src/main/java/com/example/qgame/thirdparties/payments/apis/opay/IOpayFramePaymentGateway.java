@@ -2,6 +2,7 @@ package com.example.qgame.thirdparties.payments.apis.opay;
 
 import com.example.qgame.Models.Payment;
 import com.example.qgame.Models.User;
+import com.example.qgame.helpers.Helper;
 import com.example.qgame.thirdparties.payments.paymentclasses.IFramePaymentGateway;
 import com.example.qgame.thirdparties.payments.paymentclasses.paymentinfo.PaymentInfo;
 import com.example.qgame.thirdparties.payments.paymentclasses.paymentresponses.IFramePaymentResponse;
@@ -26,11 +27,10 @@ import static com.example.qgame.helpers.Helper.base_url;
 abstract public class IOpayFramePaymentGateway extends IFramePaymentGateway {
     protected abstract String getPayMethod();
 
-    protected abstract String getReturnUrl();
-
-    public IOpayFramePaymentGateway(){
-
+    protected String getReturnUrl() {
+        return Helper.base_url("payment/success");
     }
+
 
     public IOpayFramePaymentGateway(IPaymentService paymentService, User user) {
         super(paymentService, user);

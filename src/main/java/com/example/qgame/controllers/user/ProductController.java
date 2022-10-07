@@ -1,10 +1,7 @@
 package com.example.qgame.controllers.user;
 
 import com.example.qgame.Models.Product;
-import com.example.qgame.helpers.Helper;
 import com.example.qgame.helpers.Response;
-import com.example.qgame.helpers.filters.products.FilterOptionCollection;
-import com.example.qgame.helpers.filters.products.FilterQueryBuilder;
 import com.example.qgame.requests.ProductFilterRequest;
 import com.example.qgame.resources.ProductResource;
 import com.example.qgame.services.ProductService;
@@ -40,7 +37,18 @@ public class ProductController {
     @GetMapping("/{product}")
     public Object show(@PathVariable("product") Optional<Product> product) {
         return new Response()
-                .addResource("product", new ProductResource(product.orElseThrow()))
+                .add("product", new ProductResource(product.orElseThrow()))
                 .responseEntity();
+    }
+
+    @PostMapping("/{product}/like")
+    public Object like(@PathVariable("product") Optional<Product> product){
+        return null;
+    }
+
+
+
+    public Object likes(){
+        return null;
     }
 }

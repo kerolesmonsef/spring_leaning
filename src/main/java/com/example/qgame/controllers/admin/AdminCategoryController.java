@@ -56,7 +56,6 @@ public class AdminCategoryController extends IController {
     public ModelAndView update(@PathVariable Category category, @Valid AdminCreateUpdateCategoryRequest request, BindingResult bindings, RedirectAttributes attributes) {
 
         if (bindings.hasErrors()) {
-            System.out.println(bindings.getAllErrors());
             appendFlashAttribute("categoryRequest", request, attributes, bindings);
             return back();
         }

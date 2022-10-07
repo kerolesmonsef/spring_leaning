@@ -23,7 +23,7 @@ public class PaymentMethodSeeder extends ISeeder<PaymentMethod> {
             add(
                     new PaymentMethod()
                             .setName("vodafone-cash")
-                            .setClassName("vodafone-cash")
+                            .setClassName("wallet")
                             .setDisplay_name("Vodafone cache")
             );
         }};
