@@ -8,6 +8,7 @@ import com.example.qgame.requests.CreateOrderRequest;
 import com.example.qgame.services.OrderService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -32,13 +33,8 @@ public class OrderController extends IController {
     @PostMapping("/create")
     public ResponseEntity store(@Valid @RequestBody CreateOrderRequest request) throws Exception {
 
-        User user = userRepository.findById(1L).orElse(null);
+        User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 
-//        user.setMobile(user.getMobile());
-//
-//        userRepository.save(user);
-
-//        return null;
         return orderService.clientCreateOrder(request, user);
     }
 }

@@ -44,9 +44,10 @@
                                                 <ul>
                                                     <li th:each="paymentMethod : ${paymentMethods}">
                                                         <div class="radio-option">
-                                                            <input type="radio" name="payment-method-id" id="payment-1"
-                                                                   checked="checked" th:value="${paymentMethod.id}">
-                                                            <label for="payment-1"
+                                                            <input type="radio" name="payment-method-id"
+                                                                   th:attr="id=${'payment-'+paymentMethod.id}"
+                                                                    th:value="${paymentMethod.id}">
+                                                            <label th:attr="for=${'payment-'+paymentMethod.id}"
                                                                    th:text="${paymentMethod.display_name}">Check
                                                                 Payments</label>
                                                         </div>
@@ -113,6 +114,12 @@
                 "data": JSON.stringify(dataToSend),
             }).done(function (response) {
                 location.href = response.url;
+            }).fail(function (response) {
+                const errors = response.responseJSON?.errors ?? [];
+                for (let error in errors) {
+                    alert(errors[error]);
+                    return;
+                }
             });
         });
     </script>

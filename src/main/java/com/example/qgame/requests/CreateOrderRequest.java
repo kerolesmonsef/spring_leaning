@@ -21,7 +21,7 @@ public class CreateOrderRequest {
     @NotEmpty
     private List<OrderItemDto> orderItems;
 
-    @NotNull
+    @NotNull(message = "PaymentMethod Must Not Be Null")
     @Exists(entity = "PaymentMethod", column = "id")
     private Long paymentMethodId;
 
