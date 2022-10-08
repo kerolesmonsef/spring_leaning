@@ -23,7 +23,7 @@ public class ProductController {
 
     @GetMapping("/shop")
     public ModelAndView index() {
-        return new ModelAndView("/products/products.html");
+        return new ModelAndView("products/products.html");
     }
 
     @ResponseBody
