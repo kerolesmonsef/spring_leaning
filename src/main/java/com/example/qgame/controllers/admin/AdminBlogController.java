@@ -37,7 +37,7 @@ public class AdminBlogController extends IController {
 
     @GetMapping()
     public ModelAndView index() {
-        return new ModelAndView("/admin/blogs/all_blogs")
+        return new ModelAndView("admin/blogs/all_blogs")
                 .addObject("blogs", blogRepository.findAll());
     }
 
@@ -60,7 +60,7 @@ public class AdminBlogController extends IController {
 
         appendToModelIfNotExist("blogRequest", AdminCreateUpdateBlogRequest.class, model);
 
-        return new ModelAndView("/admin/blogs/add_edit_blog")
+        return new ModelAndView("admin/blogs/add_edit_blog")
                 .addObject("blog", blog);
     }
 

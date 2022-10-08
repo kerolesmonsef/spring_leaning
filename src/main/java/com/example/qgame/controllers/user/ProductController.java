@@ -1,11 +1,16 @@
 package com.example.qgame.controllers.user;
 
 import com.example.qgame.Models.Product;
+import com.example.qgame.Models.ProductLike;
+import com.example.qgame.Models.User;
 import com.example.qgame.helpers.Response;
+import com.example.qgame.repositories.ProductLikeRepository;
 import com.example.qgame.requests.ProductFilterRequest;
 import com.example.qgame.resources.ProductResource;
 import com.example.qgame.services.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
@@ -20,6 +25,7 @@ public class ProductController {
 
     @Autowired
     private ProductService productService;
+
 
     @GetMapping("/shop")
     public ModelAndView index() {
@@ -42,13 +48,16 @@ public class ProductController {
     }
 
     @PostMapping("/{product}/like")
-    public Object like(@PathVariable("product") Optional<Product> product){
-        return null;
+    public ResponseEntity like(@PathVariable("product") Optional<Product> product) {
+        User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+
+        productService.like(user, product.orElseThrow());
+
+        return new Response().responseEntity();
     }
 
 
-
-    public Object likes(){
+    public Object likes() {
         return null;
     }
 }

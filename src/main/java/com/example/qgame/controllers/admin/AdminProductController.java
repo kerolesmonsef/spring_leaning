@@ -43,7 +43,7 @@ public class AdminProductController {
 
         IPageWrapper<Product> page = service.getPageable();
 
-        return new ModelAndView("/admin/products/products.html")
+        return new ModelAndView("admin/products/products.html")
                 .addObject("page", page);
     }
 
@@ -67,7 +67,7 @@ public class AdminProductController {
             model.addAttribute("productRequest", productRequest);
         }
 
-        return new ModelAndView("/admin/products/add_edit_product")
+        return new ModelAndView("admin/products/add_edit_product")
                 .addObject("product", product)
                 .addObject("categories", categoryRepository.findAll());
     }

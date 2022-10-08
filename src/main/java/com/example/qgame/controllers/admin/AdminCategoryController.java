@@ -31,7 +31,7 @@ public class AdminCategoryController extends IController {
     @GetMapping
     public ModelAndView index() {
 
-        ModelAndView view = new ModelAndView("/admin/categories/all_categories.html");
+        ModelAndView view = new ModelAndView("admin/categories/all_categories.html");
         view.addObject("categories", categoryRepository.findAll());
 
         return view;
@@ -48,7 +48,7 @@ public class AdminCategoryController extends IController {
 
         appendToModelIfNotExist("categoryRequest", AdminCreateUpdateCategoryRequest.class, model);
 
-        return new ModelAndView("/admin/categories/add_edit_category.html")
+        return new ModelAndView("admin/categories/add_edit_category.html")
                 .addObject("category", category);
     }
 

@@ -1,16 +1,16 @@
 package com.example.qgame.services;
 
-import com.example.qgame.Models.Option;
-import com.example.qgame.Models.Product;
-import com.example.qgame.Models.ProductOptionValue;
+import com.example.qgame.Models.*;
 import com.example.qgame.helpers.Response;
 import com.example.qgame.helpers.dto.OptionValueDTO;
 import com.example.qgame.helpers.entityembadable.FilesList;
 import com.example.qgame.helpers.filters.products.*;
+import com.example.qgame.helpers.ids.ProductLikeId;
 import com.example.qgame.helpers.paginations.Pagination;
 import com.example.qgame.helpers.paginations.PaginationMaker;
 import com.example.qgame.helpers.services.files.AssetFileManager;
 import com.example.qgame.helpers.services.files.FileInfo;
+import com.example.qgame.repositories.ProductLikeRepository;
 import com.example.qgame.repositories.ProductOptionValueRepository;
 import com.example.qgame.repositories.ProductRepository;
 import com.example.qgame.requests.admin.AdminProductRequest;
@@ -49,10 +49,20 @@ public class ProductService {
     PaginationMaker<Product> paginationMaker;
 
     @Autowired
+    private ProductLikeRepository productLikeRepository;
+
+    @Autowired
     FilterQueryBuilder filterQueryBuilder;
 
     public Pagination<Product> getPageable() {
         return paginationMaker.makeFromJpaRepository(productRepository, "/admin/products");
+    }
+
+    public ProductLike like(User user, Product product) {
+        ProductLike productLike = new ProductLike();
+        productLike.setId(new ProductLikeId(product, user));
+        productLikeRepository.save(productLike);
+        return productLike;
     }
 
     @Transactional
@@ -64,6 +74,7 @@ public class ProductService {
 
         return productRepository.save(product);
     }
+
 
     @Transactional
     public Product update(Product product, AdminProductRequest request) {
@@ -148,12 +159,12 @@ public class ProductService {
 
         Pagination<Product> productPagination = paginationMaker.makeFromQueryBuilderResult(productFilterResult);
 
-        List<Map<String,Object>> productResourceList = productPagination.getContent().stream().map(p -> new ProductResource(p).toArray()).toList();
+        List<Map<String, Object>> productResourceList = productPagination.getContent().stream().map(p -> new ProductResource(p).toArray()).toList();
 
         return new Response()
                 .add("products", Map.ofEntries(
-                        Map.entry("data",productResourceList),
-                        Map.entry("urlInfos",productPagination.getInfoResource())
+                        Map.entry("data", productResourceList),
+                        Map.entry("urlInfos", productPagination.getInfoResource())
                 ))
                 .add("options", filterOptionFilter.getOptions())
                 .responseEntity();
