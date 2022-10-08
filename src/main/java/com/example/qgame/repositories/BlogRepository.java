@@ -9,6 +9,6 @@ import java.util.List;
 
 public interface BlogRepository extends JpaRepository<Blog, Long> {
 
-    @Query("SELECT b FROM Blog b ORDER BY b.id DESC")
+    @Query("FROM Blog b ORDER BY b.id DESC")
     List<Blog> getRecent(Pageable pageable);
 }

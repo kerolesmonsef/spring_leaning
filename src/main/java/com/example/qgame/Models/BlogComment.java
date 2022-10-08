@@ -14,7 +14,7 @@ import java.util.Date;
 @Accessors(chain = true)
 public class BlogComment {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.TABLE, generator = "hibernate_sequences")
     private Long id;
 
     @NotNull

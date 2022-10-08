@@ -29,7 +29,7 @@
                     <td th:text="${blog.id}"></td>
                     <td th:text="${blog.title}"></td>
                     <td>
-                        <img th:src="${blog.getImageUrl()}" style="width: 50px;height: 50px;">
+                        <img th:src="${blog?.getImageUrl()}" style="width: 50px;height: 50px;">
                     </td>
                     <td th:text="${blog.createdBy}"></td>
                     <td th:text="${blog.createdAt}"></td>

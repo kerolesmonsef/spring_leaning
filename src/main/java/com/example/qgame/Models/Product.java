@@ -22,7 +22,7 @@ import java.util.Date;
 @DynamicUpdate
 public class Product {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.TABLE, generator = "hibernate_sequences")
     private Long id;
 
     private String title;
@@ -35,7 +35,6 @@ public class Product {
     @Column(columnDefinition = "text")
     private String description;
 
-    @Column(unique = true)
     private String slug;
 
     private float buyPrice;

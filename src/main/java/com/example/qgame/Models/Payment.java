@@ -14,7 +14,7 @@ import javax.persistence.*;
 @DynamicUpdate
 public class Payment {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.TABLE, generator = "hibernate_sequences")
     private Long id;
 
     private String paymentUrl;

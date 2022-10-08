@@ -12,7 +12,7 @@ import javax.persistence.*;
 @Data
 public class Test {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.TABLE, generator = "hibernate_sequences")
     private Long id;
 
     @Convert(converter = IJsonConverter.class)

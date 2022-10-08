@@ -3,16 +3,16 @@
 <div th:fragment="blog" th:with="blog = ${blog}">
     <div class="blog-contain">
         <div class="blog-img">
-            <a th:href="${blog.getUrl()}">
-                <img style="width: 333px" th:src="${blog.getImageUrl()}" alt="blog" class="img-fluid ">
+            <a th:href="${blog?.getUrl()}">
+                <img style="width: 333px" th:src="${blog?.getImageUrl()}" alt="blog" class="img-fluid ">
             </a>
         </div>
         <div class="blog-details">
-            <a th:href="${blog.getUrl()}">
+            <a th:href="${blog?.getUrl()}">
                 <h4 th:text="${blog.title}"></h4>
             </a>
             <p th:text="${blog.getContentNWords(10)}"></p>
-            <span><a th:href="${blog.getUrl()}">read more</a></span>
+            <span><a th:href="${blog?.getUrl()}">read more</a></span>
         </div>
         <div class="blog-label">
             <p>25 july 2018</p>

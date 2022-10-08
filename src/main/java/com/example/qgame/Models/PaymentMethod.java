@@ -13,10 +13,10 @@ import java.util.Objects;
 @Accessors(chain = true)
 public class PaymentMethod {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.TABLE, generator = "hibernate_sequences")
     private Long id;
 
-    @Column(unique = true,nullable = false)
+    @Column(nullable = false)
     private String name;
 
     private String display_name;
@@ -31,7 +31,7 @@ public class PaymentMethod {
     private String comment;
 
 
-    public boolean isOnline(){
+    public boolean isOnline() {
         return !Objects.equals(name, "cache");
     }
 }

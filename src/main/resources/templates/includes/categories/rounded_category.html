@@ -4,11 +4,11 @@
     <div class="category-contain">
         <div class="img-wrapper">
             <a th:href="${category.getUrl()}">
-                <img th:src="${category.getImageUrl()}" alt="category  " class="img-fluid">
+                <img th:src="${category.getImageUrl()}" alt="category  " class="img-fluid"> kero
             </a>
         </div>
-        <a th:href="${category.getUrl()}" class="btn-rounded">
-            shoes
+        <a th:href="${category.getUrl()}" class="btn-rounded" th:text="${category.name}">
+
         </a>
     </div>
 </div>

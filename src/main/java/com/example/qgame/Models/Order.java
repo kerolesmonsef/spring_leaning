@@ -20,7 +20,6 @@ public class Order {
     @Id
     private Long id;
 
-    @Column(unique = true)
     private String code;
 
     @ManyToOne(fetch = FetchType.LAZY)
@@ -48,7 +47,7 @@ public class Order {
     private float taxes;
 
     @ColumnDefault("'init'")
-    @Column(columnDefinition = "ENUM('init','pending_online_payment','canceled','completed')")
+//    @Column(columnDefinition = "ENUM('init','pending_online_payment','canceled','completed')") // not SQLite
     private OrderStatus status;
 
     private Date delivered_at;

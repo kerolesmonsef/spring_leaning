@@ -15,10 +15,11 @@ import java.util.Date;
 @Data
 @Entity
 @Accessors(chain = true)
+@Table(name = "users")
 public class User implements UserDetails {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.TABLE, generator = "hibernate_sequences")
     private Long id;
     private String name;
     private String email;
@@ -30,7 +31,7 @@ public class User implements UserDetails {
     @LastModifiedDate
     private Date updated_at;
 
-    @Column(columnDefinition = "enum('active','blocked')")
+//    @Column(columnDefinition = "enum('active','blocked')") // disabled because SQLite doesn't support enum
     @Enumerated(EnumType.STRING)
     private UserStatus status;
 

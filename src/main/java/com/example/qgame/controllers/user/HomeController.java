@@ -41,7 +41,6 @@ public class HomeController {
         List<Category> some_categories = categoryRepository.RandomN(PageRequest.of(0, 6));
         List<Blog> recent_blogs = blogRepository.getRecent(PageRequest.of(0, 4));
 
-
         return new ModelAndView("index")
                 .addObject("slider_products", slider_products)
                 .addObject("batch_products", batch_products)

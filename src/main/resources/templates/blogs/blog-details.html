@@ -34,7 +34,7 @@
             <div class="row section-big-pb-space">
                 <div class="col-sm-12 blog-detail">
                     <div class="creative-card">
-                        <img th:src="${blog.getImageUrl()}" class="img-fluid w-100 " alt="blog">
+                        <img th:src="${blog?.getImageUrl()}" class="img-fluid w-100 " alt="blog">
                         <h3 th:text="${blog.title}"></h3>
                         <ul class="post-social">
                             <li>25 January 2018</li>

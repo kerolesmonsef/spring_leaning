@@ -17,7 +17,7 @@ public class Option {
     @GeneratedValue(strategy = GenerationType.TABLE, generator = "hibernate_sequences")
     private Long id;
 
-    @Column(unique = true)
+//    @Column(unique = true) not working in sqlite
     private String title;
 
     @CreatedDate

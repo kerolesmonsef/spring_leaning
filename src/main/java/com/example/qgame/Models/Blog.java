@@ -15,7 +15,7 @@ import java.util.Objects;
 @Accessors(chain = true)
 public class Blog {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.TABLE, generator = "hibernate_sequences")
     private Long id;
 
     private String title;
