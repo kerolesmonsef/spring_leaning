@@ -20,16 +20,7 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 @SpringBootApplication
 @EnableJpaAuditing // for now for timestamp use current
-public class QGameApplication implements CommandLineRunner {
-
-    @Autowired
-    protected ProductLikeRepository productLikeRepository;
-
-    @Autowired
-    protected ProductRepository productRepository;
-
-    @Autowired
-    protected UserRepository userRepository;
+public class QGameApplication {
 
     private static ConfigurableApplicationContext context;
 
@@ -45,15 +36,5 @@ public class QGameApplication implements CommandLineRunner {
         return context.getBean(clazz);
     }
 
-    @Override
-    public void run(String... args) throws Exception {
 
-        ProductLike productLike = new ProductLike();
-        Product product = productRepository.findById(1L).orElse(null);
-        User user = userRepository.findById(1L).orElse(null);
-        productLike.setId(new ProductLikeId(product, user));
-
-        productLikeRepository.save(productLike);
-
-    }
 }

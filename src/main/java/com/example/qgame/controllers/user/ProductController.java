@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.validation.Valid;
+import java.lang.reflect.InvocationTargetException;
 import java.util.Optional;
 
 @Controller
@@ -56,8 +57,10 @@ public class ProductController {
         return new Response().responseEntity();
     }
 
+    @PostMapping("/likes")
+    public ResponseEntity likes() throws NoSuchMethodException, InstantiationException, IllegalAccessException, InvocationTargetException {
+        User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 
-    public Object likes() {
-        return null;
+        return productService.likes(user);
     }
 }

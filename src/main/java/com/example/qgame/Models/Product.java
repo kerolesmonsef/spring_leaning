@@ -90,7 +90,7 @@ public class Product {
     }
 
     public String getUrl() {
-        return "no-slug";
-//        return Helper.base_url() + "/product/" + Helper.slug(this.title) + "/" + this.id;
+//        return "no-slug";
+        return Helper.base_url() + "/product/" + Helper.slug(this.title) + "/" + this.id;
     }
 }

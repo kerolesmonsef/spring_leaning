@@ -2,6 +2,8 @@ package com.example.qgame.resources;
 
 import com.example.qgame.Models.Product;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 public class ProductResource extends JsonResponseResource<Product> {
@@ -21,5 +23,9 @@ public class ProductResource extends JsonResponseResource<Product> {
                 Map.entry("imageUrl", object.firstImageUrl()),
                 Map.entry("imageUrl2", object.images().get(1))
         );
+    }
+
+    public static List<ProductResource> toCollection(List<Product> products) {
+        return products.stream().map(p -> new ProductResource(p)).toList();
     }
 }

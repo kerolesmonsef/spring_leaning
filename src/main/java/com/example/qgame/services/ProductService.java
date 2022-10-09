@@ -20,10 +20,12 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.function.EntityResponse;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.servlet.http.HttpServletRequest;
+import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -63,6 +65,14 @@ public class ProductService {
         productLike.setId(new ProductLikeId(product, user));
         productLikeRepository.save(productLike);
         return productLike;
+    }
+
+    public ResponseEntity likes(User user) throws InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException {
+        List<Product> likesProcuts = productRepository.likes(user.getId());
+        List<ProductResource> resources = ProductResource.toCollection(likesProcuts);
+        return new Response()
+                .addResourceList("products", resources)
+                .responseEntity();
     }
 
     @Transactional
