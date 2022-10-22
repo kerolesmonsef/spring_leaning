@@ -67,6 +67,11 @@ public class ProductService {
         return productLike;
     }
 
+
+    public void dislike(User user, Product product) {
+        productLikeRepository.dislike(user, product);
+    }
+
     public ResponseEntity likes(User user) throws InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException {
         List<Product> likesProcuts = productRepository.likes(user.getId());
         List<ProductResource> resources = ProductResource.toCollection(likesProcuts);

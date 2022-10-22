@@ -57,6 +57,15 @@ public class ProductController {
         return new Response().responseEntity();
     }
 
+    @PostMapping("/{product}/dislike")
+    public ResponseEntity dislike(@PathVariable("product") Optional<Product> product) {
+        User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+
+        productService.dislike(user, product.orElseThrow());
+
+        return new Response().responseEntity();
+    }
+
     @PostMapping("/likes")
     public ResponseEntity likes() throws NoSuchMethodException, InstantiationException, IllegalAccessException, InvocationTargetException {
         User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();

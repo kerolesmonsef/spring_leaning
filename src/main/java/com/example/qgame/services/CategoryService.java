@@ -1,6 +1,7 @@
 package com.example.qgame.services;
 
 import com.example.qgame.Models.Category;
+import com.example.qgame.QGameApplication;
 import com.example.qgame.helpers.services.files.AssetFileManager;
 import com.example.qgame.helpers.services.files.FileInfo;
 import com.example.qgame.repositories.CategoryRepository;
@@ -10,6 +11,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.util.List;
 
 @Service
 public class CategoryService {
@@ -53,5 +55,9 @@ public class CategoryService {
     public void delete(Category category) {
         repository.delete(category);
         new AssetFileManager().setFilePath("/images/categories/").remove(category.getImage());
+    }
+
+    public static List<Category> all() {
+        return QGameApplication.getBean(CategoryRepository.class).findAll();
     }
 }

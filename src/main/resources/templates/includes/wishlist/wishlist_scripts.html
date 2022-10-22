@@ -2,9 +2,30 @@
 <html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
 <div th:fragment="wishlist">
     <script>
-        /*=====================
-         16.  Add to wishlist
-         ==========================*/
+        const wishlistLi = (product) => {
+            return `<li>
+                        <div class="media">
+                            <a href="${product.url}">
+                                <img alt="megastore1" class="me-3" src="${product.imageUrl}">
+                            </a>
+                            <div class="media-body">
+                                <a href="product-page(left-sidebar).html">
+                                    <h4>${product.title}</h4>
+                                </a>
+                                <h6>
+                                    $${product.price}
+                                </h6>
+                                <div class="addit-box">
+                                    <div class="pro-add">
+                                        <a href="javascript:void(0)" data-product-id="${product.id}" class="remove-wishlist-product">
+                                            ${feather.icons['trash-2'].toSvg()}
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </li>`;
+        };
 
         $(document).on('click', '.add-to-wish', function () {
             let product_id = $(this).data('product-id');
@@ -13,7 +34,6 @@
                 openAccount();
                 return;
             }
-
 
             $.ajax({
                 "url": `/products/${product_id}/like`,
@@ -26,6 +46,7 @@
                 // "data": JSON.stringify(dataToSend),
             }).done(function (response) {
                 notifyMessage("Item Successfully added in wishlist");
+                regetWishList();
             }).fail(function (response) {
                 const errors = response.responseJSON?.errors ?? [];
                 for (let error in errors) {
@@ -35,6 +56,53 @@
             });
 
 
+        });
+
+        function regetWishList() {
+            if (!auth.isAuth()) {
+                return;
+            }
+
+
+            $.ajax({
+                "url": `/products/likes`,
+                "method": "POST",
+                "timeout": 0,
+                "headers": {
+                    "Content-Type": "application/json",
+                    "Authorization": `Bearer ${auth.getToken()}`
+                },
+
+            }).done(function (response) {
+                $('.with_list_products').children().remove();
+                $('.wish-list-count-text').html(response.products.length + " Item");
+                $('.wish-list-count').html(response.products.length);
+                for (let product of response.products) {
+                    $('.with_list_products').append(wishlistLi(product));
+                }
+            });
+        }
+
+        regetWishList();
+
+
+        $(document).on("click", '.remove-wishlist-product', function () {
+            let product_id = $(this).data('product-id');
+            $.ajax({
+                "url": `/products/${product_id}/dislike`,
+                "method": "POST",
+                "timeout": 0,
+                "headers": {
+                    "Content-Type": "application/json",
+                    "Authorization": `Bearer ${auth.getToken()}`
+                },
+                // "data": JSON.stringify(dataToSend),
+            }).done(function (response) {
+                notifyMessage("Item removed successfully");
+                regetWishList();
+            });
+
+            $(this).parents('li').remove();
         });
     </script>
 </div>

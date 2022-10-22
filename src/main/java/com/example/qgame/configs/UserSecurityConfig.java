@@ -47,6 +47,7 @@ public class UserSecurityConfig extends WebSecurityConfigurerAdapter {
     public static final String[] AUTHENTICATION_MATCHERS = {
             "/orders/create/**",
             "/products/*/like",
+            "/products/*/dislike",
             "/products/likes"
     };
 

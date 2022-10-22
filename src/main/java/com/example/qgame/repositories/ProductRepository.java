@@ -18,6 +18,6 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
     @Query(value = "FROM Product p ORDER BY RANDOM()") // RANDOM() FOR SQLite
     List<Product> getRandomN(Pageable pageable);
 
-    @Query("SELECT p FROM Product p, ProductLike pl WHERE pl.id.product.id = p.id")
+    @Query("SELECT p FROM Product p, ProductLike pl WHERE pl.id.product.id = p.id AND pl.id.user.id = :userId")
     List<Product> likes(@Param("userId") Long userId);
 }
