@@ -20,6 +20,7 @@
                 <i data-feather="shopping-cart"></i>
             </button>
             <a href="javascript:void(0)" class="add-to-wish tooltip-top"
+               th:attr="data-product-id=${product.getId()}"
                data-tippy-content="Add to Wishlist">
                 <i data-feather="heart"></i>
             </a>

@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<div th:fragment="wishlist">
+    <script>
+        /*=====================
+         16.  Add to wishlist
+         ==========================*/
+
+        $(document).on('click', '.add-to-wish', function () {
+            let product_id = $(this).data('product-id');
+            if (!auth.isAuth()) {
+                alert("please login first");
+                openAccount();
+                return;
+            }
+
+
+            $.ajax({
+                "url": `/products/${product_id}/like`,
+                "method": "POST",
+                "timeout": 0,
+                "headers": {
+                    "Content-Type": "application/json",
+                    "Authorization": `Bearer ${auth.getToken()}`
+                },
+                // "data": JSON.stringify(dataToSend),
+            }).done(function (response) {
+                notifyMessage("Item Successfully added in wishlist");
+            }).fail(function (response) {
+                const errors = response.responseJSON?.errors ?? [];
+                for (let error in errors) {
+                    alert(errors[error]);
+                    return;
+                }
+            });
+
+
+        });
+    </script>
+</div>
+</html>

@@ -96,7 +96,7 @@
                 refresh();
             });
             $(document).on("click", ".qty-plus", function () {
-                const value = 1 + interval($(this).prev().val());
+                const value = 1 + parseInt($(this).prev().val());
                 const productId = $(this).parent().data("product-id");
 
                 console.log(productId, value)

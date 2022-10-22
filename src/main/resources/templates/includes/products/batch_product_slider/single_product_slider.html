@@ -32,8 +32,9 @@
                                 class="tooltip-top add-to-cart-button" data-tippy-content="Add to cart"><i
                                 data-feather="shopping-cart"></i></button>
                         <a href="javascript:void(0)" class="add-to-wish tooltip-top"
-                           data-tippy-content="Add to Wishlist"><i data-feather="heart"
-                                                                   class="add-to-wish"></i></a>
+                           th:attr="data-product-id=${product.getId()}"
+                           data-tippy-content="Add to Wishlist">
+                            <i data-feather="heart" class="add-to-wish" th:attr="data-product-id=${product.getId()}"></i></a>
                         <a href="javascript:void(0)" data-bs-toggle="modal"
                            data-bs-target="#quick-view" class="tooltip-top"
                            data-tippy-content="Quick View"><i

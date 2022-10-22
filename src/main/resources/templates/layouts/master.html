@@ -43,12 +43,13 @@
 <script th:src="@{/assets/js/bootstrap.js}"></script>
 <script th:src="@{/assets/js/slider-animat-three.js}"></script>
 <script th:src="@{/assets/js/script.js}"></script>
-<script th:src="@{/assets/js/timer2.js}"></script>
+<!--<script th:src="@{/assets/js/timer2.js}"></script>-->
 <script th:src="@{/assets/js/modal.js}"></script>
 <script th:src="@{/assets/js/sweetalert.js}"></script>
 
 <div layout:fragment="scripts"></div>
 
 <th:block th:replace="includes/cart/cart_scripts :: cart_scripts"></th:block>
+<th:block th:replace="includes/wishlist/wishlist_scripts :: wishlist"></th:block>
 
 </html>

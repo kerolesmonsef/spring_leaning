@@ -87,6 +87,7 @@
             if (!auth.isAuth()) {
                 alert("please login first");
                 openAccount();
+                return;
             }
 
             const paymentMethodId = $('input[name="payment-method-id"]:checked').val();
