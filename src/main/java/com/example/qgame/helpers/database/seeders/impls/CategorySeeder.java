@@ -9,26 +9,11 @@ import com.github.javafaker.Faker;
 import java.util.*;
 
 public class CategorySeeder extends ISeeder<Category> {
+    private CategoryRepository categoryRepository;
 
-//    @Override
-//    protected List<Category> data() {
-//
-//        List<Category> categories = new ArrayList<>();
-//        Random random = new Random();
-//
-//        Faker faker = this.faker();
-//
-//        for (int i = 0; i < 30; i++) {
-//            Category category = new Category();
-//            category.setName(faker.cat().name());
-//            category.setImage(random.nextInt(7) + ".png");
-//            category.setDescription(faker.lorem().paragraph(10));
-//
-//            categories.addFilter(category);
-//        }
-//
-//        return categories;
-//    }
+    public CategorySeeder(CategoryRepository categoryRepository) {
+        this.categoryRepository = categoryRepository;
+    }
 
     @Override
     protected Collection<Category> data() {
@@ -38,7 +23,7 @@ public class CategorySeeder extends ISeeder<Category> {
 
         Faker faker = this.faker();
 
-        for (int i=1; i <= 6; i++) {
+        for (int i = 1; i <= 6; i++) {
             Category category = new Category();
             category.setName(names.get(i));
             category.setImage((i) + ".png");
@@ -51,8 +36,6 @@ public class CategorySeeder extends ISeeder<Category> {
 
     @Override
     public void seed() {
-
-        CategoryRepository categoryRepository = QGameApplication.getContext().getBean(CategoryRepository.class);
 
         categoryRepository.saveAll(this.data());
     }

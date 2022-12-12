@@ -228,7 +228,7 @@
                                     </nav>
                                     <div class="collapse hide nav-desk" id="navbarToggleExternalContent">
                                         <ul class="nav-cat title-font">
-                                            <li th:each="category : ${T(com.example.qgame.services.CategoryService).all()}">
+                                            <li th:each="category : ${allCategories}">
                                                 <a th:href="@{/products/shop} + '?category_id=' + ${category.id}">
                                                     <img th:src="${category.getImageUrl()}" alt="catergory-product">
                                                     <span th:text="${category.name}"></span>

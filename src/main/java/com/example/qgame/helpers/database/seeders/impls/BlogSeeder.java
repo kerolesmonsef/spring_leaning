@@ -4,8 +4,6 @@ import com.example.qgame.Models.Blog;
 import com.example.qgame.QGameApplication;
 import com.example.qgame.helpers.database.seeders.ISeeder;
 import com.example.qgame.repositories.BlogRepository;
-import com.example.qgame.repositories.CategoryRepository;
-import com.github.javafaker.Faker;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -13,8 +11,10 @@ import java.util.List;
 
 public class BlogSeeder extends ISeeder<Blog> {
 
-    public static void main(String[] args) {
+    private final BlogRepository blogRepository;
 
+    public BlogSeeder(BlogRepository blogRepository) {
+        this.blogRepository = blogRepository;
     }
 
     @Override
@@ -37,7 +37,6 @@ public class BlogSeeder extends ISeeder<Blog> {
 
     @Override
     public void seed() {
-        BlogRepository blogRepository = QGameApplication.getBean(BlogRepository.class);
         blogRepository.saveAll(data());
     }
 }

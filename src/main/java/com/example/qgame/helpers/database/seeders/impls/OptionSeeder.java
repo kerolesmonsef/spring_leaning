@@ -13,6 +13,12 @@ import java.util.List;
 
 public class OptionSeeder extends ISeeder<Option> {
 
+    private final OptionRepository repository;
+
+    public OptionSeeder(OptionRepository repository) {
+        this.repository = repository;
+    }
+
     private final static List<String> titles = Arrays.asList("color", "size", "weight", "height", "material");
 
     @Override
@@ -33,8 +39,7 @@ public class OptionSeeder extends ISeeder<Option> {
 
     @Override
     public void seed() {
-        OptionRepository categoryRepository = QGameApplication.getContext().getBean(OptionRepository.class);
 
-        categoryRepository.saveAll(this.data());
+        repository.saveAll(this.data());
     }
 }

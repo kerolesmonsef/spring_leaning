@@ -14,6 +14,13 @@ import java.util.List;
 import java.util.Random;
 
 public class ProductSeeder extends ISeeder<Product> {
+
+    private final ProductRepository productRepository;
+
+    public ProductSeeder(ProductRepository productRepository) {
+        this.productRepository = productRepository;
+    }
+
     @Override
     protected List<Product> data() {
         CategoryRepository categoryRepository = QGameApplication.getContext().getBean(CategoryRepository.class);
@@ -46,8 +53,6 @@ public class ProductSeeder extends ISeeder<Product> {
     @Override
     public void seed() {
 
-        ProductRepository categoryRepository = QGameApplication.getContext().getBean(ProductRepository.class);
-
-        categoryRepository.saveAll(this.data());
+        productRepository.saveAll(this.data());
     }
 }

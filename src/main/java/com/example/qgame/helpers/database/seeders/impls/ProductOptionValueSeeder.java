@@ -13,6 +13,12 @@ import java.util.*;
 
 public class ProductOptionValueSeeder extends ISeeder {
 
+    private final ProductOptionValueRepository productOptionValueRepository;
+
+    public ProductOptionValueSeeder(ProductOptionValueRepository productOptionValueRepository) {
+        this.productOptionValueRepository = productOptionValueRepository;
+    }
+
 
     @Override
     protected Collection data() {
@@ -43,7 +49,7 @@ public class ProductOptionValueSeeder extends ISeeder {
 
     @Override
     public void seed() {
-        QGameApplication.getBean(ProductOptionValueRepository.class).saveAll(data());
+        productOptionValueRepository.saveAll(data());
     }
 
 

@@ -1,7 +1,6 @@
 package com.example.qgame.helpers.database.seeders.impls;
 
 import com.example.qgame.Models.User;
-import com.example.qgame.QGameApplication;
 import com.example.qgame.helpers.database.seeders.ISeeder;
 import com.example.qgame.repositories.UserRepository;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -11,6 +10,13 @@ import java.util.ArrayList;
 import java.util.Collection;
 
 public class UserSeeder extends ISeeder<User> {
+
+    private final UserRepository userRepository;
+
+    public UserSeeder(UserRepository userRepository) {
+        this.userRepository = userRepository;
+    }
+
     @Override
     protected Collection<User> data() {
         PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
@@ -31,6 +37,6 @@ public class UserSeeder extends ISeeder<User> {
 
     @Override
     public void seed() {
-        QGameApplication.getBean(UserRepository.class).saveAll(data());
+        userRepository.saveAll(data());
     }
 }

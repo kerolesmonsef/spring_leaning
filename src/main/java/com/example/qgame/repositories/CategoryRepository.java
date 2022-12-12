@@ -15,4 +15,8 @@ public interface CategoryRepository extends JpaRepository<Category, Long> {
 
     @Query("SELECT new com.example.qgame.helpers.dto.CategoryIdResult(c.id ,c.name) FROM Category c")
     List<CategoryIdResult> getIdAndName();
+
+    @Query("FROM Category c WHERE c.id > 3")
+    List<Category> testAll();
+
 }

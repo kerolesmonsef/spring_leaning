@@ -57,7 +57,5 @@ public class CategoryService {
         new AssetFileManager().setFilePath("/images/categories/").remove(category.getImage());
     }
 
-    public static List<Category> all() {
-        return QGameApplication.getBean(CategoryRepository.class).findAll();
-    }
+
 }

@@ -18,9 +18,7 @@ import org.hibernate.Session;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import javax.persistence.EntityManager;
@@ -31,11 +29,13 @@ import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
 import javax.servlet.ServletRequest;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpUtils;
 import java.util.Arrays;
 import java.util.List;
 
 @Controller
 @RequestMapping("/test")
+@ControllerAdvice
 public class TestController {
 
     @PersistenceContext
@@ -59,22 +59,10 @@ public class TestController {
 
     }
 
-    @ResponseBody
-    @GetMapping("/seed")
-    public void seed() {
-        List<ISeeder> seeders = Arrays.asList(
-                new CategorySeeder(),
-                new OptionSeeder(),
-                new ProductSeeder(),
-                new BlogSeeder(),
-                new ProductOptionValueSeeder(),
-                new PaymentMethodSeeder(),
-                new UserSeeder()
-        );
 
-
-        new SeederExecuter(seeders).execute();
+//
+    @ModelAttribute("baseUrl")
+    public String testV() {
+        return "this is url wow";
     }
-
-
 }

@@ -1,7 +1,6 @@
 package com.example.qgame.helpers.database.seeders.impls;
 
 import com.example.qgame.Models.PaymentMethod;
-import com.example.qgame.QGameApplication;
 import com.example.qgame.helpers.database.seeders.ISeeder;
 import com.example.qgame.repositories.PaymentMethodRepository;
 
@@ -9,6 +8,13 @@ import java.util.ArrayList;
 import java.util.Collection;
 
 public class PaymentMethodSeeder extends ISeeder<PaymentMethod> {
+    private final PaymentMethodRepository paymentMethodRepository;
+
+    public PaymentMethodSeeder(PaymentMethodRepository paymentMethodRepository) {
+        this.paymentMethodRepository = paymentMethodRepository;
+    }
+
+
     @Override
     protected Collection<PaymentMethod> data() {
 
@@ -31,6 +37,6 @@ public class PaymentMethodSeeder extends ISeeder<PaymentMethod> {
 
     @Override
     public void seed() {
-        QGameApplication.getBean(PaymentMethodRepository.class).saveAll(data());
+        paymentMethodRepository.saveAll(data());
     }
 }
