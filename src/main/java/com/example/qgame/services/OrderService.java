@@ -56,7 +56,7 @@ public class OrderService {
         Response response = new Response();
         PaymentMethod paymentMethod = paymentMethodRepository.getById(request.getPaymentMethodId());
 
-        OrderCreator orderCreator = new OrderCreator(request, user,paymentMethod)
+        OrderCreator orderCreator = new OrderCreator(request, user, paymentMethod, orderDetailService.convertToOrderDetail(request.getOrderItemRequests()))
                 .setOrderService(this);
 
         // check validation of order Creator if any then return
