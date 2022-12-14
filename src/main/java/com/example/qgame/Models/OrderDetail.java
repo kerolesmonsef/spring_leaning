@@ -31,4 +31,16 @@ public class OrderDetail {
     @Column(columnDefinition = "JSON")
     private String properties; // color - size  - ...
 
+
+    public float priceAfterDiscount() {
+        return product.priceAfterDiscount() * quantity;
+    }
+
+    public float priceBeforeDiscount() {
+        return singlePrice() * quantity;
+    }
+
+    private float singlePrice() {
+        return this.product.getPrice();
+    }
 }

@@ -17,12 +17,6 @@ public class BeanConfiguration {
         return new BCryptPasswordEncoder();
     }
 
-    @Bean
-    public Faker faker() {
-        return new Faker();
-
-    }
-
 
     @Bean
     public CorsFilter corsFilter() {

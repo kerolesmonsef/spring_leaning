@@ -9,7 +9,6 @@ import java.util.Map;
 @Component
 public class KeywordFilterOption extends IFilterOption {
 
-    private String keyword;
     private String match;
 
 
@@ -30,7 +29,7 @@ public class KeywordFilterOption extends IFilterOption {
 
     @Override
     public IFilterOption init(Map<String, Object> property) {
-        keyword = (String) property.get("keyword");
+        String keyword = (String) property.get("keyword");
         match = "%" + keyword + "%";
         return this;
     }

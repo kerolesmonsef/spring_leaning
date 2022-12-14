@@ -1,11 +1,10 @@
 package com.example.qgame.helpers.order;
 
+import com.example.qgame.Models.OrderDetail;
 import com.example.qgame.Models.PaymentMethod;
 import com.example.qgame.Models.User;
-import com.example.qgame.helpers.dto.OrderItemDto;
 import lombok.Data;
 import lombok.experimental.Accessors;
-import org.springframework.stereotype.Service;
 
 import java.util.List;
 
@@ -13,14 +12,14 @@ import java.util.List;
 @Accessors(chain = true)
 public class OrderDescriptor {
 
-    private List<OrderItemDto> orderItems;
+    private List<OrderDetail> orderDetails;
     private User user;
     private String coupon;
     private String note;
     private PaymentMethod paymentMethod;
 
-    public OrderDescriptor(List<OrderItemDto> orderItems, User user, PaymentMethod paymentMethod) {
-        this.orderItems = orderItems;
+    public OrderDescriptor(List<OrderDetail> orderDetails, User user, PaymentMethod paymentMethod) {
+        this.orderDetails = orderDetails;
         this.user = user;
         this.paymentMethod = paymentMethod;
     }
@@ -30,23 +29,16 @@ public class OrderDescriptor {
     }
 
     public float productsPrice() {
-        float total = 0;
-
-        for (OrderItemDto orderItem : orderItems) {
-            total += orderItem.priceBeforeDiscount();
-        }
-
-        return total;
+        return orderDetails.stream()
+                .map(OrderDetail::priceBeforeDiscount)
+                .reduce(0.0f, Float::sum);
     }
 
     public float productsPriceAfterDiscount() {
-        float total = 0;
+        return orderDetails.stream()
+                .map(OrderDetail::priceAfterDiscount)
+                .reduce(0.0f, Float::sum);
 
-        for (OrderItemDto orderItem : orderItems) {
-            total += orderItem.price();
-        }
-
-        return total;
     }
 
     public float totalPrice() {

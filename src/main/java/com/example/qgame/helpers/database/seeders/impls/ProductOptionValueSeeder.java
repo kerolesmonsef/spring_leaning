@@ -3,7 +3,6 @@ package com.example.qgame.helpers.database.seeders.impls;
 import com.example.qgame.Models.Option;
 import com.example.qgame.Models.Product;
 import com.example.qgame.Models.ProductOptionValue;
-import com.example.qgame.QGameApplication;
 import com.example.qgame.helpers.database.seeders.ISeeder;
 import com.example.qgame.repositories.OptionRepository;
 import com.example.qgame.repositories.ProductOptionValueRepository;
@@ -14,9 +13,13 @@ import java.util.*;
 public class ProductOptionValueSeeder extends ISeeder {
 
     private final ProductOptionValueRepository productOptionValueRepository;
+    private final OptionRepository optionRepository;
+    private final ProductRepository productRepository;
 
-    public ProductOptionValueSeeder(ProductOptionValueRepository productOptionValueRepository) {
+    public ProductOptionValueSeeder(ProductOptionValueRepository productOptionValueRepository, OptionRepository optionRepository, ProductRepository productRepository) {
         this.productOptionValueRepository = productOptionValueRepository;
+        this.optionRepository = optionRepository;
+        this.productRepository = productRepository;
     }
 
 
@@ -25,8 +28,6 @@ public class ProductOptionValueSeeder extends ISeeder {
         List<ProductOptionValue> data = new ArrayList<>();
         Map<String, List<String>> dataMap = values();
 
-        OptionRepository optionRepository = QGameApplication.getBean(OptionRepository.class);
-        ProductRepository productRepository = QGameApplication.getBean(ProductRepository.class);
         List<Product> products = productRepository.findAll();
         List<Option> options = optionRepository.findAll();
 

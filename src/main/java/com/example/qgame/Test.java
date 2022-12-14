@@ -16,11 +16,6 @@ public class Test implements CommandLineRunner {
 
     @Override
     public void run(String... args) throws Exception {
-        System.out.println("------------------------------------------------");
-        System.out.println("dname :" + applicationContext.getDisplayName());
-        System.out.println("id : " + applicationContext.getId());
 
-        MyBean myBean = applicationContext.getBean(MyBean.class);
-        System.out.println(" myBean id :" + myBean.getApplicationId());
     }
 }

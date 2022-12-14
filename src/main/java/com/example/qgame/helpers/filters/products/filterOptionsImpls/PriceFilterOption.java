@@ -23,12 +23,12 @@ public class PriceFilterOption extends IFilterOption {
 
     @Override
     public String getName() {
-        return "price";
+        return "priceAfterDiscount";
     }
 
     @Override
     public Predicate getPredicate() {
-        return cb.between(root.get("price"), from, to);
+        return cb.between(root.get("priceAfterDiscount"), from, to);
     }
 
     @Override

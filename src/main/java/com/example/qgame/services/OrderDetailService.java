@@ -2,9 +2,10 @@ package com.example.qgame.services;
 
 import com.example.qgame.Models.Order;
 import com.example.qgame.Models.OrderDetail;
-import com.example.qgame.helpers.dto.OrderItemDto;
+import com.example.qgame.Models.Product;
 import com.example.qgame.repositories.OrderDetailRepository;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.example.qgame.repositories.ProductRepository;
+import com.example.qgame.requests.OrderItemRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -14,25 +15,27 @@ import java.util.List;
 @Service
 public class OrderDetailService {
 
-    @Autowired
-    private OrderDetailRepository orderDetailRepository;
+
+    private final OrderDetailRepository orderDetailRepository;
+    private final ProductRepository productRepository;
+
+    public OrderDetailService(OrderDetailRepository orderDetailRepository, ProductRepository productRepository) {
+        this.orderDetailRepository = orderDetailRepository;
+        this.productRepository = productRepository;
+    }
 
     @Transactional
-    public List<OrderDetail> saveMany(List<OrderItemDto> orderItemDtos, Order order) {
-        List<OrderDetail> orderDetails = new ArrayList<>();
+    public void saveMany(List<OrderDetail> orderDetails, Order order) {
+        orderDetails.forEach(od -> od.setOrder(order));
+        orderDetailRepository.saveAll(orderDetails);
+    }
 
-        orderItemDtos.forEach(odt->{
-            orderDetails.add(
-                    new OrderDetail()
-                    .setOrder(order)
-                    .setPriceEach(odt.getProduct().getPrice())
-                    .setDiscountPercentage(odt.getProduct().getDiscountPercentage())
-                    .setProduct(odt.getProduct())
-                    .setQuantity(odt.getQuantity())
-            );
-        });
+    public List<OrderDetail> convertToOrderDetail(List<OrderItemRequest> orderItemRequests) {
+        List<Long> productIds = orderItemRequests.stream().map((oir) -> oir.getProductId()).toList();
+        List<Product> products = productRepository.getByIds(productIds);
+        List<OrderDetail> orderDetials = new ArrayList<>();
 
-        return orderDetailRepository.saveAll(orderDetails);
 
+        return orderDetials;
     }
 }

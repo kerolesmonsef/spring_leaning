@@ -47,7 +47,7 @@ public class SeederController {
                 new OptionSeeder(optionRepository),
                 new ProductSeeder(productRepository),
                 new BlogSeeder(blogRepository),
-                new ProductOptionValueSeeder(productOptionValueRepository),
+                new ProductOptionValueSeeder(productOptionValueRepository, optionRepository, productRepository),
                 new PaymentMethodSeeder(paymentMethodRepository),
                 new UserSeeder(userRepository)
         );

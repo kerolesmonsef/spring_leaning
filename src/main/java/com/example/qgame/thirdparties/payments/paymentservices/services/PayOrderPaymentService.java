@@ -1,21 +1,14 @@
 package com.example.qgame.thirdparties.payments.paymentservices.services;
 
-import com.example.qgame.Models.Payment;
-import com.example.qgame.Models.PaymentMethod;
+import com.example.qgame.Models.OrderDetail;
 import com.example.qgame.Models.Product;
 import com.example.qgame.Models.User;
-import com.example.qgame.QGameApplication;
-import com.example.qgame.helpers.dto.OrderItemDto;
 import com.example.qgame.helpers.order.OrderDescriptor;
-import com.example.qgame.repositories.PaymentRepository;
 import com.example.qgame.thirdparties.payments.paymentclasses.paymentinfo.PaymentInfo;
 import com.example.qgame.thirdparties.payments.paymentclasses.paymentinfo.PaymentInfoItem;
 import com.example.qgame.thirdparties.payments.paymentservices.IPaymentService;
-import lombok.Getter;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Map;
-import java.util.UUID;
 
 public class PayOrderPaymentService extends IPaymentService {
 
@@ -45,17 +38,17 @@ public class PayOrderPaymentService extends IPaymentService {
                 Map.entry("taxes", orderDescriptor.getTaxes())
         ));
 
-        for (OrderItemDto orderItem : orderDescriptor.getOrderItems()) {
-            Product product = orderItem.getProduct();
+        for (OrderDetail orderDetails : orderDescriptor.getOrderDetails()) {
+            Product product = orderDetails.getProduct();
             paymentInfo.addItem(
                     new PaymentInfoItem()
                             .setDescription(product.getDescription())
                             .setImageUrl(product.firstImageUrl())
                             .setName(product.getTitle())
-                            .setPrice(orderItem.price())
+                            .setPrice(orderDetails.priceAfterDiscount())
                             .setProductId(product.getId().toString())
-                            .setQuantity(orderItem.getQuantity())
-                            .setTotalPrice(orderItem.price()) // productsPriceAfterDiscount * quantity
+                            .setQuantity(orderDetails.getQuantity())
+                            .setTotalPrice(orderDetails.priceAfterDiscount()) // productsPriceAfterDiscount * quantity
             );
         }
 

@@ -21,8 +21,8 @@ public class TestWhere extends IFilter {
     @Override
     protected Predicate getPredict() {
         return cb.and(
-                cb.or(cb.equal(r.get("title"),"f"),cb.equal(r.get("price"),12)),
-                cb.or(cb.equal(r.get("description"),"f"),cb.equal(r.get("price"),12))
+                cb.or(cb.equal(r.get("title"),"f"),cb.equal(r.get("priceAfterDiscount"),12)),
+                cb.or(cb.equal(r.get("description"),"f"),cb.equal(r.get("priceAfterDiscount"),12))
         );
     }
 }

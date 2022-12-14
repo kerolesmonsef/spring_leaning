@@ -36,7 +36,7 @@ public class PaymentInfo {
             productTreeMap.put("productId", pii.getProductId());
             productTreeMap.put("name", pii.getName());
             productTreeMap.put("description", pii.getName());
-            productTreeMap.put("price", pii.getPrice());
+            productTreeMap.put("priceAfterDiscount", pii.getPrice());
             productTreeMap.put("quantity", pii.getQuantity());
             productTreeMap.put("imageUrl", pii.getImageUrl());
             productList.add(productTreeMap);

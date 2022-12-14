@@ -17,6 +17,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import com.example.qgame.repositories.PaymentMethodRepository;
 
 @Service
 public class OrderService {
@@ -26,6 +27,8 @@ public class OrderService {
 
     @Autowired
     private OrderDetailService orderDetailService;
+
+    private PaymentMethodRepository paymentMethodRepository;
 
     @Transactional
     public Order store(OrderDescriptor orderDescriptor) {
@@ -42,7 +45,7 @@ public class OrderService {
 
         orderRepository.save(order);
 
-        orderDetailService.saveMany(orderDescriptor.getOrderItems(), order);
+        orderDetailService.saveMany(orderDescriptor.getOrderDetails(), order);
 
         return order;
     }
@@ -51,14 +54,14 @@ public class OrderService {
     public ResponseEntity clientCreateOrder(CreateOrderRequest request, User user) throws Exception {
 
         Response response = new Response();
-        PaymentMethod paymentMethod = request.getPaymentMethod();
+        PaymentMethod paymentMethod = paymentMethodRepository.getById(request.getPaymentMethodId());
 
-        OrderCreator orderCreator = new OrderCreator(request, user)
+        OrderCreator orderCreator = new OrderCreator(request, user,paymentMethod)
                 .setOrderService(this);
 
         // check validation of order Creator if any then return
 
-        if (request.getPaymentMethod().isOnline()) {
+        if (paymentMethod.isOnline()) {
 
             IPaymentService paymentService = new PayOrderPaymentService(
                     user,

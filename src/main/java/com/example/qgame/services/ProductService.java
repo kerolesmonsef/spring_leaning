@@ -154,12 +154,10 @@ public class ProductService {
 
         // insert new option values
         if (optionValueDTOS != null) {
-            List<ProductOptionValue> productOptionValues = optionValueDTOS.stream().map((optionValueDTO) -> {
-                return new ProductOptionValue()
-                        .setOption(optionValueDTO.getOption())
-                        .setValue(optionValueDTO.getValue())
-                        .setProduct(product);
-            }).toList();
+            List<ProductOptionValue> productOptionValues = optionValueDTOS.stream().map((optionValueDTO) -> new ProductOptionValue()
+                    .setOption(optionValueDTO.getOption())
+                    .setValue(optionValueDTO.getValue())
+                    .setProduct(product)).toList();
 
             productOptionValueRepository.saveAll(productOptionValues);
         }

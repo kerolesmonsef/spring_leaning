@@ -19,7 +19,7 @@ public class FilterOptionMapper {
 
     private static Map<String, Class<? extends IFilterOption>> filterOptionsTypes = Map.ofEntries(
             Map.entry("category", CategoryFilterOption.class),
-            Map.entry("price", PriceFilterOption.class),
+            Map.entry("priceAfterDiscount", PriceFilterOption.class),
             Map.entry("keyword", KeywordFilterOption.class),
             Map.entry("option", OptionValueFilterOption.class),
             Map.entry("noop", NoopFilterOption.class)

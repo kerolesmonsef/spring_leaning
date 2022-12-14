@@ -13,6 +13,7 @@ import java.util.List;
 @ControllerAdvice(annotations = Controller.class)
 public class GeneralDataController {
     private final CategoryRepository categoryRepository;
+    private int count = 0;
 
     public GeneralDataController(CategoryRepository categoryRepository) {
         this.categoryRepository = categoryRepository;
@@ -20,6 +21,7 @@ public class GeneralDataController {
 
     @ModelAttribute("allCategories")
     public List<Category> allCategories() {
+        System.out.println("called -----" + (++count));
         return categoryRepository.testAll();
     }
 }

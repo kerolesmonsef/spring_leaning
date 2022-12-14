@@ -17,7 +17,7 @@ public class ProductResource extends JsonResponseResource<Product> {
         return Map.ofEntries(
                 Map.entry("id", object.getId()),
                 Map.entry("url", object.getUrl()),
-                Map.entry("price", object.getPrice()),
+                Map.entry("priceAfterDiscount", object.getPrice()),
                 Map.entry("title", object.getTitle()),
                 Map.entry("description", object.getTitle()),
                 Map.entry("imageUrl", object.firstImageUrl()),
