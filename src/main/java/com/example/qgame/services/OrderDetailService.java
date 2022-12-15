@@ -30,12 +30,17 @@ public class OrderDetailService {
         orderDetailRepository.saveAll(orderDetails);
     }
 
-    public List<OrderDetail> convertToOrderDetail(List<OrderItemRequest> orderItemRequests) {
+    public List<OrderDetail> orderItemToOrderDetails(List<OrderItemRequest> orderItemRequests) {
         List<Long> productIds = orderItemRequests.stream().map((oir) -> oir.getProductId()).toList();
         List<Product> products = productRepository.getByIds(productIds);
-        List<OrderDetail> orderDetials = new ArrayList<>();
+        return products.stream().map(product -> {
+            Integer quantity = orderItemRequests.stream().filter(oir-> oir.getProductId() == product.getId()).findFirst().orElseThrow().getQuantity();
 
+            return new OrderDetail()
+                    .setProduct(product)
+                    .setPriceEach(product.priceAfterDiscount())
+                    .setQuantity(quantity);
+        }).toList();
 
-        return orderDetials;
     }
 }

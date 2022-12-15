@@ -1,6 +1,8 @@
 package com.example.qgame.helpers.filters.products;
 
 import lombok.Getter;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
 import javax.persistence.criteria.Predicate;
@@ -12,17 +14,16 @@ import java.util.function.Consumer;
 import java.util.stream.Stream;
 
 
+@Scope("prototype")
 public class FilterOptionCollection {
     @Getter
     private List<IFilterOption> filterOptions = new ArrayList<>();
-    private FilterOptionMapper filterOptionMapper = new FilterOptionMapper();
 
-    public FilterOptionCollection() {
+    private FilterOptionMapper filterOptionMapper;
 
-    }
-
-    public FilterOptionCollection(List<Map<String, Object>> properties) {
+    public FilterOptionCollection(FilterOptionMapper filterOptionMapper, List<Map<String, Object>> properties) {
         properties.add(0, Map.ofEntries(Map.entry("name", "noop")));
+        this.filterOptionMapper = filterOptionMapper;
         filterOptions = filterOptionMapper.getAll(properties);
     }
 

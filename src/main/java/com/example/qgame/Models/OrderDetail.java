@@ -25,8 +25,6 @@ public class OrderDetail {
     @Column(name = "price_each")
     private double priceEach;
 
-    @Column(name = "discountPercentage")
-    private float discountPercentage;
 
     @Column(columnDefinition = "JSON")
     private String properties; // color - size  - ...

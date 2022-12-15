@@ -16,17 +16,16 @@ import com.example.qgame.repositories.ProductRepository;
 import com.example.qgame.requests.admin.AdminProductRequest;
 import com.example.qgame.resources.ProductResource;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationContext;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.servlet.function.EntityResponse;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.servlet.http.HttpServletRequest;
 import java.lang.reflect.InvocationTargetException;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -56,6 +55,9 @@ public class ProductService {
     @Autowired
     FilterQueryBuilder filterQueryBuilder;
 
+    @Autowired
+    FilterOptionMapper filterOptionMapper;
+
     public Pagination<Product> getPageable() {
         return paginationMaker.makeFromJpaRepository(productRepository, "/admin/products");
     }
@@ -77,7 +79,7 @@ public class ProductService {
         List<ProductResource> resources = ProductResource.toCollection(likesProcuts);
         return new Response()
                 .addResourceList("products", resources)
-                .responseEntity();
+                .toResponseEntity();
     }
 
     @Transactional
@@ -165,7 +167,7 @@ public class ProductService {
 
     @Transactional
     public ResponseEntity<Map<String, Object>> filter(List<Map<String, Object>> properties) {
-        FilterOptionCollection optionCollection = new FilterOptionCollection(properties);
+        FilterOptionCollection optionCollection = new FilterOptionCollection(filterOptionMapper, properties);
         FilterQueryBuilderResult productFilterResult = filterQueryBuilder.buildProductQuery(optionCollection);
 
         FilterOptionFilter filterOptionFilter = new FilterOptionFilter(productFilterResult);
@@ -180,6 +182,6 @@ public class ProductService {
                         Map.entry("urlInfos", productPagination.getInfoResource())
                 ))
                 .add("options", filterOptionFilter.getOptions())
-                .responseEntity();
+                .toResponseEntity();
     }
 }

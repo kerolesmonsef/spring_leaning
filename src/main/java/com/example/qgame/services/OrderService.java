@@ -28,6 +28,7 @@ public class OrderService {
     @Autowired
     private OrderDetailService orderDetailService;
 
+    @Autowired
     private PaymentMethodRepository paymentMethodRepository;
 
     @Transactional
@@ -54,9 +55,10 @@ public class OrderService {
     public ResponseEntity clientCreateOrder(CreateOrderRequest request, User user) throws Exception {
 
         Response response = new Response();
+
         PaymentMethod paymentMethod = paymentMethodRepository.getById(request.getPaymentMethodId());
 
-        OrderCreator orderCreator = new OrderCreator(request, user, paymentMethod, orderDetailService.convertToOrderDetail(request.getOrderItemRequests()))
+        OrderCreator orderCreator = new OrderCreator(request, user, paymentMethod, orderDetailService.orderItemToOrderDetails(request.getOrderItemRequests()))
                 .setOrderService(this);
 
         // check validation of order Creator if any then return
@@ -80,6 +82,6 @@ public class OrderService {
             response.add("order", order);
         }
 
-        return response.responseEntity();
+        return response.toResponseEntity();
     }
 }

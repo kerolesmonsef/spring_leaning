@@ -1,20 +1,22 @@
 package com.example.qgame.helpers.filters.products;
 
-import com.example.qgame.QGameApplication;
 import com.example.qgame.helpers.filters.products.filterOptionsImpls.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
-import org.springframework.stereotype.Service;
+import org.springframework.stereotype.Component;
 
 import java.util.List;
 import java.util.Map;
 
+@Component
 public class FilterOptionMapper {
 
-    private ApplicationContext context;
 
-    public FilterOptionMapper() {
-        context = QGameApplication.getContext();
+    private ApplicationContext applicationContext;
+
+    @Autowired
+    public FilterOptionMapper(ApplicationContext applicationContext) {
+        this.applicationContext = applicationContext;
     }
 
     private static Map<String, Class<? extends IFilterOption>> filterOptionsTypes = Map.ofEntries(
@@ -31,7 +33,7 @@ public class FilterOptionMapper {
         String name = (String) property.get("name");
 
         if (filterOptionsTypes.containsKey(name)) {
-            return context.getBean(filterOptionsTypes.get(name)).init(property);
+            return this.applicationContext.getBean(filterOptionsTypes.get(name)).init(property);
         }
 
         return new NoopFilterOption();

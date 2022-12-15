@@ -1,10 +1,8 @@
 package com.example.qgame.controllers.user;
 
 import com.example.qgame.Models.Product;
-import com.example.qgame.Models.ProductLike;
 import com.example.qgame.Models.User;
 import com.example.qgame.helpers.Response;
-import com.example.qgame.repositories.ProductLikeRepository;
 import com.example.qgame.requests.ProductFilterRequest;
 import com.example.qgame.resources.ProductResource;
 import com.example.qgame.services.ProductService;
@@ -45,7 +43,7 @@ public class ProductController {
     public Object show(@PathVariable("product") Optional<Product> product) {
         return new Response()
                 .add("product", new ProductResource(product.orElseThrow()))
-                .responseEntity();
+                .toResponseEntity();
     }
 
     @PostMapping("/{product}/like")
@@ -54,7 +52,7 @@ public class ProductController {
 
         productService.like(user, product.orElseThrow());
 
-        return new Response().responseEntity();
+        return new Response().toResponseEntity();
     }
 
     @PostMapping("/{product}/dislike")
@@ -63,7 +61,7 @@ public class ProductController {
 
         productService.dislike(user, product.orElseThrow());
 
-        return new Response().responseEntity();
+        return new Response().toResponseEntity();
     }
 
     @PostMapping("/likes")

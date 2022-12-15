@@ -5,6 +5,7 @@ import com.example.qgame.Models.ProductOptionValue;
 import com.example.qgame.QGameApplication;
 import com.example.qgame.helpers.filters.products.IFilterOption;
 import com.example.qgame.repositories.OptionRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
@@ -17,8 +18,14 @@ import java.util.Map;
 @Component
 @Scope("prototype")
 public class OptionValueFilterOption extends IFilterOption {
+    @Autowired
+    private OptionRepository optionRepository;
+
     private String optionName;
     private List<String> values;
+
+
+
 
     @Override
     public String getName() {
@@ -27,7 +34,7 @@ public class OptionValueFilterOption extends IFilterOption {
 
     @Override
     public Predicate getPredicate() {
-        Option option = QGameApplication.getBean(OptionRepository.class).findByTitle(optionName).orElseThrow();
+        Option option = optionRepository.findByTitle(optionName).orElseThrow();
         Subquery<Long> subquery = criteriaQuery.subquery(Long.class);
         Root<ProductOptionValue> root = subquery.from(ProductOptionValue.class);
         subquery.select(root.get("id"));

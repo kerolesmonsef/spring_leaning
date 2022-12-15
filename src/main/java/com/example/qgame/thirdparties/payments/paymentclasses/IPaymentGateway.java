@@ -37,7 +37,7 @@ abstract public class IPaymentGateway {
         this.user = user;
         this.paymentMethod = QGameApplication.getBean(PaymentMethodRepository.class).findByName(getName());
         this.paymentService = QGameApplication.getBean(PaymentService.class);
-
+        System.out.println("222222222222");
     }
 
     public final IPaymentResponse gatewayResponse() throws Exception {

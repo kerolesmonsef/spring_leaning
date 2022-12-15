@@ -6,16 +6,13 @@ import com.example.qgame.helpers.Response;
 import com.example.qgame.requests.LoginRequest;
 import com.example.qgame.resources.UserResource;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.ModelAndView;
 
 import javax.validation.Valid;
 
@@ -39,13 +36,13 @@ public class LoginController {
             return new Response()
                     .add("token", jwtTokenUtil.generateToken(user))
                     .add("user", new UserResource(user))
-                    .responseEntity();
+                    .toResponseEntity();
         } catch (BadCredentialsException ex) {
             return new Response()
                     .setFail()
                     .add("message","unauthorized")
                     .setHttpStatus(HttpStatus.UNAUTHORIZED)
-                    .responseEntity();
+                    .toResponseEntity();
         }
     }
 

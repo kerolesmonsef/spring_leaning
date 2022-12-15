@@ -8,7 +8,6 @@ import lombok.experimental.Accessors;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -35,9 +34,8 @@ public class Response {
         return this;
     }
 
-    public Response addAll(Map<String, Object> map) {
+    public void addAll(Map<String, Object> map) {
         this.data.putAll(map);
-        return this;
     }
 
     public Response add(String key, JsonResponseResource resource) {
@@ -55,9 +53,8 @@ public class Response {
     }
 
 
-    public Response setSuccess() {
+    public void setSuccess() {
         data.put("status", "success");
-        return this;
     }
 
     public Response setFail() {
@@ -66,7 +63,7 @@ public class Response {
         return this;
     }
 
-    public ResponseEntity responseEntity() {
+    public ResponseEntity toResponseEntity() {
         return new ResponseEntity(data, httpStatus);
     }
 }
