@@ -17,7 +17,7 @@ import java.util.stream.Stream;
 @Scope("prototype")
 public class FilterOptionCollection {
     @Getter
-    private List<IFilterOption> filterOptions = new ArrayList<>();
+    private final List<IFilterOption> filterOptions;
 
     private FilterOptionMapper filterOptionMapper;
 

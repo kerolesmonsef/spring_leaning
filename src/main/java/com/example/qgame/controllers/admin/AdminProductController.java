@@ -7,6 +7,7 @@ import com.example.qgame.helpers.paginations.IPageWrapper;
 import com.example.qgame.helpers.paginations.Pagination;
 import com.example.qgame.repositories.CategoryRepository;
 import com.example.qgame.requests.admin.AdminProductRequest;
+import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Controller;
 import com.example.qgame.Models.Product;
 import com.example.qgame.services.ProductService;
@@ -21,7 +22,6 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
-import static com.example.qgame.helpers.Helper.appendToModelIfNotExist;
 import static com.example.qgame.helpers.Helper.redirectBack;
 
 @Controller
@@ -36,6 +36,9 @@ public class AdminProductController {
 
     @Autowired
     private HttpServletRequest servletRequest;
+
+    @Autowired
+    private ApplicationContext applicationContext;
 
 
     @GetMapping()
@@ -57,14 +60,9 @@ public class AdminProductController {
     @GetMapping("/{product}/edit")
     public ModelAndView edit(@PathVariable Product product, Model model) {
 
-        appendToModelIfNotExist("productRequest", AdminProductRequest.class, model);
-
 
         if (!model.containsAttribute("productRequest")) {
-            AdminProductRequest productRequest = new AdminProductRequest();
-//            productRequest.setOptionValues();
-
-            model.addAttribute("productRequest", productRequest);
+            model.addAttribute("blogRequest", applicationContext.getBean(AdminProductRequest.class));
         }
 
         return new ModelAndView("admin/products/add_edit_product")

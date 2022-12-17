@@ -1,24 +1,20 @@
 package com.example.qgame.services;
 
 import com.example.qgame.Models.Category;
-import com.example.qgame.QGameApplication;
 import com.example.qgame.helpers.services.files.AssetFileManager;
 import com.example.qgame.helpers.services.files.FileInfo;
 import com.example.qgame.repositories.CategoryRepository;
-import com.example.qgame.requests.admin.AdminCreateUpdateCategoryRequest;
+import com.example.qgame.requests.admin.AdminCategoryRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
-
-import java.io.IOException;
-import java.util.List;
 
 @Service
 public class CategoryService {
     @Autowired
     private CategoryRepository repository;
 
-    public Category update(AdminCreateUpdateCategoryRequest request, Category category) {
+    public Category update(AdminCategoryRequest request, Category category) {
 
         MultipartFile image = request.getImage();
         if (image != null && !image.isEmpty()) {
@@ -39,7 +35,7 @@ public class CategoryService {
     }
 
 
-    public Category create(AdminCreateUpdateCategoryRequest request) {
+    public Category create(AdminCategoryRequest request) {
         Category category = request.toCategory();
 
         AssetFileManager fileUploader = new AssetFileManager().setFile(request.getImage()).setFilePath("/images/categories/");

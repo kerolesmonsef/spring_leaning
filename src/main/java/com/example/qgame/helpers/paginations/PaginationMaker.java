@@ -1,7 +1,5 @@
 package com.example.qgame.helpers.paginations;
 
-import com.example.qgame.Models.Product;
-import com.example.qgame.helpers.dto.MinMaxResult;
 import com.example.qgame.helpers.filters.products.FilterQueryBuilderResult;
 import org.hibernate.query.Query;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,10 +11,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaBuilder;
-import javax.persistence.criteria.CriteriaQuery;
-import javax.persistence.criteria.Root;
 import javax.servlet.http.HttpServletRequest;
-import java.lang.reflect.Type;
 import java.util.List;
 import java.util.Optional;
 

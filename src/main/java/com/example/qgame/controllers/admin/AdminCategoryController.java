@@ -1,12 +1,12 @@
 package com.example.qgame.controllers.admin;
 
-import com.example.qgame.Models.Blog;
 import com.example.qgame.Models.Category;
 import com.example.qgame.controllers.IController;
 import com.example.qgame.repositories.CategoryRepository;
-import com.example.qgame.requests.admin.AdminCreateUpdateCategoryRequest;
+import com.example.qgame.requests.admin.AdminCategoryRequest;
 import com.example.qgame.services.CategoryService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -28,6 +28,9 @@ public class AdminCategoryController extends IController {
     @Autowired
     private CategoryService categoryService;
 
+    @Autowired
+    private ApplicationContext applicationContext;
+
     @GetMapping
     public ModelAndView index() {
 
@@ -46,14 +49,16 @@ public class AdminCategoryController extends IController {
     @GetMapping("/{category}/edit")
     public ModelAndView edit(@PathVariable Category category, Model model) {
 
-        appendToModelIfNotExist("categoryRequest", AdminCreateUpdateCategoryRequest.class, model);
+        if (!model.containsAttribute("categoryRequest")) {
+            model.addAttribute("categoryRequest", applicationContext.getBean(AdminCategoryRequest.class));
+        }
 
         return new ModelAndView("admin/categories/add_edit_category.html")
                 .addObject("category", category);
     }
 
     @PutMapping("/{category}")
-    public ModelAndView update(@PathVariable Category category, @Valid AdminCreateUpdateCategoryRequest request, BindingResult bindings, RedirectAttributes attributes) {
+    public ModelAndView update(@PathVariable Category category, @Valid AdminCategoryRequest request, BindingResult bindings, RedirectAttributes attributes) {
 
         if (bindings.hasErrors()) {
             appendFlashAttribute("categoryRequest", request, attributes, bindings);
@@ -68,7 +73,7 @@ public class AdminCategoryController extends IController {
     }
 
     @PostMapping("/")
-    public ModelAndView store(@Valid AdminCreateUpdateCategoryRequest request, BindingResult bindings, RedirectAttributes attributes) {
+    public ModelAndView store(@Valid AdminCategoryRequest request, BindingResult bindings, RedirectAttributes attributes) {
 
         if (bindings.hasErrors()) {
             appendFlashAttribute("categoryRequest", request, attributes, bindings);

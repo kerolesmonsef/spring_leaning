@@ -11,6 +11,7 @@ import com.example.qgame.thirdparties.payments.paymentclasses.paymentresponses.I
 import com.example.qgame.thirdparties.payments.paymentservices.IPaymentService;
 import lombok.Getter;
 import lombok.Setter;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
@@ -18,31 +19,18 @@ import org.springframework.stereotype.Component;
 @Component
 @Scope("prototype")
 abstract public class IPaymentGateway {
-    @Setter
     protected IPaymentService service;
-    @Setter
     protected User user;
 
-    protected PaymentMethod paymentMethod;
-
-    protected PaymentService paymentService;
-
-
-    public IPaymentGateway() {
-
-    }
+    @Autowired
+    private PaymentRepository paymentRepository;
 
     public IPaymentGateway(IPaymentService paymentService, User user) {
         this.service = paymentService;
         this.user = user;
-        this.paymentMethod = QGameApplication.getBean(PaymentMethodRepository.class).findByName(getName());
-        this.paymentService = QGameApplication.getBean(PaymentService.class);
-        System.out.println("222222222222");
     }
 
-    public final IPaymentResponse gatewayResponse() throws Exception {
-        Payment payment = paymentService.create(service, paymentMethod);
-        PaymentRepository paymentRepository = QGameApplication.getContext().getBean(PaymentRepository.class);
+    public final IPaymentResponse gatewayResponse(Payment payment) throws Exception {
 
         IPaymentResponse response = innerGatewayResponse(payment);
 

@@ -4,12 +4,10 @@ import com.example.qgame.Models.Blog;
 import com.example.qgame.helpers.services.files.AssetFileManager;
 import com.example.qgame.helpers.services.files.FileInfo;
 import com.example.qgame.repositories.BlogRepository;
-import com.example.qgame.requests.admin.AdminCreateUpdateBlogRequest;
+import com.example.qgame.requests.admin.AdminBlogRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
-
-import java.io.IOException;
 
 @Service
 public class BlogService {
@@ -17,7 +15,7 @@ public class BlogService {
     @Autowired
     private BlogRepository blogRepository;
 
-    public Blog update(AdminCreateUpdateBlogRequest request, Blog blog) {
+    public Blog update(AdminBlogRequest request, Blog blog) {
 
         MultipartFile image = request.getImage();
         if (image != null && !image.isEmpty()) {
@@ -37,7 +35,7 @@ public class BlogService {
         return blog;
     }
 
-    public Blog save(AdminCreateUpdateBlogRequest blogRequest) {
+    public Blog save(AdminBlogRequest blogRequest) {
 
         Blog blog = blogRequest.toBlog();
 

@@ -40,74 +40,80 @@ abstract public class IOpayFramePaymentGateway extends IFramePaymentGateway {
     @Override
     protected IPaymentResponse innerGatewayResponse(Payment payment) throws Exception {
 
-        PaymentInfo paymentInfo = this.service.getPaymentInfo();
-
-        float total = paymentInfo.getTotal() * 100;
-
-        Gson gson = new Gson();
-        TreeMap order = new TreeMap<>();
-        order.put("country", "EG");
-        order.put("reference", payment.getCode());
-
-        TreeMap amount = new TreeMap<>();
-        amount.put("currency", "EGP");
-        amount.put("total", total);
-        order.put("amount", amount);
-
-        order.put("returnUrl", getReturnUrl());
-        order.put("callbackUrl", base_url("payment/" + getName() + "/webhook"));
-        order.put("cancelUrl", base_url("payment/cancel"));
-        order.put("expireAt", 300);
-
-        TreeMap userInfo = new TreeMap<>();
-        userInfo.put("userEmail", user.getEmail());
-        userInfo.put("userId", user.getId());
-        userInfo.put("userMobile", user.getMobile());
-        userInfo.put("userName", user.getUsername());
-        order.put("userInfo", userInfo);
-
-        order.put("productList", paymentInfo.OpayItemsToArray());
-        order.put("payMethod", getPayMethod());
-
-        String requestBody = gson.toJson(order);
-        System.out.println("--request:");
-        System.out.println(requestBody);
-
-        String addr = this.config().get("url") + "/international/cashier/create";
-        String merchantId = this.config().get("MerchantId");
-        String publicKey = this.config().get("PublicKey");
-
-        URL url = new URL(addr);
-        HttpURLConnection con = (HttpURLConnection) url.openConnection();
-        con.setRequestMethod("POST");
-        con.setRequestProperty("Content-Type", "application/json; utf-8");
-        con.setRequestProperty("Authorization", "Bearer " + publicKey);
-        con.setRequestProperty("MerchantId", merchantId);
-        con.setDoOutput(true);
-
-        OutputStream os = con.getOutputStream();
-        byte[] input = requestBody.getBytes(StandardCharsets.UTF_8);
-        os.write(input, 0, input.length);
-        BufferedReader br = new BufferedReader(new InputStreamReader(con.getInputStream(), StandardCharsets.UTF_8));
-        StringBuilder response = new StringBuilder();
-        String responseLine = null;
-        while ((responseLine = br.readLine()) != null) {
-            response.append(responseLine.trim());
-        }
-
-        System.out.println("--response:");
-        System.out.println(response.toString());
-        JsonObject responseJsonObject = (new JsonParser()).parse(response.toString()).getAsJsonObject();
-        JsonObject data = responseJsonObject.getAsJsonObject("data");
-
-
+//        PaymentInfo paymentInfo = this.service.getPaymentInfo();
+//
+//        float total = paymentInfo.getTotal() * 100;
+//
+//        Gson gson = new Gson();
+//        TreeMap order = new TreeMap<>();
+//        order.put("country", "EG");
+//        order.put("reference", payment.getCode());
+//
+//        TreeMap amount = new TreeMap<>();
+//        amount.put("currency", "EGP");
+//        amount.put("total", total);
+//        order.put("amount", amount);
+//
+//        order.put("returnUrl", getReturnUrl());
+//        order.put("callbackUrl", base_url("payment/" + getName() + "/webhook"));
+//        order.put("cancelUrl", base_url("payment/cancel"));
+//        order.put("expireAt", 300);
+//
+//        TreeMap userInfo = new TreeMap<>();
+//        userInfo.put("userEmail", user.getEmail());
+//        userInfo.put("userId", user.getId());
+//        userInfo.put("userMobile", user.getMobile());
+//        userInfo.put("userName", user.getUsername());
+//        order.put("userInfo", userInfo);
+//
+//        order.put("productList", paymentInfo.OpayItemsToArray());
+//        order.put("payMethod", getPayMethod());
+//
+//        String requestBody = gson.toJson(order);
+//        System.out.println("--request:");
+//        System.out.println(requestBody);
+//
+//        String addr = this.config().get("url") + "/international/cashier/create";
+//        String merchantId = this.config().get("MerchantId");
+//        String publicKey = this.config().get("PublicKey");
+//
+//        URL url = new URL(addr);
+//        HttpURLConnection con = (HttpURLConnection) url.openConnection();
+//        con.setRequestMethod("POST");
+//        con.setRequestProperty("Content-Type", "application/json; utf-8");
+//        con.setRequestProperty("Authorization", "Bearer " + publicKey);
+//        con.setRequestProperty("MerchantId", merchantId);
+//        con.setDoOutput(true);
+//
+//        OutputStream os = con.getOutputStream();
+//        byte[] input = requestBody.getBytes(StandardCharsets.UTF_8);
+//        os.write(input, 0, input.length);
+//        BufferedReader br = new BufferedReader(new InputStreamReader(con.getInputStream(), StandardCharsets.UTF_8));
+//        StringBuilder response = new StringBuilder();
+//        String responseLine = null;
+//        while ((responseLine = br.readLine()) != null) {
+//            response.append(responseLine.trim());
+//        }
+//
+//        System.out.println("--response:");
+//        System.out.println(response.toString());
+//        JsonObject responseJsonObject = (new JsonParser()).parse(response.toString()).getAsJsonObject();
+//        JsonObject data = responseJsonObject.getAsJsonObject("data");
 
         return new IFramePaymentResponse(Map.ofEntries(
-                Map.entry("isSuccess","SUCCESSFUL".equals(responseJsonObject.get("message").getAsString())),
-                Map.entry("url",data.get("cashierUrl").getAsString()),
-                Map.entry("referenceCode",data.get("reference").getAsString()),
-                Map.entry("apiResponse",response.toString())
+                Map.entry("isSuccess", true),
+                Map.entry("url", "https://fsa.gmail.com/pay/cus/payment/fail"),
+                Map.entry("referenceCode", payment.getCode()),
+                Map.entry("apiResponse", "{not fount}")
         ));
+
+
+//        return new IFramePaymentResponse(Map.ofEntries(
+//                Map.entry("isSuccess","SUCCESSFUL".equals(responseJsonObject.get("message").getAsString())),
+//                Map.entry("url",data.get("cashierUrl").getAsString()),
+//                Map.entry("referenceCode",data.get("reference").getAsString()),
+//                Map.entry("apiResponse",response.toString())
+//        ));
     }
 
     @Override

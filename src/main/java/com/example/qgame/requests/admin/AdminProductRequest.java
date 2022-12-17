@@ -19,9 +19,9 @@ import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import java.util.List;
 
-@Component
 @Getter
 @Setter
+@Component
 public class AdminProductRequest {
 
     @NotEmpty(message = "title must not empty")

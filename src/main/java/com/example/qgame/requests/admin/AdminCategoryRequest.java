@@ -12,7 +12,7 @@ import javax.validation.constraints.NotNull;
 
 @Component
 @Data
-public class AdminCreateUpdateCategoryRequest {
+public class AdminCategoryRequest {
 
     @NotEmpty(message = "name must not be empty")
     private String name;

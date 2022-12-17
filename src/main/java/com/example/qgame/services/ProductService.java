@@ -38,9 +38,6 @@ public class ProductService {
     private ProductRepository productRepository;
 
     @Autowired
-    private HttpServletRequest servletRequest;
-
-    @Autowired
     private ProductOptionValueRepository productOptionValueRepository;
 
     @Autowired
@@ -57,6 +54,9 @@ public class ProductService {
 
     @Autowired
     FilterOptionMapper filterOptionMapper;
+
+    @Autowired
+    ApplicationContext applicationContext;
 
     public Pagination<Product> getPageable() {
         return paginationMaker.makeFromJpaRepository(productRepository, "/admin/products");
@@ -170,18 +170,22 @@ public class ProductService {
         FilterOptionCollection optionCollection = new FilterOptionCollection(filterOptionMapper, properties);
         FilterQueryBuilderResult productFilterResult = filterQueryBuilder.buildProductQuery(optionCollection);
 
-        FilterOptionFilter filterOptionFilter = new FilterOptionFilter(productFilterResult);
+        FilterOptionFilter filterOptionFilter = applicationContext.getBean(FilterOptionFilter.class, applicationContext);
 
         Pagination<Product> productPagination = paginationMaker.makeFromQueryBuilderResult(productFilterResult);
 
-        List<Map<String, Object>> productResourceList = productPagination.getContent().stream().map(p -> new ProductResource(p).toArray()).toList();
+        List<Map<String, Object>> productResourceList = productPagination
+                .getContent()
+                .stream()
+                .map(p -> new ProductResource(p).toArray())
+                .toList();
 
         return new Response()
                 .add("products", Map.ofEntries(
                         Map.entry("data", productResourceList),
                         Map.entry("urlInfos", productPagination.getInfoResource())
                 ))
-                .add("options", filterOptionFilter.getOptions())
+                .add("options", filterOptionFilter.getOptions(productFilterResult))
                 .toResponseEntity();
     }
 }

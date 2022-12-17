@@ -5,17 +5,21 @@ import com.example.qgame.Models.User;
 import com.example.qgame.QGameApplication;
 import com.example.qgame.thirdparties.payments.apis.opay.OpayVisaMasterCard;
 import com.example.qgame.thirdparties.payments.paymentservices.IPaymentService;
+import org.springframework.context.ApplicationContext;
+import org.springframework.stereotype.Component;
 
+@Component
 public class PaymentGatewayFactory {
-    public static IPaymentGateway create(PaymentMethod paymentMethod, User user, IPaymentService paymentService) {
-        IPaymentGateway iPaymentGateway = (IPaymentGateway) QGameApplication
-                .getContext()
-                .getBean(paymentMethod.getClassName(), paymentService, user);
+    public final ApplicationContext context;
 
+    public PaymentGatewayFactory(ApplicationContext context) {
+        this.context = context;
+    }
 
-        iPaymentGateway.setService(paymentService);
-        iPaymentGateway.setUser(user);
+    public IPaymentGateway create(String paymentGatewayName, User user, IPaymentService paymentService) {
+        return (IPaymentGateway) this
+                .context
+                .getBean(paymentGatewayName, paymentService, user);
 
-        return iPaymentGateway;
     }
 }

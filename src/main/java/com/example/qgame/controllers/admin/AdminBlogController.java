@@ -3,10 +3,11 @@ package com.example.qgame.controllers.admin;
 import com.example.qgame.Models.Blog;
 import com.example.qgame.controllers.IController;
 import com.example.qgame.repositories.BlogRepository;
-import com.example.qgame.requests.admin.AdminCreateUpdateBlogRequest;
+import com.example.qgame.requests.admin.AdminBlogRequest;
 import com.example.qgame.services.BlogService;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -15,13 +16,11 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
 import java.io.IOException;
 
 import static com.example.qgame.helpers.Helper.appendFlashAttribute;
-import static com.example.qgame.helpers.Helper.appendToModelIfNotExist;
 import static com.example.qgame.helpers.Helper.redirectBack;
 
 @Controller
@@ -33,6 +32,9 @@ public class AdminBlogController extends IController {
 
     @Autowired
     private BlogService blogService;
+
+    @Autowired
+    private ApplicationContext applicationContext;
 
 
     @GetMapping()
@@ -58,14 +60,16 @@ public class AdminBlogController extends IController {
     public ModelAndView edit(@PathVariable("blog") Blog blog, Model model) {
 
 
-        appendToModelIfNotExist("blogRequest", AdminCreateUpdateBlogRequest.class, model);
+        if (!model.containsAttribute("blogRequest")) {
+            model.addAttribute("blogRequest", applicationContext.getBean(AdminBlogRequest.class));
+        }
 
         return new ModelAndView("admin/blogs/add_edit_blog")
                 .addObject("blog", blog);
     }
 
     @PostMapping("/")
-    public ModelAndView store(@Valid AdminCreateUpdateBlogRequest blogRequest, BindingResult binding, RedirectAttributes attributes) {
+    public ModelAndView store(@Valid AdminBlogRequest blogRequest, BindingResult binding, RedirectAttributes attributes) {
         if (binding.hasErrors()) {
 
             appendFlashAttribute("blogRequest", blogRequest, attributes, binding);
@@ -82,7 +86,7 @@ public class AdminBlogController extends IController {
 
 
     @PutMapping("/{blog}")
-    public ModelAndView update(@PathVariable("blog") Blog blog, @Valid AdminCreateUpdateBlogRequest blogRequest, BindingResult binding, RedirectAttributes attributes, Model model, @RequestParam("image") MultipartFile file) throws IOException {
+    public ModelAndView update(@PathVariable("blog") Blog blog, @Valid AdminBlogRequest blogRequest, BindingResult binding, RedirectAttributes attributes, Model model, @RequestParam("image") MultipartFile file) throws IOException {
 
         if (binding.hasErrors()) {
 

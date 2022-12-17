@@ -1,6 +1,7 @@
 package com.example.qgame.services;
 
 import com.example.qgame.Models.Order;
+import com.example.qgame.Models.Payment;
 import com.example.qgame.Models.PaymentMethod;
 import com.example.qgame.Models.User;
 import com.example.qgame.helpers.Response;
@@ -30,6 +31,12 @@ public class OrderService {
 
     @Autowired
     private PaymentMethodRepository paymentMethodRepository;
+
+    @Autowired
+    private PaymentService paymentService;
+
+    @Autowired
+    private PaymentGatewayFactory paymentGatewayFactory;
 
     @Transactional
     public Order store(OrderDescriptor orderDescriptor) {
@@ -65,15 +72,16 @@ public class OrderService {
 
         if (paymentMethod.isOnline()) {
 
-            IPaymentService paymentService = new PayOrderPaymentService(
+            IPaymentService service = new PayOrderPaymentService(
                     user,
                     orderCreator.getOrderDescriptor()
             );
 
-            IPaymentGateway paymentGateway = PaymentGatewayFactory
-                    .create(paymentMethod, user, paymentService);
+            IPaymentGateway paymentGateway = paymentGatewayFactory.create(paymentMethod.getClassName(), user, service);
 
-            IPaymentResponse paymentResponse = paymentGateway.gatewayResponse();
+            Payment payment = paymentService.create(service,paymentMethodRepository.findByName(paymentGateway.getName()));
+
+            IPaymentResponse paymentResponse = paymentGateway.gatewayResponse(payment);
             response.addAll(paymentResponse.toResource());
 
         } else { // cash on delivery

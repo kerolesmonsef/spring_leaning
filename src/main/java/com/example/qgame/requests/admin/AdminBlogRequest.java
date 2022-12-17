@@ -16,7 +16,7 @@ import javax.validation.constraints.NotNull;
 
 @Data
 @Component
-public class AdminCreateUpdateBlogRequest {
+public class AdminBlogRequest {
 
     @NotEmpty(message = "title must not be empty")
     private String title;

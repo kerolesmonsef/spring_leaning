@@ -45,7 +45,7 @@ public class SeederController {
         List<ISeeder> seeders = Arrays.asList(
                 new CategorySeeder(categoryRepository),
                 new OptionSeeder(optionRepository),
-                new ProductSeeder(productRepository),
+                new ProductSeeder(productRepository, categoryRepository),
                 new BlogSeeder(blogRepository),
                 new ProductOptionValueSeeder(productOptionValueRepository, optionRepository, productRepository),
                 new PaymentMethodSeeder(paymentMethodRepository),

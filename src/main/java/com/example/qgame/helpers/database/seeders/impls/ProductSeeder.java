@@ -16,14 +16,15 @@ import java.util.Random;
 public class ProductSeeder extends ISeeder<Product> {
 
     private final ProductRepository productRepository;
+    private final CategoryRepository categoryRepository;
 
-    public ProductSeeder(ProductRepository productRepository) {
+    public ProductSeeder(ProductRepository productRepository, CategoryRepository categoryRepository) {
         this.productRepository = productRepository;
+        this.categoryRepository = categoryRepository;
     }
 
     @Override
     protected List<Product> data() {
-        CategoryRepository categoryRepository = QGameApplication.getContext().getBean(CategoryRepository.class);
         List<Category> categories = categoryRepository.findAll();
         List<Product> products = new ArrayList<>();
         final int MAX_IMAGE = 27;

@@ -8,21 +8,20 @@ import com.example.qgame.thirdparties.payments.paymentservices.IPaymentService;
 
 abstract public class IFramePaymentGateway extends IPaymentGateway {
 
-    public IFramePaymentGateway(){
 
-    }
 
     public IFramePaymentGateway(IPaymentService paymentService, User user) {
         super(paymentService, user);
     }
 
     public final PaymentWebhookResponse webhook() {
-        PaymentWebhookResponse response = innerWebhook();
+        PaymentWebhookResponse response = this.innerWebhook();
         Payment payment = response.getPayment();
 
         if (response.isFail()){
             // update payment to fail if not null
-        }else{ // success then handel the service
+        }else{
+            // success then handel the service
             // update payment to success
             // handle the service
         }

@@ -11,20 +11,8 @@ import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 @EnableJpaAuditing // for now for timestamp use current
 public class QGameApplication {
 
-    private static ConfigurableApplicationContext context;
-
-    public static ConfigurableApplicationContext getContext() {
-        return context;
-    }
-
     public static void main(String[] args) {
-        context = SpringApplication.run(QGameApplication.class, args);
-
+        SpringApplication.run(QGameApplication.class, args);
     }
-
-    public static <T> T getBean(Class<T> clazz) {
-        return context.getBean(clazz);
-    }
-
 
 }

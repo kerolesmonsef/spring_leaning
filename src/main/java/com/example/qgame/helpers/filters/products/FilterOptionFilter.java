@@ -11,6 +11,9 @@ import com.example.qgame.helpers.dto.OptionValuesDto;
 import com.example.qgame.repositories.CategoryRepository;
 import org.apache.groovy.util.Maps;
 import org.hibernate.query.Query;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.annotation.Scope;
+import org.springframework.stereotype.Component;
 
 import javax.persistence.EntityManager;
 import javax.persistence.Tuple;
@@ -18,40 +21,42 @@ import javax.persistence.TypedQuery;
 import javax.persistence.criteria.*;
 import java.util.*;
 
+@Component
+@Scope("prototype")
 public class FilterOptionFilter {
 
-    private FilterQueryBuilderResult<Product> filterQueryBuilderResult;
     private EntityManager entityManager;
     private CriteriaBuilder cb;
+    private final ApplicationContext applicationContext;
 
-    public FilterOptionFilter(FilterQueryBuilderResult filterQueryBuilderResult) {
-        this.filterQueryBuilderResult = filterQueryBuilderResult;
-        this.entityManager = QGameApplication.getContext().getBean(EntityManager.class);
+    public FilterOptionFilter(ApplicationContext applicationContext) {
+        this.entityManager = applicationContext.getBean(EntityManager.class);
+        this.applicationContext = applicationContext;
         this.cb = entityManager.getCriteriaBuilder();
     }
 
 
-    public List<Map<String, Object>> getOptions() {
+    public List<Map<String, Object>> getOptions(FilterQueryBuilderResult<Product> filterQueryBuilderResult) {
 
         List<Map<String, Object>> options = new ArrayList<>() {{
-            add(getCategoriesId());
+            add(getCategoriesId(filterQueryBuilderResult));
         }};
 
-        options.addAll(getOptionValues());
+        options.addAll(getOptionValues(filterQueryBuilderResult));
         options.add(getPriceFromTo());
 
         return options;
     }
 
     //--------------------------------------------------------
-    private Map<String, Object> getCategoriesId() {
+    private Map<String, Object> getCategoriesId(FilterQueryBuilderResult<Product> filterQueryBuilderResult) {
 
         List<CategoryIdResult> values;
 
         if (filterQueryBuilderResult.getFilterOptionCollection().hasType("category")) {
-            values = QGameApplication.getContext().getBean(CategoryRepository.class).getIdAndName();
+            values = applicationContext.getBean(CategoryRepository.class).getIdAndName();
         } else {
-            values = getCategoriesFilterIds();
+            values = getCategoriesFilterIds(filterQueryBuilderResult);
         }
 
 
@@ -62,7 +67,7 @@ public class FilterOptionFilter {
         );
     }
 
-    private List<Map<String, Object>> getOptionValues() {
+    private List<Map<String, Object>> getOptionValues(FilterQueryBuilderResult<Product> filterQueryBuilderResult) {
         CriteriaQuery<Tuple> productCriteriaQuery = cb.createQuery(Tuple.class);
         Root<Product> p = productCriteriaQuery.from(Product.class);
         p.alias("pProduct");
@@ -113,7 +118,7 @@ public class FilterOptionFilter {
         return result;
     }
 
-    private List<CategoryIdResult> getCategoriesFilterIds() {
+    private List<CategoryIdResult> getCategoriesFilterIds(FilterQueryBuilderResult<Product> filterQueryBuilderResult) {
         CriteriaQuery<Product> productCriteriaQuery = cb.createQuery(Product.class);
         Root<Product> productRoot = productCriteriaQuery.from(Product.class);
         productRoot.alias("pProduct");
