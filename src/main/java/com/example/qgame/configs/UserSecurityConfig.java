@@ -48,7 +48,8 @@ public class UserSecurityConfig extends WebSecurityConfigurerAdapter {
             "/orders/create/**",
             "/products/*/like",
             "/products/*/dislike",
-            "/products/likes"
+            "/products/likes",
+            "/orders/create"
     };
 
     @Override

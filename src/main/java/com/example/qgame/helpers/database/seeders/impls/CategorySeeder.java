@@ -23,7 +23,7 @@ public class CategorySeeder extends ISeeder<Category> {
 
         Faker faker = this.faker();
 
-        for (int i = 1; i <= 6; i++) {
+        for (int i = 1; i < names.size(); i++) {
             Category category = new Category();
             category.setName(names.get(i));
             category.setImage((i) + ".png");
