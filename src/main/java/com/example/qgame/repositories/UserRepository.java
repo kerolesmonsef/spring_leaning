@@ -9,10 +9,11 @@ import java.util.Optional;
 public interface UserRepository extends JpaRepository<User, Long> {
 
 
-    @Query("FROM User")
-    User first();
+    User findFirstByOrderByIdAsc();
 
     Boolean existsByEmail(String email);
 
     Optional<User> findByEmail(String email);
+
+
 }

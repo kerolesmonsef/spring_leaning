@@ -7,11 +7,13 @@ import com.example.qgame.helpers.order.OrderDescriptor;
 import com.example.qgame.thirdparties.payments.paymentclasses.paymentinfo.PaymentInfo;
 import com.example.qgame.thirdparties.payments.paymentclasses.paymentinfo.PaymentInfoItem;
 import com.example.qgame.thirdparties.payments.paymentservices.IPaymentService;
+import lombok.Getter;
 
 import java.util.Map;
 
 public class PayOrderPaymentService extends IPaymentService {
 
+    @Getter
     protected final OrderDescriptor orderDescriptor;
 
     public PayOrderPaymentService(User user, OrderDescriptor orderDescriptor) {

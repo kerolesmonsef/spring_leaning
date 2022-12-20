@@ -26,11 +26,19 @@ public class PaymentMethodSeeder extends ISeeder<PaymentMethod> {
                             .setDisplay_name("Visa - Master Card")
             );
 
+
             add(
                     new PaymentMethod()
                             .setName("vodafone-cash")
                             .setClassName("wallet")
                             .setDisplay_name("Vodafone cache")
+            );
+
+            add(
+                    new PaymentMethod()
+                            .setName("paymob-visa")
+                            .setClassName("paymob-visa")
+                            .setDisplay_name("Visa - Master Card")
             );
         }};
     }

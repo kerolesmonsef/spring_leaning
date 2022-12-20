@@ -63,7 +63,7 @@ public class OrderService {
 
         Response response = new Response();
 
-        PaymentMethod paymentMethod = paymentMethodRepository.getById(request.getPaymentMethodId());
+        PaymentMethod paymentMethod = paymentMethodRepository.findById(request.getPaymentMethodId()).orElseThrow();
 
         OrderCreator orderCreator = new OrderCreator(request, user, paymentMethod, orderDetailService.orderItemToOrderDetails(request.getOrderItemRequests()))
                 .setOrderService(this);
@@ -79,7 +79,7 @@ public class OrderService {
 
             IPaymentGateway paymentGateway = paymentGatewayFactory.create(paymentMethod.getClassName(), user, service);
 
-            Payment payment = paymentService.create(service,paymentMethodRepository.findByName(paymentGateway.getName()));
+            Payment payment = paymentService.create(service, paymentMethod);
 
             IPaymentResponse paymentResponse = paymentGateway.gatewayResponse(payment);
             response.addAll(paymentResponse.toResource());

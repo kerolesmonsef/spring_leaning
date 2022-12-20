@@ -46,10 +46,5 @@ abstract public class AbstractTest {
         return objectMapper.readValue(json, clazz);
     }
 
-    protected void setAuth() {
-        Authentication authentication = Mockito.mock(Authentication.class);
-        SecurityContext securityContext = Mockito.mock(SecurityContext.class);
-        Mockito.when(securityContext.getAuthentication()).thenReturn(authentication);
-        SecurityContextHolder.setContext(securityContext);
-    }
+
 }
