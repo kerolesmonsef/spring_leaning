@@ -19,7 +19,7 @@ public class CheckoutController {
 
     @GetMapping
     public ModelAndView checkout() {
-        List<PaymentMethod> paymentMethods = paymentMethodRepository.findAll();
+        List<PaymentMethod> paymentMethods = paymentMethodRepository.getIsActive();
 
 
         return new ModelAndView("checkout")

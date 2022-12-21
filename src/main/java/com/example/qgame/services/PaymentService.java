@@ -20,7 +20,6 @@ public class PaymentService {
         PaymentInfo paymentInfo = paymentService.getPaymentInfo();
 
         payment
-                .setCode(UUID.randomUUID().toString())
                 .setUser(paymentService.getUser())
                 .setInformation(paymentInfo)
                 .setPaymentService(paymentService.getName())

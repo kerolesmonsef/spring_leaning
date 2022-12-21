@@ -39,12 +39,29 @@ public class PaymentInfo {
             productTreeMap.put("priceAfterDiscount", pii.getPrice());
             productTreeMap.put("quantity", pii.getQuantity());
             productTreeMap.put("imageUrl", pii.getImageUrl());
+
             productList.add(productTreeMap);
         }
 
         return productList;
     }
 
+    public ArrayList<TreeMap> paymobItemsToArray() {
+        ArrayList<TreeMap> productList = new ArrayList<>();
+
+        for (PaymentInfoItem pii : items) {
+            TreeMap<String, Object> productTreeMap = new TreeMap<>();
+
+            productTreeMap.put("name", pii.getProductId());
+            productTreeMap.put("amount_cents", Math.round(pii.getPrice() * 100));
+            productTreeMap.put("description", pii.getName());
+            productTreeMap.put("quantity", pii.getQuantity());
+
+            productList.add(productTreeMap);
+        }
+
+        return productList;
+    }
 
     @Override
     public boolean equals(Object obj) {

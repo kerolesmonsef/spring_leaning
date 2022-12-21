@@ -1,5 +1,7 @@
 package com.example.qgame.helpers;
 
+import java.sql.Timestamp;
+
 public class StringHelper {
 
     public static String random(int n)
@@ -14,4 +16,9 @@ public class StringHelper {
         }
         return sb.toString();
     }
+
+    public static String getRandomTicket() {
+        return new Timestamp(System.currentTimeMillis()).getTime() + "-" + StringHelper.random(4);
+    }
+
 }

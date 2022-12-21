@@ -9,7 +9,6 @@ import com.example.qgame.thirdparties.payments.paymentservices.IPaymentService;
 abstract public class IFramePaymentGateway extends IPaymentGateway {
 
 
-
     public IFramePaymentGateway(IPaymentService paymentService, User user) {
         super(paymentService, user);
     }

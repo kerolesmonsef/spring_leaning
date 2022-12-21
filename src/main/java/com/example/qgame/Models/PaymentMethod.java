@@ -3,6 +3,7 @@ package com.example.qgame.Models;
 import com.example.qgame.helpers.enums.ActiveStatus;
 import lombok.Data;
 import lombok.experimental.Accessors;
+import org.hibernate.annotations.ColumnDefault;
 
 import javax.persistence.*;
 import java.util.Objects;
@@ -25,8 +26,9 @@ public class PaymentMethod {
 
     private String logo;
 
-//    @Column(columnDefinition = "enum('active','inactive')")
-//    private ActiveStatus status;
+    @Column(nullable = false, columnDefinition = "TINYINT(1)")
+    @ColumnDefault("1")
+    private boolean isActive;
 
     private String comment;
 

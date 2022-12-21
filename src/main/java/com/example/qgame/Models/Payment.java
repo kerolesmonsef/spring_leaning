@@ -1,6 +1,7 @@
 package com.example.qgame.Models;
 
 import com.example.qgame.helpers.converters.IJsonConverter;
+import com.example.qgame.helpers.listeners.PaymentListener;
 import com.example.qgame.thirdparties.payments.paymentclasses.paymentinfo.PaymentInfo;
 import lombok.Data;
 import lombok.experimental.Accessors;
@@ -12,6 +13,7 @@ import javax.persistence.*;
 @Data
 @Accessors(chain = true)
 @DynamicUpdate
+@EntityListeners(PaymentListener.class)
 public class Payment {
     @Id
     @GeneratedValue(strategy = GenerationType.TABLE, generator = "hibernate_sequences")
