@@ -71,14 +71,11 @@ public class UserSecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers(AUTHENTICATION_MATCHERS).authenticated()
                 .anyRequest().permitAll()
                 .and()
-                .formLogin()
-                .permitAll()
+                .formLogin().permitAll()
                 .and()
-                .sessionManagement()
-                .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
-                .exceptionHandling()
-                .authenticationEntryPoint(entryPoint)
+                .exceptionHandling().authenticationEntryPoint(entryPoint)
                 .and()
                 .addFilterBefore(jwtTokenFilter, UsernamePasswordAuthenticationFilter.class);
 

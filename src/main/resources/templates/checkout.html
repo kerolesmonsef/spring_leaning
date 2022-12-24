@@ -93,11 +93,11 @@
             const paymentMethodId = $('input[name="payment-method-id"]:checked').val();
             const dataToSend = {
                 paymentMethodId,
-                orderItems: []
+                orderItemRequests: []
             };
 
             for (let cartItem of cart.getProducts()) {
-                dataToSend.orderItems.push({
+                dataToSend.orderItemRequests.push({
                     productId: cartItem.id,
                     quantity: cartItem.quantity,
                 })

@@ -74,7 +74,7 @@ public class PaymobVisa extends IFramePaymentGateway {
 
     @Override
     public String getName() {
-        return "paymob";
+        return "paymob-visa";
     }
 
 
