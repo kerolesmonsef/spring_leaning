@@ -14,16 +14,12 @@ import org.springframework.web.filter.CorsFilter;
 @Configuration
 public class BeanConfiguration {
 
-//    @Bean
+    @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
 
-    @Bean
-//    @Profile("test")
-    public PasswordEncoder no(){
-        return NoOpPasswordEncoder.getInstance();
-    }
+
 
 
     @Bean

@@ -4,6 +4,8 @@ import com.example.qgame.helpers.database.seeders.ISeeder;
 import com.example.qgame.helpers.database.seeders.SeederExecuter;
 import com.example.qgame.helpers.database.seeders.impls.*;
 import com.example.qgame.repositories.*;
+import com.example.qgame.services.PermissionService;
+import com.example.qgame.services.RoleServices;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -22,6 +24,8 @@ public class SeederController {
     private final ProductOptionValueRepository productOptionValueRepository;
     private final PaymentMethodRepository paymentMethodRepository;
     private final UserRepository userRepository;
+    private final RoleServices roleServices;
+    private final PermissionService permissionService;
 
     public SeederController(CategoryRepository categoryRepository,
                             OptionRepository optionRepository,
@@ -29,7 +33,7 @@ public class SeederController {
                             BlogRepository blogRepository,
                             ProductOptionValueRepository productOptionValueRepository,
                             PaymentMethodRepository paymentMethodRepository,
-                            UserRepository userRepository) {
+                            UserRepository userRepository, RoleServices roleServices, PermissionService permissionService) {
         this.categoryRepository = categoryRepository;
         this.optionRepository = optionRepository;
         this.productRepository = productRepository;
@@ -37,19 +41,23 @@ public class SeederController {
         this.productOptionValueRepository = productOptionValueRepository;
         this.paymentMethodRepository = paymentMethodRepository;
         this.userRepository = userRepository;
+        this.roleServices = roleServices;
+        this.permissionService = permissionService;
     }
 
     @ResponseBody
     @GetMapping("/test/seed")
     public void seed() {
         List<ISeeder> seeders = Arrays.asList(
-                new CategorySeeder(categoryRepository),
-                new OptionSeeder(optionRepository),
-                new ProductSeeder(productRepository, categoryRepository),
-                new BlogSeeder(blogRepository),
-                new ProductOptionValueSeeder(productOptionValueRepository, optionRepository, productRepository),
-                new PaymentMethodSeeder(paymentMethodRepository),
-                new UserSeeder(userRepository)
+//                new CategorySeeder(categoryRepository),
+//                new OptionSeeder(optionRepository),
+//                new ProductSeeder(productRepository, categoryRepository),
+//                new BlogSeeder(blogRepository),
+//                new ProductOptionValueSeeder(productOptionValueRepository, optionRepository, productRepository),
+//                new PaymentMethodSeeder(paymentMethodRepository),
+//                new UserSeeder(userRepository),
+                new RoleSeeder(roleServices),
+                new PermissionSeeder(permissionService)
         );
 
 
