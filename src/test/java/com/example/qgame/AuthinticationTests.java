@@ -49,7 +49,6 @@ public class AuthinticationTests extends AbstractTest {
         Assert.assertEquals(jsonObject.get("status").getAsString(), "success");
         Assert.assertNotNull(jsonObject.get("token").getAsString());
 
-        System.out.println(mvcResult.getResponse().getContentAsString());
     }
 
     @Test

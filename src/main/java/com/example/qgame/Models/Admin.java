@@ -1,5 +1,6 @@
 package com.example.qgame.Models;
 
+import com.example.qgame.helpers.dto.AdminRoleCountPermissionCountDto;
 import lombok.Data;
 import lombok.ToString;
 import org.springframework.security.core.GrantedAuthority;
@@ -11,6 +12,7 @@ import java.util.Collection;
 @Entity
 @Table(name = "admins")
 @Data
+
 public class Admin implements UserDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.TABLE, generator = "hibernate_sequences")
@@ -25,6 +27,14 @@ public class Admin implements UserDetails {
             joinColumns = @JoinColumn(name = "admin_id", referencedColumnName = "id"),
             inverseJoinColumns = @JoinColumn(name = "role_id", referencedColumnName = "id"))
     private Collection<Role> roles;
+
+
+    @ToString.Exclude
+    @ManyToMany
+    @JoinTable(name = "admins_permissions",
+            joinColumns = @JoinColumn(name = "admin_id", referencedColumnName = "id"),
+            inverseJoinColumns = @JoinColumn(name = "permission_id", referencedColumnName = "id"))
+    private Collection<Permission> permissions;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {

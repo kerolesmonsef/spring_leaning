@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html
+        xmlns:th="http://www.w3.org/1999/xhtml"
+        xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+>
+<head>
+    <link rel="shortcut icon" href="http://tele.devo/vendor/laratrust/img/logo.png">
+    <title layout:title-pattern="$LAYOUT_TITLE - $CONTENT_TITLE"></title>
+    <link href="http://tele.devo/vendor/laratrust/laratrust.css?id=41ea7a306eda21950d93" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" th:href="@{/assets/css/all.min.css}">
+</head>
+<body>
+<div>
+    <th:block th:replace="admin/authorities/layouts/auth_header :: header"></th:block>
+
+    <header class="bg-white shadow">
+        <div class="max-w-6xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
+            <h1 class="text-3xl font-bold leading-tight text-gray-900" >
+                Roles Assignment
+            </h1>
+        </div>
+    </header>
+
+    <main>
+        <div layout:fragment="content"></div>
+    </main>
+
+</div>
+</body>
+<script th:src="@{/assets/js/all.min.js}"></script>
+
+</html>

@@ -39,7 +39,7 @@ public class AdminSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-        auth.userDetailsService(inMemoryDetailsService());
+        auth.userDetailsService(adminDetailsService);
     }
 
     public UserDetailsService inMemoryDetailsService() {
@@ -52,7 +52,6 @@ public class AdminSecurityConfig extends WebSecurityConfigurerAdapter {
 //                .authorities("ADD","EDIT")
                 .build();
 
-        System.out.println(user);
 
         UserDetails admin = users
                 .username("admin")

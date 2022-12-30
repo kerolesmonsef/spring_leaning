@@ -23,4 +23,7 @@ public class Permission {
 
     @ManyToMany(mappedBy = "permissions")
     private Collection<Role> roles;
+
+    @ManyToMany(mappedBy = "permissions")
+    private Collection<Admin> admin;
 }
