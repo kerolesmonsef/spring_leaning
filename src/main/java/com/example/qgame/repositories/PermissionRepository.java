@@ -14,4 +14,10 @@ public interface PermissionRepository extends JpaRepository<Permission, Long> {
 
     @Query("FROM Permission p WHERE p.name in :names")
     List<Permission> findByNames(@Param("names") List<String> names);
+
+    @Query("SELECT COUNT(P) > 0 FROM Permission P INNER JOIN P.roles WHERE P.id = :#{#permission.id}")
+    Boolean isUsedByAnyRole(@Param("permission") Permission permission);
+
+    @Query("SELECT COUNT(P) > 0 FROM Permission P INNER JOIN P.admins WHERE P.id = :#{#permission.id}")
+    Boolean isUsedByAnyAdmin(@Param("permission") Permission permission);
 }

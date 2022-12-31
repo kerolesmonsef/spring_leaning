@@ -36,6 +36,7 @@ public class AdminAuthorityController extends IController {
     public ModelAndView listAdmins(Model model) {
 
         return new ModelAndView("/admin/authorities/auth_admins")
+                .addObject("activeAdmin",true)
                 .addObject("admins", adminRepository.getAdminsWithRolesCountAndPermissionsCount());
     }
 
@@ -50,6 +51,7 @@ public class AdminAuthorityController extends IController {
     public ModelAndView edit(@PathVariable("admin") Admin admin) {
 
         return new ModelAndView("/admin/authorities/edit_auth_admin")
+                .addObject("activeCreateAdmin",true)
                 .addObject("admin", admin)
                 .addObject("admin_strings_roles", admin.getRoles().stream().map(Role::getName).toList())
                 .addObject("admin_strings_permissions", admin.getPermissions().stream().map(Permission::getName).toList())

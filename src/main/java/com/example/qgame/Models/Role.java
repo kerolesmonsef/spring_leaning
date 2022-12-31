@@ -42,9 +42,7 @@ public class Role {
 
     @Override
     public int hashCode() {
-        HashCodeBuilder hcb = new HashCodeBuilder();
-        hcb.append(name);
-        return hcb.toHashCode();
+        return new HashCodeBuilder().append(name).toHashCode();
     }
 
     @Override

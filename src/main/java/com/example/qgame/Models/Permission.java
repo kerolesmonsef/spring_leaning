@@ -27,7 +27,7 @@ public class Permission {
     private Collection<Role> roles;
 
     @ManyToMany(mappedBy = "permissions")
-    private Collection<Admin> admin;
+    private Collection<Admin> admins;
 
 
     @Override

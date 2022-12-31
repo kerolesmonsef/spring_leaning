@@ -18,6 +18,6 @@ public class DatabaseAdminDetailsService implements UserDetailsService {
 
         return adminRepository
                 .findByEmail(username)
-                .orElseThrow(() -> new UsernameNotFoundException("admin not found :("));
+                .orElseThrow(() -> new UsernameNotFoundException("admins not found :("));
     }
 }

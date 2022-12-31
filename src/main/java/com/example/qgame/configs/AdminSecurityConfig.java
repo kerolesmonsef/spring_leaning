@@ -20,7 +20,7 @@ import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 public class AdminSecurityConfig extends WebSecurityConfigurerAdapter {
 
     private final String[] PUBLIC_MATCHERS={
-            "/admin/login"
+            "/admins/login"
     };
 
     @Autowired
@@ -28,7 +28,7 @@ public class AdminSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        http.antMatcher("/admin/**")
+        http.antMatcher("/admins/**")
                 .authorizeRequests()
                 .antMatchers(PUBLIC_MATCHERS).permitAll()
                 .anyRequest().authenticated()
@@ -54,7 +54,7 @@ public class AdminSecurityConfig extends WebSecurityConfigurerAdapter {
 
 
         UserDetails admin = users
-                .username("admin")
+                .username("admins")
                 .password("password")
                 .roles("USER", "ADMIN")
                 .build();

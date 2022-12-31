@@ -59,7 +59,7 @@ public class ProductService {
     ApplicationContext applicationContext;
 
     public Pagination<Product> getPageable() {
-        return paginationMaker.makeFromJpaRepository(productRepository, "/admin/products");
+        return paginationMaker.makeFromJpaRepository(productRepository, "/admins/products");
     }
 
     public ProductLike like(User user, Product product) {

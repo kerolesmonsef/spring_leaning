@@ -38,6 +38,7 @@ public class AdminRoleController extends IController {
     public ModelAndView index(Model model) {
 
         return new ModelAndView("/admin/authorities/roles")
+                .addObject("activeRole",true)
                 .addObject("roles", roleRepository.rolesWithPermissionsCount());
     }
 

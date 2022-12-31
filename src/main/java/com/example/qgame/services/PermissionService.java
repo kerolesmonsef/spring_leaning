@@ -20,4 +20,8 @@ public class PermissionService {
 
         return permissionRepository.save(new Permission(permissionName));
     }
+
+    public boolean isUsed(Permission permission){
+        return permissionRepository.isUsedByAnyAdmin(permission) || permissionRepository.isUsedByAnyRole(permission);
+    }
 }
