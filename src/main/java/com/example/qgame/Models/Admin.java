@@ -3,16 +3,20 @@ package com.example.qgame.Models;
 import com.example.qgame.helpers.dto.AdminRoleCountPermissionCountDto;
 import lombok.Data;
 import lombok.ToString;
+import lombok.experimental.Accessors;
+import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Objects;
 
 @Entity
 @Table(name = "admins")
 @Data
-
+@Accessors(chain = true)
 public class Admin implements UserDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.TABLE, generator = "hibernate_sequences")
@@ -26,7 +30,7 @@ public class Admin implements UserDetails {
     @JoinTable(name = "admins_roles",
             joinColumns = @JoinColumn(name = "admin_id", referencedColumnName = "id"),
             inverseJoinColumns = @JoinColumn(name = "role_id", referencedColumnName = "id"))
-    private Collection<Role> roles;
+    private Collection<Role> roles = new ArrayList<>();
 
 
     @ToString.Exclude
@@ -34,7 +38,7 @@ public class Admin implements UserDetails {
     @JoinTable(name = "admins_permissions",
             joinColumns = @JoinColumn(name = "admin_id", referencedColumnName = "id"),
             inverseJoinColumns = @JoinColumn(name = "permission_id", referencedColumnName = "id"))
-    private Collection<Permission> permissions;
+    private Collection<Permission> permissions = new ArrayList<>();
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
@@ -69,5 +73,26 @@ public class Admin implements UserDetails {
     @Override
     public boolean isEnabled() {
         return true;
+    }
+
+
+    @Override
+    public int hashCode() {
+        HashCodeBuilder hcb = new HashCodeBuilder();
+        hcb.append(name);
+        return hcb.toHashCode();
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (!(obj instanceof Admin)) {
+            return false;
+        }
+        Admin that = (Admin) obj;
+
+        return Objects.equals(this.getName(), that.getName());
     }
 }

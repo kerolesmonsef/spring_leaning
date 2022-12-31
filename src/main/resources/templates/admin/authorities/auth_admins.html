@@ -8,7 +8,18 @@
     <title>Admins</title>
 </head>
 
-<div layout:fragment="content" class="max-w-6xl mx-auto py-6 sm:px-6 lg:px-8">
+<div layout:fragment="content" >
+    <header class="bg-white shadow">
+        <div class="max-w-6xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
+            <h1 class="text-3xl font-bold leading-tight text-gray-900">
+                <i class="far fa-user-tie"></i> Admins
+            </h1>
+        </div>
+    </header>
+<div class="max-w-6xl mx-auto py-6 sm:px-6 lg:px-8">
+
+
+
     <div class="px-4 py-6 sm:px-0">
         <div class="flex flex-col">
             <div class="-my-2 py-2 overflow-x-auto sm:-mx-6 sm:px-6 lg:-mx-8 lg:px-8">
@@ -21,7 +32,7 @@
                                 <th class="th"># Id</th>
                                 <th class="th"><i class="fad fa-pen"></i> Name</th>
                                 <th class="th"># Roles</th>
-                                <th class="th"><i class="fad fa-lock"></i>Custom Permissions</th>
+                                <th class="th"><i class="fad fa-lock"></i> Custom Permissions</th>
                                 <th class="th"><i class="far fa-radiation-alt"></i> Action</th>
                             </tr>
                             </thead>
@@ -35,7 +46,7 @@
                                     <a
                                             th:href="@{/admin/authorities/admins/{admin_id}/edit(admin_id=${admin.id})}"
                                             class="text-blue-600 hover:text-blue-900"
-                                    >Edit Authorities</a>
+                                    ><i class="far fa-edit"></i>Edit</a>
                                 </td>
                             </tr>
                             </tbody>
@@ -74,5 +85,6 @@
             </div>
         </div>
     </div>
+</div>
 </div>
 </html>

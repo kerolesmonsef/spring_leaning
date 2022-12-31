@@ -13,13 +13,6 @@
 <div>
     <th:block th:replace="admin/authorities/layouts/auth_header :: header"></th:block>
 
-    <header class="bg-white shadow">
-        <div class="max-w-6xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
-            <h1 class="text-3xl font-bold leading-tight text-gray-900" >
-                Roles Assignment
-            </h1>
-        </div>
-    </header>
 
     <main>
         <div layout:fragment="content"></div>
@@ -28,5 +21,6 @@
 </div>
 </body>
 <script th:src="@{/assets/js/all.min.js}"></script>
+<th:block th:replace="layouts/successFailAlert :: alert"></th:block>
 
 </html>

@@ -4,9 +4,11 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
+import org.apache.commons.lang3.builder.HashCodeBuilder;
 
 import javax.persistence.*;
 import java.util.Collection;
+import java.util.Objects;
 
 @Entity
 @Data
@@ -26,4 +28,25 @@ public class Permission {
 
     @ManyToMany(mappedBy = "permissions")
     private Collection<Admin> admin;
+
+
+    @Override
+    public int hashCode() {
+        HashCodeBuilder hcb = new HashCodeBuilder();
+        hcb.append(name);
+        return hcb.toHashCode();
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (!(obj instanceof Permission)) {
+            return false;
+        }
+        Permission that = (Permission) obj;
+
+        return Objects.equals(this.getName(), that.getName());
+    }
 }

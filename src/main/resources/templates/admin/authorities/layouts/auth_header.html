@@ -12,10 +12,11 @@
                         <div class="flex items-baseline">
                             <a href="/home" class="nav-button">← Go Back</a>
                             <a th:href="@{/admin/authorities/admins}" class="ml-4 nav-button">
-                                Roles & Permissions Assignment
+                               <i class="far fa-user-tie"></i> Admins
                             </a>
-                            <a href="http://tele.devo/laratrust/roles" class="ml-4 nav-button">Roles</a>
-                            <a href="http://tele.devo/laratrust/permissions" class="ml-4 nav-button">Permissions</a>
+                            <a href="/admin/authorities/admins/create" class="ml-4 nav-button elevation-2"><i class="far fa-plus"></i> New Admin</a>
+                            <a th:href="@{/admin/authorities/roles}" class="ml-4 nav-button"><i class="far fa-lock"></i> Roles</a>
+                            <a href="http://tele.devo/laratrust/permissions" class="ml-4 nav-button"><i class="far fa-lock"></i> Permissions</a>
                         </div>
                     </div>
                     <div class="ml-10 flex-shrink-0">

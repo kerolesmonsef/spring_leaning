@@ -4,6 +4,8 @@
 >
 
 <th:block th:fragment="alert">
+    <script th:src="@{/assets/js/sweetalert.js}"></script>
+
     <script th:inline="javascript" th:if="${alertSuccess}">
         /*<![CDATA[*/
 
