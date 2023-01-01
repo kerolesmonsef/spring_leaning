@@ -3,6 +3,7 @@ package com.example.qgame.controllers.admin;
 import com.example.qgame.Models.Admin;
 import com.example.qgame.Models.Permission;
 import com.example.qgame.Models.Role;
+import com.example.qgame.Models.User;
 import com.example.qgame.controllers.IController;
 import com.example.qgame.repositories.AdminRepository;
 import com.example.qgame.repositories.PermissionRepository;
@@ -10,6 +11,8 @@ import com.example.qgame.repositories.RoleRepository;
 import com.example.qgame.requests.admin.AdminRequest;
 import com.example.qgame.services.AdminService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -21,7 +24,7 @@ import javax.validation.Valid;
 
 @Controller
 @RequestMapping("/admin/authorities")
-public class AdminAuthorityController extends IController {
+public class AdminController extends IController {
 
     @Autowired
     private AdminRepository adminRepository;
@@ -36,7 +39,7 @@ public class AdminAuthorityController extends IController {
     public ModelAndView listAdmins(Model model) {
 
         return new ModelAndView("/admin/authorities/auth_admins")
-                .addObject("activeAdmin",true)
+                .addObject("activeAdmin", true)
                 .addObject("admins", adminRepository.getAdminsWithRolesCountAndPermissionsCount());
     }
 
@@ -51,7 +54,7 @@ public class AdminAuthorityController extends IController {
     public ModelAndView edit(@PathVariable("admin") Admin admin) {
 
         return new ModelAndView("/admin/authorities/edit_auth_admin")
-                .addObject("activeCreateAdmin",true)
+                .addObject("activeCreateAdmin", true)
                 .addObject("admin", admin)
                 .addObject("admin_strings_roles", admin.getRoles().stream().map(Role::getName).toList())
                 .addObject("admin_strings_permissions", admin.getPermissions().stream().map(Permission::getName).toList())
@@ -77,6 +80,21 @@ public class AdminAuthorityController extends IController {
         adminService.create(request);
 
         attributes.addFlashAttribute("alertSuccess", "Admin Created Successfully");
+
+        return "redirect:/admin/authorities/admins";
+    }
+
+    @DeleteMapping("/admins/{admin}/delete")
+    public String delete(Admin admin, RedirectAttributes attributes) {
+        UserDetails currentAdmin = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+
+        if (admin.getEmail().equals(currentAdmin.getUsername())) {
+            attributes.addFlashAttribute("alertError", "You Can't Delete This Admin");
+        } else {
+            attributes.addFlashAttribute("alertSuccess", "Admin Deleted Successfully");
+            adminRepository.delete(admin);
+        }
+
 
         return "redirect:/admin/authorities/admins";
     }

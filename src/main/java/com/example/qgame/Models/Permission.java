@@ -7,7 +7,9 @@ import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 import java.util.Objects;
 
 @Entity
@@ -24,17 +26,15 @@ public class Permission {
     private String name;
 
     @ManyToMany(mappedBy = "permissions")
-    private Collection<Role> roles;
+    private List<Role> roles = new ArrayList<>();
 
     @ManyToMany(mappedBy = "permissions")
-    private Collection<Admin> admins;
+    private List<Admin> admins = new ArrayList<>();
 
 
     @Override
     public int hashCode() {
-        HashCodeBuilder hcb = new HashCodeBuilder();
-        hcb.append(name);
-        return hcb.toHashCode();
+        return new HashCodeBuilder().append(name).toHashCode();
     }
 
     @Override

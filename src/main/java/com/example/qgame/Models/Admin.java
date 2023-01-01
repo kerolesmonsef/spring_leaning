@@ -1,23 +1,24 @@
 package com.example.qgame.Models;
 
-import com.example.qgame.helpers.dto.AdminRoleCountPermissionCountDto;
 import lombok.Data;
 import lombok.ToString;
 import lombok.experimental.Accessors;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.userdetails.UserDetails;
+import org.hibernate.annotations.BatchSize;
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
 
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 import java.util.Objects;
 
 @Entity
 @Table(name = "admins")
 @Data
 @Accessors(chain = true)
-public class Admin implements UserDetails {
+public class Admin {
     @Id
     @GeneratedValue(strategy = GenerationType.TABLE, generator = "hibernate_sequences")
     private Long id;
@@ -30,7 +31,8 @@ public class Admin implements UserDetails {
     @JoinTable(name = "admins_roles",
             joinColumns = @JoinColumn(name = "admin_id", referencedColumnName = "id"),
             inverseJoinColumns = @JoinColumn(name = "role_id", referencedColumnName = "id"))
-    private Collection<Role> roles = new ArrayList<>();
+//    @BatchSize(size = 10)
+    private List<Role> roles = new ArrayList<>();
 
 
     @ToString.Exclude
@@ -38,49 +40,14 @@ public class Admin implements UserDetails {
     @JoinTable(name = "admins_permissions",
             joinColumns = @JoinColumn(name = "admin_id", referencedColumnName = "id"),
             inverseJoinColumns = @JoinColumn(name = "permission_id", referencedColumnName = "id"))
+//    @Fetch(FetchMode.SUBSELECT) // it is used with FetchType.EAGER
+//    @BatchSize(size = 10) // it is used with FetchType.LAZY
     private Collection<Permission> permissions = new ArrayList<>();
-
-    @Override
-    public Collection<? extends GrantedAuthority> getAuthorities() {
-        return null;
-    }
-
-    @Override
-    public String getPassword() {
-        return this.password;
-    }
-
-    @Override
-    public String getUsername() {
-        return this.email;
-    }
-
-    @Override
-    public boolean isAccountNonExpired() {
-        return true;
-    }
-
-    @Override
-    public boolean isAccountNonLocked() {
-        return true;
-    }
-
-    @Override
-    public boolean isCredentialsNonExpired() {
-        return true;
-    }
-
-    @Override
-    public boolean isEnabled() {
-        return true;
-    }
 
 
     @Override
     public int hashCode() {
-        HashCodeBuilder hcb = new HashCodeBuilder();
-        hcb.append(name);
-        return hcb.toHashCode();
+        return new HashCodeBuilder().append(email).toHashCode();
     }
 
     @Override

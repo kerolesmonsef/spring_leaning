@@ -6,10 +6,12 @@ import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.Accessors;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
+import org.hibernate.annotations.BatchSize;
 
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 import java.util.Objects;
 
 @Entity
@@ -26,14 +28,15 @@ public class Role {
     private String name = "";
 
     @ManyToMany(mappedBy = "roles")
-    private Collection<Admin> admin = new ArrayList<>();
+    private List<Admin> admin = new ArrayList<>();
 
     @ManyToMany
     @JoinTable(
             name = "roles_permissions",
             joinColumns = @JoinColumn(name = "role_id", referencedColumnName = "id"),
             inverseJoinColumns = @JoinColumn(name = "permission_id", referencedColumnName = "id"))
-    private Collection<Permission> permissions = new ArrayList<>();
+//    @BatchSize(size = 10)
+    private List<Permission> permissions = new ArrayList<>();
 
 
     public Role(String name){

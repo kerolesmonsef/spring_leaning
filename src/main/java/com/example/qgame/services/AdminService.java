@@ -8,8 +8,12 @@ import com.example.qgame.repositories.PermissionRepository;
 import com.example.qgame.repositories.RoleRepository;
 import com.example.qgame.requests.admin.AdminRequest;
 import lombok.RequiredArgsConstructor;
+import org.springframework.cache.annotation.Cacheable;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -18,6 +22,7 @@ public class AdminService {
     private final AdminRepository adminRepository;
     private final RoleRepository roleRepository;
     private final PermissionRepository permissionRepository;
+    private final CacheService cacheService;
 
     public void update(Admin admin, AdminRequest request) {
         List<Role> roles = roleRepository.findAllById(request.getRoles());
@@ -26,6 +31,8 @@ public class AdminService {
         admin.setRoles(roles)
                 .setPermissions(permissions)
                 .setName(request.getName());
+
+        cacheService.removeByKey("admin_Authority");
 
         adminRepository.save(admin);
     }
@@ -39,9 +46,20 @@ public class AdminService {
                 .setPermissions(permissions)
                 .setName(request.getName());
 
-        System.out.println("5555555555");
-        System.out.println(admin);
+        cacheService.removeByKey("admin_Authority");
 
         return adminRepository.save(admin);
     }
+
+    @Transactional
+    @Cacheable("admin_Authority")
+    public List<GrantedAuthority> authorities(Admin admin) {
+        List<Role> roles = admin.getRoles();
+        List<String> authorities = new ArrayList<>(roles.stream().map(Role::getName).toList());
+        for (Role role : roles) {
+            role.getPermissions().forEach(permission -> authorities.add(permission.getName()));
+        }
+        return authorities.stream().map(a -> (GrantedAuthority) () -> a).toList();
+    }
+
 }

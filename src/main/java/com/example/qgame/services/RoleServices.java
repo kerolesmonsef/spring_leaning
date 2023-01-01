@@ -7,6 +7,8 @@ import com.example.qgame.repositories.RoleRepository;
 import com.example.qgame.requests.admin.RoleRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -45,5 +47,13 @@ public class RoleServices {
                 .setPermissions(permissions);
 
         return roleRepository.save(role);
+    }
+
+    @Transactional(propagation= Propagation.SUPPORTS)
+    public void test(){
+        List<Role> roles = roleRepository.findAll();
+        for (Role r : roles){
+            Role role = r;
+        }
     }
 }
