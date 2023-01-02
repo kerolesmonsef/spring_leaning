@@ -19,18 +19,4 @@ public class AdminLoginController {
         return "admin/login";
     }
 
-    @RequestMapping(value = "/admin/logout")
-    public String logoutPage(HttpServletRequest request, HttpServletResponse response) throws ServletException {
-        request.logout();
-        SecurityContextHolder.clearContext();
-        HttpSession session = request.getSession(false);
-        if (session != null) {
-            session.invalidate();
-        }
-        for (Cookie cookie : request.getCookies()) {
-            cookie.setMaxAge(0);
-        }
-
-        return "redirect:/admin/login";
-    }
 }

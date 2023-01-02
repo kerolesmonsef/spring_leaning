@@ -47,15 +47,15 @@ public class AdminSecurityConfig extends WebSecurityConfigurerAdapter {
                 .formLogin()
                 .loginPage("/admin/login")
                 .loginProcessingUrl("/admin/performLogin")
-                .defaultSuccessUrl("/admin");
-////                .and()
+                .defaultSuccessUrl("/admin")
+                .and()
 //                .logout().logoutUrl("/admin/logout").logoutSuccessUrl("/logoutSuccess").deleteCookies("JSESSIONID").invalidateHttpSession(true)
-//                .logout()
-//                .logoutUrl(("/admin/logout"))
-//                .logoutSuccessUrl("/admin")
-//                .deleteCookies("JSESSIONID","remember-me")
-//                .invalidateHttpSession(true)
-//                .and()
+                .logout()
+                .logoutUrl(("/admin/logout"))
+                .logoutSuccessUrl("/admin")
+                .deleteCookies("JSESSIONID","remember-me")
+                .invalidateHttpSession(true)
+                .and();
 //                .httpBasic();
     }
 

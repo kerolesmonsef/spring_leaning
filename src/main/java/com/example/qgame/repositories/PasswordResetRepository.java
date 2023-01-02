@@ -1,5 +1,6 @@
 package com.example.qgame.repositories;
 
+import com.example.qgame.Models.PasswordReset;
 import com.example.qgame.Models.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
@@ -9,17 +10,14 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Optional;
 
-public interface UserRepository extends JpaRepository<User, Long> {
+public interface PasswordResetRepository extends JpaRepository<PasswordReset,Long> {
 
+    @Query("FROM PasswordReset P WHERE P.email = :email")
+    Optional<PasswordReset> findByEmail(@Param("email") String email);
 
-    User findFirstByOrderByIdAsc();
-
-    Boolean existsByEmail(String email);
-
-    Optional<User> findByEmail(String email);
 
     @Transactional
     @Modifying
-    @Query("UPDATE User u SET u.password = :password WHERE u.email = :email")
-    void updatePasswordByEmail(@Param("email") String email,@Param("password") String password);
+    @Query("DELETE FROM PasswordReset p WHERE p.email = :email")
+    void deleteByEmail(@Param("email") String email);
 }
