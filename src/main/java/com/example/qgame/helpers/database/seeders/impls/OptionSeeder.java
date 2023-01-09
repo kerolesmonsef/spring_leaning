@@ -1,14 +1,11 @@
 package com.example.qgame.helpers.database.seeders.impls;
 
 import com.example.qgame.Models.Option;
-import com.example.qgame.QGameApplication;
 import com.example.qgame.helpers.database.seeders.ISeeder;
-import com.example.qgame.repositories.CategoryRepository;
 import com.example.qgame.repositories.OptionRepository;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collection;
 import java.util.List;
 
 public class OptionSeeder extends ISeeder<Option> {

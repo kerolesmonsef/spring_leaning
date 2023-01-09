@@ -42,8 +42,6 @@ public class AdminSecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/admin/authorities/**").hasRole("ADMIN")
                 .anyRequest().authenticated()
                 .and()
-                .exceptionHandling().accessDeniedPage("/403")
-                .and()
                 .formLogin()
                 .loginPage("/admin/login")
                 .loginProcessingUrl("/admin/performLogin")

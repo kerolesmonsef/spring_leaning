@@ -1,7 +1,6 @@
 package com.example.qgame.helpers.database.seeders.impls;
 
 import com.example.qgame.Models.Category;
-import com.example.qgame.QGameApplication;
 import com.example.qgame.helpers.database.seeders.ISeeder;
 import com.example.qgame.repositories.CategoryRepository;
 import com.github.javafaker.Faker;

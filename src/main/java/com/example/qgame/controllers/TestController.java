@@ -59,10 +59,4 @@ public class TestController {
 
     }
 
-
-//
-    @ModelAttribute("baseUrl")
-    public String testV() {
-        return "this is url wow";
-    }
 }

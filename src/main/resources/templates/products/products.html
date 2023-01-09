@@ -15,7 +15,10 @@
                 <div class="col">
                     <div class="breadcrumb-contain">
                         <div>
-                            <h2>category</h2>
+                            <div th:if="${category}">
+                                <h2 th:text="'Category : '+ ${category.name}">category</h2>
+                                <img th:src="${category.getImageUrl()}" width="100" height="100">
+                            </div>
                             <ul>
                                 <li><a href="index.html">home</a></li>
                                 <li><i class="fa fa-angle-double-right"></i></li>
@@ -138,7 +141,8 @@
         });
     </script>
 
-    <script>
+
+    <script th:inline="javascript">
         $(function () {
 
             const optionValue = ({name, value, optionName, type}) => {
@@ -153,10 +157,13 @@
             const optionFilterDev = ({values = [{/****/}], optionName, type}) => {
 
                 const optionsValues = values.map(v => optionValue({...v, optionName, type})).join("");
+                const id = Math.random();
 
                 return `<div class="collection-collapse-block open">
-                            <h3 class="collapse-block-title">${optionName}</h3>
-                            <div class="collection-collapse-block-content">
+                            <h3 class="collapse-block-title" data-toggle="collapse" href="#id-${id}" role="button" aria-expanded="false" aria-controls="collapseExample">
+                                ${optionName}
+                            </h3>
+                            <div  class="collapse collection-collapse-block-content" class="collapse" id="id-${id}">
                                 <div class="collection-brand-filter">
                                     ${optionsValues}
                                 </div>
@@ -180,37 +187,18 @@
                         optionName: property.name,
                         type: property.type
                     }));
+
                 });
 
 
-                // -------------- priceAfterDiscount
-                const priceOption = options.find(o => o.name === "price");
-
-                $("#option-values-list").append(`
-                    <div class="collection-collapse-block border-0 open">
-                            <h3 class="collapse-block-title">price</h3>
-                            <div class="collection-collapse-block-content">
-                                <div class="filter-slide">
-                                    <input class="js-range-slider" type="text" name="my_range" value=""
-                                           data-type="double">
-                                </div>
-                            </div>
-                        </div>`);
-
-                $(".js-range-slider").ionRangeSlider({
-                    type: "double",
-                    grid: true,
-                    min: 0,
-                    max: 1000,
-                    from: priceOption.from,
-                    to: priceOption.to,
-                    prefix: "$"
-                });
             };
 
             const refreshPage = (response, canRefreshOption = true) => {
-                if (canRefreshOption)
+                if (canRefreshOption) {
                     refreshOptions(response.options);
+                }
+
+
                 $('.all-product').children().remove();
 
                 for (let product of response.products.data) {
@@ -221,8 +209,8 @@
 
             };
 
-            const reGetData = ({properties = []} = {}) => {
-                $.ajax({
+            const reGetData = ({properties = [], refreshOptions = false} = {}) => {
+                return $.ajax({
                     "url": "/products/filter",
                     "method": "POST",
                     "timeout": 0,
@@ -233,11 +221,26 @@
                         "properties": properties
                     }),
                 }).done(function (response) {
-                    refreshPage(response, properties.length === 0);
+                    refreshPage(response, refreshOptions);
                 });
+
             };
 
-            reGetData();
+            /*<![CDATA[*/
+            const categoryId =  /*[[${category?.id}]]*/ "";
+            if (categoryId) {
+                reGetData({
+                    refreshOptions: true,
+                    properties: [{name: 'category', optionName: 'category', values: [categoryId]}]
+                }).done(function () {
+                    $(`input[data-option-name=category][data-option-value=${categoryId}]`).prop('checked', true)
+                });
+
+            } else {
+                reGetData({refreshOptions: true});
+            }
+
+            /*]]>*/
 
             const productBoxHtml = (product) => {
                 return `<div class="col-xl-3 col-md-4 col-6  col-grid-box">
@@ -310,6 +313,15 @@
                 });
                 reGetData({properties});
             });
+
+            $(document).on("click", ".collapse-block-title", function () {
+                $(this).next().toggle();
+            });
+
+            setTimeout(() => {
+                $(".collection-collapse-block-content").first().toggle();
+            }, 600)
+
         });
     </script>
 </th:block>

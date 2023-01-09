@@ -33,6 +33,7 @@ public class FilterOptionMapper {
         String name = (String) property.get("name");
 
         if (filterOptionsTypes.containsKey(name)) {
+            NoopFilterOption noopFilterOption = this.applicationContext.getBean(NoopFilterOption.class);
             return this.applicationContext.getBean(filterOptionsTypes.get(name)).init(property);
         }
 

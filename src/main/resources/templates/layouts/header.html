@@ -41,10 +41,7 @@
                               english <i class="fa fa-angle-down" aria-hidden="true"></i>
                               </span>
                                 <ul class="language-dropdown-open" style="display: none;">
-                                    <li><a href="javascript:void(0)">hindi</a></li>
-                                    <li><a href="javascript:void(0)">english</a></li>
-                                    <li><a href="javascript:void(0)">marathi</a></li>
-                                    <li><a href="javascript:void(0)">spanish</a></li>
+
                                 </ul>
                             </div>
                             <div class="curroncy-dropdown">
@@ -77,33 +74,12 @@
                                             back <i class="fa fa-angle-right ps-2"></i>
                                         </div>
                                     </li>
-                                    <li><a href="category-page(left-sidebar).html">western ware</a></li>
-                                    <li><a href="category-page(left-sidebar).html">TV, Appliances</a></li>
-                                    <li><a href="category-page(left-sidebar).html">Pets Products</a></li>
-                                    <li><a href="category-page(left-sidebar).html">Car, Motorbike</a></li>
-                                    <li><a href="category-page(left-sidebar).html">Industrial Products</a></li>
-                                    <li><a href="category-page(left-sidebar).html">Beauty, Health Products</a></li>
-                                    <li><a href="category-page(left-sidebar).html">Grocery Products </a></li>
-                                    <li><a href="category-page(left-sidebar).html">Sports</a></li>
-                                    <li><a href="category-page(left-sidebar).html">Bags, Luggage</a></li>
-                                    <li><a href="category-page(left-sidebar).html">Movies, Music </a></li>
-                                    <li><a href="category-page(left-sidebar).html">Video Games</a></li>
-                                    <li><a href="category-page(left-sidebar).html">Toys, Baby Products</a></li>
-                                    <li class="mor-slide-open" style="display: none;">
-                                        <ul>
-                                            <li><a href="category-page(left-sidebar).html">Bags, Luggage</a></li>
-                                            <li><a href="category-page(left-sidebar).html">Movies, Music </a></li>
-                                            <li><a href="category-page(left-sidebar).html">Video Games</a></li>
-                                            <li><a href="category-page(left-sidebar).html">Toys, Baby Products</a></li>
-                                        </ul>
+
+                                    <li th:each="category : ${allCategories.getAll()}">
+                                        <a th:href="${category.getUrl()}" th:text="${category.name}"></a>
                                     </li>
-                                    <li>
-                                        <a class="mor-slide-click">
-                                            mor category
-                                            <i class="fa fa-angle-down pro-down"></i>
-                                            <i class="fa fa-angle-up pro-up" style="display: none;"></i>
-                                        </a>
-                                    </li>
+
+
                                 </ul>
                             </div>
                             <div class="brand-logo logo-sm-center">
@@ -228,8 +204,8 @@
                                     </nav>
                                     <div class="collapse hide nav-desk" id="navbarToggleExternalContent">
                                         <ul class="nav-cat title-font">
-                                            <li th:each="category : ${allCategories}">
-                                                <a th:href="@{/products/shop} + '?category_id=' + ${category.id}">
+                                            <li th:each="category : ${allCategories.getAll()}">
+                                                <a th:href="${category.getUrl()}">
                                                     <img th:src="${category.getImageUrl()}" alt="catergory-product">
                                                     <span th:text="${category.name}"></span>
                                                 </a>

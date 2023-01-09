@@ -4,6 +4,7 @@ import com.example.qgame.helpers.database.seeders.ISeeder;
 import com.example.qgame.helpers.database.seeders.SeederExecuter;
 import com.example.qgame.helpers.database.seeders.impls.PermissionSeeder;
 import com.example.qgame.helpers.database.seeders.impls.RoleSeeder;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -13,13 +14,12 @@ import java.util.Arrays;
 import java.util.List;
 
 @RestController
-
+@RequiredArgsConstructor
 public class SeederController {
 
-    @Autowired
-    private RoleSeeder roleSeeder;
-    @Autowired
-    private PermissionSeeder permissionSeeder;
+
+    private final RoleSeeder roleSeeder;
+    private final PermissionSeeder permissionSeeder;
 
 
 //    private final CategoryRepository categoryRepository;

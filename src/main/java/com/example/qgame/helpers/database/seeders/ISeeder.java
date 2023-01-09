@@ -1,12 +1,8 @@
 package com.example.qgame.helpers.database.seeders;
 
-import com.example.qgame.QGameApplication;
-import com.example.qgame.repositories.CategoryRepository;
 import com.github.javafaker.Faker;
-import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.Collection;
-import java.util.List;
 
 public abstract class ISeeder<C> {
 

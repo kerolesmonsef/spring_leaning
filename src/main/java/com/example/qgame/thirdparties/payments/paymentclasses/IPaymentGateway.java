@@ -1,16 +1,11 @@
 package com.example.qgame.thirdparties.payments.paymentclasses;
 
 import com.example.qgame.Models.Payment;
-import com.example.qgame.Models.PaymentMethod;
 import com.example.qgame.Models.User;
-import com.example.qgame.QGameApplication;
-import com.example.qgame.repositories.PaymentMethodRepository;
 import com.example.qgame.repositories.PaymentRepository;
-import com.example.qgame.services.PaymentService;
 import com.example.qgame.thirdparties.payments.paymentclasses.paymentresponses.IPaymentResponse;
 import com.example.qgame.thirdparties.payments.paymentservices.IPaymentService;
 import lombok.Getter;
-import lombok.Setter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;

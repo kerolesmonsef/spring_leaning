@@ -1,9 +1,13 @@
 package com.example.qgame.helpers.filters.products;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import lombok.Data;
+import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.Accessors;
 
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Predicate;
@@ -13,9 +17,10 @@ import java.util.Map;
 @Accessors(chain = true)
 public abstract class IFilterOption {
 
-
     @Setter
+    @Getter
     protected CriteriaBuilder cb;
+
 
     @Setter
     protected Root root;
@@ -39,7 +44,7 @@ public abstract class IFilterOption {
 
         if (currentPredicate == null) return lastPredicate; // may null
 
-        return cb.and(lastPredicate, currentPredicate);
+        return this.getCb().and(lastPredicate, currentPredicate);
     }
 
     public abstract IFilterOption init(Map<String, Object> property);

@@ -22,8 +22,8 @@ public class ForgetPasswordController extends IController {
     private final UserRepository userRepository;
     private final ForgetPasswordService forgetPasswordService;
 
-    @GetMapping("/forget-password")
-    public String openForgetPasswordForm() {
+    @GetMapping("/password/forget")
+    public String openForgetPasswordForm() throws Exception {
         return "/password/forgetPassword";
     }
 
@@ -33,7 +33,7 @@ public class ForgetPasswordController extends IController {
         return "password/emailSentSuccessfullyThankYou";
     }
 
-    @PostMapping("/forget-password")
+    @PostMapping("/password/forget")
     public ModelAndView forgetPassword(@RequestParam("email") String email, RedirectAttributes attributes) {
         if (email == null) {
             attributes.addFlashAttribute("alertError", "some errors occurs");

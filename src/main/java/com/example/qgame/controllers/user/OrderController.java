@@ -1,7 +1,6 @@
 package com.example.qgame.controllers.user;
 
 import com.example.qgame.Models.User;
-import com.example.qgame.QGameApplication;
 import com.example.qgame.controllers.IController;
 import com.example.qgame.repositories.UserRepository;
 import com.example.qgame.requests.CreateOrderRequest;
@@ -10,7 +9,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;

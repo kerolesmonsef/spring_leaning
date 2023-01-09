@@ -1,10 +1,7 @@
 package com.example.qgame.controllers.admin;
 
-import com.example.qgame.Models.Category;
-import com.example.qgame.QGameApplication;
 import com.example.qgame.helpers.Helper;
 import com.example.qgame.helpers.paginations.IPageWrapper;
-import com.example.qgame.helpers.paginations.Pagination;
 import com.example.qgame.repositories.CategoryRepository;
 import com.example.qgame.requests.admin.AdminProductRequest;
 import org.springframework.context.ApplicationContext;
@@ -12,7 +9,6 @@ import org.springframework.stereotype.Controller;
 import com.example.qgame.Models.Product;
 import com.example.qgame.services.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;

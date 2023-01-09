@@ -1,13 +1,10 @@
 package com.example.qgame.controllers.user;
 
-import com.example.qgame.Models.Category;
+import com.example.qgame.helpers.CategoryRepositoryGetter;
 import com.example.qgame.repositories.CategoryRepository;
-import com.example.qgame.services.CategoryService;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ModelAttribute;
-
-import java.util.List;
 
 @Controller
 @ControllerAdvice(annotations = Controller.class)
@@ -20,8 +17,8 @@ public class GeneralDataController {
     }
 
     @ModelAttribute("allCategories")
-    public List<Category> allCategories() {
-        System.out.println("called -----" + (++count));
-        return categoryRepository.testAll();
+    public CategoryRepositoryGetter allCategories() {
+
+        return new CategoryRepositoryGetter(categoryRepository);
     }
 }

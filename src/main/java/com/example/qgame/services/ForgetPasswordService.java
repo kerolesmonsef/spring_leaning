@@ -3,15 +3,19 @@ package com.example.qgame.services;
 import com.example.qgame.Models.PasswordReset;
 import com.example.qgame.helpers.Helper;
 import com.example.qgame.helpers.dto.EmailDetails;
+import com.example.qgame.jobs.SendEmailJob;
 import lombok.RequiredArgsConstructor;
+import org.springframework.context.ApplicationContext;
+import org.springframework.core.task.TaskExecutor;
 import org.springframework.stereotype.Service;
 
 @Service
 @RequiredArgsConstructor
 public class ForgetPasswordService {
 
-    private final EmailService emailService;
     private final ResetPasswordService passwordResetService;
+    private final ApplicationContext applicationContext;
+    private final TaskExecutor taskExecutor;
 
     //    @Transactional
     public void forgetPassword(String email) {
@@ -24,7 +28,9 @@ public class ForgetPasswordService {
                 link;
 
         EmailDetails emailDetails = new EmailDetails(email, "Reset Password", restPasswordMessage, null);
-        EmailService.MailSenderStatus status = emailService.sendSimpleMail(emailDetails);
+        SendEmailJob sendEmailJob = applicationContext.getBean(SendEmailJob.class, emailDetails);
+
+        taskExecutor.execute(sendEmailJob);
 
     }
 

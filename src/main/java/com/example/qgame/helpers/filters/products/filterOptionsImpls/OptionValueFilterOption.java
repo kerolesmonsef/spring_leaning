@@ -2,7 +2,6 @@ package com.example.qgame.helpers.filters.products.filterOptionsImpls;
 
 import com.example.qgame.Models.Option;
 import com.example.qgame.Models.ProductOptionValue;
-import com.example.qgame.QGameApplication;
 import com.example.qgame.helpers.filters.products.IFilterOption;
 import com.example.qgame.repositories.OptionRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,8 +22,6 @@ public class OptionValueFilterOption extends IFilterOption {
 
     private String optionName;
     private List<String> values;
-
-
 
 
     @Override
