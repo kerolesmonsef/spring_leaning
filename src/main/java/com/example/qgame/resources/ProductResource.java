@@ -18,6 +18,7 @@ public class ProductResource extends JsonResponseResource<Product> {
                 Map.entry("id", object.getId()),
                 Map.entry("url", object.getUrl()),
                 Map.entry("priceAfterDiscount", object.getPrice()),
+                Map.entry("price", object.getPrice()),
                 Map.entry("title", object.getTitle()),
                 Map.entry("description", object.getTitle()),
                 Map.entry("imageUrl", object.firstImageUrl()),
@@ -26,6 +27,6 @@ public class ProductResource extends JsonResponseResource<Product> {
     }
 
     public static List<ProductResource> toCollection(List<Product> products) {
-        return products.stream().map(p -> new ProductResource(p)).toList();
+        return products.stream().map(ProductResource::new).toList();
     }
 }

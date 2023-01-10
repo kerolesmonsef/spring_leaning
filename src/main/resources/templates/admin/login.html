@@ -134,12 +134,12 @@
             <h1> Please Login</h1>
             <form method="post" th:action="@{/admin/performLogin}">
                 <div class="form-control">
-                    <input name="username" type="text" required>
+                    <input name="username" type="text" required value="admin@admin.com">
                     <label> Email</label>
                 </div>
 
                 <div class="form-control">
-                    <input name="password" type="password" required>
+                    <input name="password" type="password" required value="1234">
                     <label> Password</label>
                 </div>
                 <button class="login-btn">Login</button>

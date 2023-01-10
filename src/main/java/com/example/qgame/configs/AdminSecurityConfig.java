@@ -39,6 +39,8 @@ public class AdminSecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers(PUBLIC_MATCHERS).permitAll()
                 .antMatchers(HttpMethod.GET, "/admin/products").hasAuthority("LIST_PRODUCT")
                 .antMatchers(HttpMethod.GET, "/admin/products/create").hasAuthority("CREATE_PRODUCT")
+                .antMatchers(HttpMethod.GET,"/admin/blogs").hasAuthority("LIST_BLOG")
+                .antMatchers(HttpMethod.GET,"/admin/blogs/create").hasAuthority("ADD_BLOG")
                 .antMatchers("/admin/authorities/**").hasRole("ADMIN")
                 .anyRequest().authenticated()
                 .and()

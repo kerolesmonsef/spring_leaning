@@ -10,9 +10,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
+
 @Getter
-@Component
-@Scope("prototype")
 abstract public class IPaymentGateway {
     protected IPaymentService service;
     protected User user;
@@ -39,7 +38,7 @@ abstract public class IPaymentGateway {
             // handle payment now
         }
 
-        paymentRepository.save(payment);
+        this.getPaymentRepository().save(payment);
 
         return response;
     }
